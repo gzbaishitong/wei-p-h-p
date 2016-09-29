@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+    <meta name="format-detection" content="telephone=no" />
+    <title>VT101</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/zepto/1.1.6/zepto.min.js"></script>
+    <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <style>
+        *{margin:0;padding:0}
+        html,body{
+            width:100%;height:100%;background:url(http://o9z6un8mv.bkt.clouddn.com/bg30.jpg) top left;
+            background-size:100% 100%;
+            -webkit-overflow-scrolling:touch;
+        }
+        input[type="submit"],
+        input[type="reset"],
+        input[type="button"],
+        button {
+            -webkit-appearance: none;
+        }
+        .pic{
+            position:absolute;
+            width:60%;
+            height:24%;
+            margin-left:20%;
+            top:33%;
+            border-radius:10px;
+            padding:5px;
+            background-color:#09589c;
+            box-sizing:border-box;
+        }
+        .pic-container{
+            overflow:hidden;
+            border-radius:10px;
+            height:100%;
+            background:url({$JoinInfo.image|get_cover_url}) center center no-repeat;
+            background-size:contain
+        }
+        .text{
+            position:absolute;top:25%;left:20%;color:#a7f132
+        }
+        .normal-text{
+            display:inline-block;
+            font-size:0.8rem
+        }
+        .normal-text:after{
+            content: "";
+            width: 8rem;
+            height: 2.5rem;
+            background: url(http://o9z6un8mv.bkt.clouddn.com/span7.png);
+            background-size: 100% 100%;
+            display: inline-block;
+            position: absolute;
+            top: 0.1rem;
+            right:-7.5rem
+        }
+        .box{
+            position: absolute;
+            top: 58%;
+            width: 60%;
+            height: 18%;
+            left: 20%;
+            color: #a7f132;
+            background: url(http://o9z6un8mv.bkt.clouddn.com/box1.png);
+            background-size: 100% 100%;
+        }
+        #name{
+            position: absolute;
+            left: 34%;
+            top: 14%;
+            font-size: 0.8rem;
+            font-weight:bold;
+        }
+        #piaoshu{
+            position: absolute;
+            left: 45%;
+            top: 43%;
+            font-size: 0.8rem;
+            font-weight:bold
+        }
+        #rank{
+            position: absolute;
+            left: 45%;
+            top: 70%;
+            font-size: 0.6rem
+        font-weight:bold;
+        }
+        #vote{
+            background:url(http://o9z6un8mv.bkt.clouddn.com/toupiao.png);
+            background-size:100% 100%;
+            width:40%;
+            height:8%;
+            border:0px solid transparent;
+            position:absolute;
+            bottom:13%;
+            left:7%;
+        }
+        #share{
+            background:url(http://o9z6un8mv.bkt.clouddn.com/kanbieren.png);
+            background-size:100% 100%;
+            width:40%;
+            height:8%;
+            border:0px solid transparent;
+            position:absolute;
+            bottom:13%;
+            right:7%;
+        }
+        #guize{
+            background:url(http://o9z6un8mv.bkt.clouddn.com/guizhe.png);
+            background-size:100% 100%;
+            width:87%;
+            height:8%;
+            border:0px solid transparent;
+            position:absolute;
+            bottom:3%;
+            right:7%;
+        }
+        #promt{
+            display:none;
+            z-index:300;
+            position:absolute;
+            width:100%;
+            height:100%;
+            background:url(http://o9z6un8mv.bkt.clouddn.com/bg21.gif);
+            background-size:100% 100%;
+        }
+        #promt2{
+            display:none;
+            z-index:300;
+            position:absolute;
+            width:100%;
+            height:100%;
+            background:url(http://o9z6un8mv.bkt.clouddn.com/mask3.png);
+            background-size:100% 100%;
+        }
+        #promt4{
+            display:none;
+            z-index:300;
+            position:absolute;
+            width:100%;
+            height:100%;
+            background:rgba(0,0,0,0.8)
+        }
+        #box2{
+            position:absolute;
+            width:60%;
+            top:26%;
+            height:38%;
+            left:20%;
+            background:url(http://o9z6un8mv.bkt.clouddn.com/box4.png);
+            background-size:100% 100%;
+        }
+        #huiyuan{
+            position:absolute;
+            width:40%;
+            height:8%;
+            left:30%;
+            bottom:5%;
+            background:url(http://o9z6un8mv.bkt.clouddn.com/toubieren.png);
+            background-size:100% 100%;
+        }
+        #toupiao{
+            position:absolute;
+            width:40%;
+            height:8%;
+            left:30%;
+            bottom:18%;
+            background:url(http://o9z6un8mv.bkt.clouddn.com/zaitouta.png);
+            background-size:100% 100%;
+        }
+        .box3{
+            position:absolute;
+            width:60%;
+            height:40%;
+            left:20%;
+            top:20%;
+            background:url(http://o9z6un8mv.bkt.clouddn.com/box3.png);
+            background-size:100% 100%;
+        }
+        .guize-text{
+            width:80%;
+            position:absolute;
+            right:5%;
+            font-size:0.8rem;
+        }
+        .guize-text:before{
+            content: "";
+            width: 10px;
+            height: 10px;
+            border-radius: 5px;
+            background: red;
+            position: absolute;
+            left: -10%;
+            top: 3px;
+        }
+    </style>
+    <script>
+        wx.config({
+            debug: false,
+            appId: '{$signPackage["appId"]}',
+            timestamp: '{$signPackage["timestamp"]}',
+            nonceStr: '{$signPackage["nonceStr"]}',
+            signature: '{$signPackage["signature"]}',
+            jsApiList: [
+                'onMenuShareTimeline','onMenuShareAppMessage'
+            ]
+        });
+        $(function(){
+            wx.ready(function () {
+                //分享给朋友圈
+                var openid='{$openid}';
+                wx.onMenuShareTimeline({
+                    title: '赠人一票，手留余香。我已为{$JoinInfo.name}的免费巴厘岛之旅投上一票了，你也来吧！', // 分享标题
+                    desc: '赠人一票，手留余香。我已为{$JoinInfo.name}的免费巴厘岛之旅投上一票了，你也来吧', // 分享描述
+                    link: "https://open.weixin.qq.com/connect/oauth2/authorize?appid={$appid}&redirect_uri={:U('voteindex')}&response_type=code&scope=snsapi_userinfo&state="+openid+"#wechat_redirect",// 分享链接
+                    imgUrl: 'http://o9z6un8mv.bkt.clouddn.com/share1.jpg', // 分享图标
+                    success: function () {
+//                    $.ajax({
+//                        type: "post",
+//                        url: "{:U('sharenews')}",
+//                        data: {
+//                            newsid:'{$NewsList.id}',
+//                            openid:'{$openid}',
+//                            method:'sf'
+//                        },
+//                        success: function (data) {
+//
+//                        }
+//                    })
+                    },
+                    cancel: function () {
+
+                        // 用户取消分享后执行的回调函数
+                    }
+                });
+                //分享给朋友
+                wx.onMenuShareAppMessage({
+                    title: '带着小V去旅行第二季，免费巴厘岛人气争夺！', // 分享标题
+                    desc: '赠人一票，手留余香。我已为{$JoinInfo.name}的免费巴厘岛之旅投上一票了，你也来吧', // 分享描述
+                    link: "https://open.weixin.qq.com/connect/oauth2/authorize?appid={$appid}&redirect_uri={:U('voteindex')}&response_type=code&scope=snsapi_userinfo&state="+openid+"#wechat_redirect",// 分享链接
+                    imgUrl: 'http://o9z6un8mv.bkt.clouddn.com/share1.jpg', // 分享图标
+                    type: '', // 分享类型,music、video或link，不填默认为link
+                    dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+                    success: function () {
+//                    $.ajax({
+//                        type: "post",
+//                        url: "{:U('sharenews')}",
+//                        data: {
+//                            newsid:'{$NewsList.id}',
+//                            openid:'{$openid}',
+//                            method:'sd'
+//                        },
+//                        success: function (data) {
+//
+//                        }
+//                    })
+                        // 用户确认分享后执行的回调函数
+                    },
+                    cancel: function () {
+                        // 用户取消分享后执行的回调函数
+                    }
+                });
+            })
+            $('#vote').click(function(){
+                $("#chuli").css("display","block")
+                $.ajax({
+                    type:"post",
+                    url:"{:U('votecontroller')}",
+                    data:{
+                        helpopenid:'{$helpopenid}',
+                        openid:'{$openid}',
+                        voteid:'{$JoinInfo.id}',//作品id
+                        vote_id:'{$JoinInfo.vote_id}'//投票id
+                    },
+                    success:function(data)
+                    {
+                        if(data.status!=1)
+                        {
+                            if(data.info=='请先关注哦')
+                            {
+                                //这里弹窗二维码
+                                $("#chuli").css("display","none")
+                                $("#promt").css("display","block");
+                                return;
+                            }else{
+                                $("#chuli").css("display","none")
+                                $("#promt2").css("display","block")
+                                $("#promt2-text").html(data.info)
+                                $("#promt3").css("display","block");
+                            }
+                        }else {
+                            $("#chuli").css("display","none");
+                            $("#promt2").css("display","block");
+                            $("#promt3").css("display","block");
+                            $("#promt2-text").html(data.info)
+                            //这里弹窗成功投票信息;
+                        }
+                    }
+                })
+            })
+
+        })
+    </script>
+</head>
+<body>
+<div class="text">
+    <div class="normal-text">{$JoinInfo.name}</div>
+</div>
+<div class="pic">
+    <div class="pic-container">
+        <!--<img src="{$JoinInfo.image|get_cover_url}" style="max-width:100%;height:auto"><br/>-->
+    </div>
+</div>
+<div class="box">
+    <p id="name">{$JoinInfo.name}</p>
+    <p id="piaoshu">{$JoinInfo.opt_count}</p>
+    <p id="rank">{$rank}</p>
+</div>
+
+<input type="button" id="vote" value="">
+<input type="button" id="share" value="">
+<input type="button" id="guize">
+<div id="promt">
+    <div id="box2">
+        <div style="position:absolute;width:80%;left:10%;top:17%">
+            <img src="{$JoinInfo.qrcode}" style="width:100%">
+        </div>
+    </div>
+</div>
+<div id="promt2">
+    <p id="promt2-text" style="color:red;font-size:1rem;font-weight:bold;position:absolute;top:35%;text-align:center;width:50%;left:28%"></p>
+</div>
+<div id="promt3" style="width:100%;height:100%;z-index:400;display:none;position:absolute">
+    <div id="close" style="width:22%;height:13%;position:absolute;right:0;top:0"></div>
+    <div id="huiyuan"></div>
+    <div id="toupiao"></div>
+</div>
+<div style="position:absolute;background:rgba(0,0,0,0.8);width:100%;height:100%;display:none" id="chuli">
+    <p style="position:absolute;text-align:center;top:30%;color:yellow;width:100%">稍等一下，小v在为您处理。。。</p>
+</div>
+<div id="promt4">
+    <div class="box3">
+        <p class="guize-text" style="top:18%">每个微信号一天只能投三票</p>
+        <p class="guize-text" style="top:35%">进入VT101公众号，点击活动投票，可以查看实时排名情况</p>
+    </div>
+</div>
+<div style="display:none">
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1259935793'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s11.cnzz.com/z_stat.php%3Fid%3D1259935793' type='text/javascript'%3E%3C/script%3E"));</script>
+</div>
+<script>
+    $("#promt3 #huiyuan").click(function(){
+        location.href="https://open.weixin.qq.com/connect/oauth2/authorize?appid={$appid}&redirect_uri=http://addon.gzbaishitong.com/weiphp/index.php?s=/addon/Vote/Vote/show&response_type=code&scope=snsapi_userinfo&state=123#wechat_redirect"
+    })
+    $("#toupiao").click(function(){
+        var url="	https://open.weixin.qq.com/connect/oauth2/authorize?appid={$appid}&redirect_uri={:U('voteindex')}&response_type=code&scope=snsapi_userinfo&state="+'{$openid}'+"#wechat_redirect";
+        location.href=url;
+    })
+    $("#share").click(function(){
+        location.href="https://open.weixin.qq.com/connect/oauth2/authorize?appid={$appid}&redirect_uri=http://addon.gzbaishitong.com/weiphp/index.php?s=/addon/Vote/Vote/show&response_type=code&scope=snsapi_userinfo&state=123#wechat_redirect"
+    })
+    $("#guize").click(function(){
+        $("#promt4").css("display","block").click(function(){
+            $(this).css("display","none")
+        })
+    })
+    $("#close").click(function(){
+        var url="	https://open.weixin.qq.com/connect/oauth2/authorize?appid={$appid}&redirect_uri={:U('voteindex')}&response_type=code&scope=snsapi_userinfo&state="+'{$openid}'+"#wechat_redirect";
+        location.href=url;
+    })
+</script>
+</body>
+</html>
