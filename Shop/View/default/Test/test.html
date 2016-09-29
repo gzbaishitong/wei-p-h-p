@@ -1,0 +1,45 @@
+<include file="Public/mobile_head"/>
+<include file="./Addons/Shop/View/default/Index/base.html" />
+<body class="cate">
+<header>
+  <section id="title"><a href="javascript:history.back()"><span class="topback"></span></a>支付订单</section>
+</header>
+<section id="payorder" class="mb10 mt10">
+    <div class="order_panel p10">
+        <p><span>订单号：</span>{$orderinfo.ordernum}</p>
+        <p><span>商品价格:</span>{$orderinfo.p_price}</p>
+        <p><span>运费:</span>{$orderinfo.y_price}</p>
+        <p><span>总价:</span>{$orderinfo.total_price}</p>
+	<button type="button" onclick="callpay()" >立即支付</button>
+        <button type="button" onclick="callpay()" >稍后支付</button>
+    </div>
+</section>
+</body>
+<script src="{:ADDON_PUBLIC_PATH}/js/jquery.js"></script>
+<script src="{:ADDON_PUBLIC_PATH}/js/swiper.js"></script>
+<script src="{:ADDON_PUBLIC_PATH}/js/comm.js"></script>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script>
+    wx.config({
+   // debug:true,
+    appId: '{$signPackage.appId}',
+    timestamp: '{$signPackage.timestamp}',
+    nonceStr: '{$signPackage.nonceStr}',
+    signature: '{$signPackage.signature}',
+    jsApiList: ['chooseWXPay']
+  });
+    wx.ready(function (){
+       wx.chooseWXPay({
+            timestamp: {$apipay.timeStamp}, // 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符
+            nonceStr: '{$apipay.nonceStr}', // 支付签名随机串，不长于 32 位
+            package: '{$apipay.package}', // 统一支付接口返回的prepay_id参数值，提交格式如：prepay_id=***）
+            signType: '{$apipay.signType}', // 签名方式，默认为'SHA1'，使用新版支付需传入'MD5'
+            paySign: '{$apipay.paySign}', // 支付签名
+            success: function (res) {
+                // 支付成功后的回调函数
+                alert('支付成功');
+            }
+        });
+    });
+</script>
+</html>

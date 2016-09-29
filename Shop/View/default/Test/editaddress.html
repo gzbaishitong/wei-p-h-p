@@ -1,0 +1,136 @@
+<include file="Public/mobile_head"/><include file="./Addons/Shop/View/default/Index/base.html" />
+<body>
+<header style="background-color:#{$shop_config.color}">
+<section id="title">
+<a href="javascript:history.back()"><span class="topback"></span><span class="topback_name">取消</span></a>编辑地址<a class="top_accept" href="#" id="savedata">
+</section>
+</header>
+<section id="user-address" class="pt5">
+  <div class="item">
+    <input type="text" name="name" id="name" placeholder="姓名" value="{$address.name}">
+  </div>
+  <div class="item">
+    <input type="number" name="phone" id="phone" placeholder="手机" value="{$address.phone}">
+  </div>
+  <div class="item" id="select_address" style="padding:0px 10px;">
+    <select class="province" data-value="{$address.province}" id="province">
+    </select>
+    <select class="city" data-value="{$address.city}" id="city">
+    </select>
+    <select class="area" data-value="{$address.area}" id="area">
+    </select>
+  </div>
+  <div class="item">
+    <input type="text" name="address" id="address" placeholder="详细地址" value="{$address.address}">
+  </div>
+  <div class="item pr" style="margin:10px 0px; border-left:0px; border-right:0px; padding-left:19px;">设为常用地址
+      <div id="is_default" class="pa switch t5 <eq name="address.is_default" value="2">switch-off</eq>"><span>是</span><span>否</span><em class="t2"></em></div>
+  </div>
+</section>
+<div style="clear:both"></div>
+<section><div class="p20 w100 tc"><a href="#" onClick="delAddress()" class="btn_bottom_gray">删除此收货地址</a></div></section>
+<!--底部 版权信息--> 
+<include file="./Addons/Shop/View/default/Index/footerbq.html" /> 
+<!--END 底部导航-->
+</body>
+<script src="{:ADDON_PUBLIC_PATH}/js/jquery.js"></script>
+<script src="{:ADDON_PUBLIC_PATH}/js/comm.js"></script>
+<script src="{:ADDON_PUBLIC_PATH}/js/jquery.cxselect.min.js"></script>
+<script>
+var id = "{$address.id}";
+// selects 为数组形式，请注意顺序 
+$(function(){
+    $('#select_address').cxSelect({ 
+        url: '{:ADDON_PUBLIC_PATH}/js/cityData.min.js',    // 提示：如果服务器不支持 .json 类型文件，请将文件改为 .js 文件
+        selects: ['province', 'city', 'area'], 
+        nodata: 'none' ,
+    }); 
+    
+    //保存事件
+    $('#savedata').click(savedata);
+})
+function delAddress(){
+    url = '{:addons_url("Shop://Index/deladdress")}&id='+id;
+    //提交数据
+    if(confirm("确定要删除此收货地址吗")){
+         $.ajax({
+            url:url,
+            type:'get',
+            dataType:'json',
+            success:function(re){
+                if(re){
+                    alert('删除成功');
+                    window.location.href=document.referrer;
+                }else{
+                    alert('删除失败');
+                }
+            },
+            error:function(){
+                alert('操作失败');
+            }
+        });
+    }
+    
+}
+
+
+var md5info = "{$address.name}{$address.phone}{$address.province}{$address.city}{$address.area}{$address.address}{$address.is_default}";
+function savedata(){
+    
+    var name = $('#name').val();
+    var phone = $('#phone').val();
+    var province = $('#province').val();
+    var city = $('#city').val();
+    var area = $('#area').val();
+    var address = $('#address').val();
+    if(name == ''){
+        alert('名字不能为空');
+        return false;
+    }else if(phone==''){
+        alert('手机号码不能为空');
+        return false;
+    }else if(province==0||city==0){
+        alert('省市不能为空');
+        return false;
+    }else if(address==''){
+        alert('详细地址不能为空');
+        return false;
+    }
+    
+    if($('#is_default').hasClass('switch-off')){
+        is_default=2;
+    }else{
+        is_default=1;
+    }
+    
+    var newinfo = name+phone+province+city+area+address+is_default;
+    
+    if( newinfo == md5info ){
+        alert("您未修改任何设置");
+        return false;
+    }
+    
+    //组装数据
+    var jsonData = '{"id":"'+id+'","name":"'+name+'","phone":"'+phone+'","province":"'+province+'","city":"'+city+'","area":"'+area+'","address":"'+address+'","is_default":"'+is_default+'"}';
+    jsonData = $.parseJSON(jsonData);
+    //提交数据
+    $.ajax({
+        url:'{:addons_url("Shop://Index/editaddress")}',
+        type:'post',
+        dataType:'json',
+        data:jsonData,
+        success:function(re){
+            if(re){
+                alert('修改成功');
+                window.location.href=document.referrer;
+            }else{
+                alert('修改失败');
+            }
+        },
+        error:function(){
+            alert('操作失败');
+        }
+    });
+}
+</script>
+</html>

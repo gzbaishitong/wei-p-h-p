@@ -1,0 +1,26 @@
+<include file="Public/mobile_head"/><include file="./Addons/Shop/View/default/Index/base.html" />
+<body class="cate">
+<header style="background-color:#{$shop_config.color}">
+  <section id="title"><a href="javascript:history.back()"><span class="topback"></span></a>收货地址<a class="add" href="{:addons_url('Shop://Index/addaddress')}"></a></section>
+</header>
+<section id="addresslist">
+  <ul>
+      <volist name="address_list" id="address_list_vo">
+        <li class="pr arrow_icon">
+          <div>
+              <p class="clear"> <span class="dib address"> <span><a class="address_select" href="{:addons_url('Shop://Index/editaddress',array('id'=>$address_list_vo['id']))}">{$address_list_vo.name} {$address_list_vo.phone} <eq name="address_list_vo.is_default" value="1"><span class="default">默认地址</span></eq><br>
+                            {$address_list_vo.province} {$address_list_vo.city} <neq name="address_list_vo.area" value="null">{$address_list_vo.area}</neq> <br>
+              <span style="text-overflow:ellipsis; overflow:hidden; width:-webkit-calc(100% - 0px); display:block; "><nobr>{$address_list_vo.address} </nobr></span> </span> </a></span> </p>
+          </div>
+        </li>
+      </volist>
+  </ul>
+</section>
+
+<!--底部 版权信息--> 
+<include file="./Addons/Shop/View/default/Index/footerbq.html" /> 
+<!--END 底部导航-->
+</body>
+<script src="{:ADDON_PUBLIC_PATH}/js/jquery.js"></script>
+<script src="{:ADDON_PUBLIC_PATH}/js/comm.js"></script>
+</html>

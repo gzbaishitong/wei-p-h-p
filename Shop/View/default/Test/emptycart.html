@@ -1,0 +1,20 @@
+<include file="Public/mobile_head"/>
+<include file="./Addons/Shop/View/default/Index/base.html" />
+<body class="cate">
+<header style="background-color:#{$shop_config.color}">
+<section id="title"><a href="javascript:history.back()"><span class="topback"></span></a>购物车空<a class="go_index" href="{:addons_url('Shop://Index/index')}"></a></section>
+</header>
+<section id="shopcar-null" class="mtb20 tc">
+        	<div class="empty_default">
+            	<p><img src="__IMG__/m/face_sad.png"/><br/>您的购物车里什么都没有～</p><br/><br/>
+	<a href="{:addons_url('Shop://Index/index')}">查看店铺推荐商品</a>
+            </div>
+</section>
+
+<!--底部 版权信息--> 
+<include file="./Addons/Shop/View/default/Index/footerbq.html" /> 
+<!--END 底部导航-->
+</body>
+<script src="{:ADDON_PUBLIC_PATH}/js/jquery.js"></script>
+<script src="{:ADDON_PUBLIC_PATH}/js/comm.js"></script>
+</html>

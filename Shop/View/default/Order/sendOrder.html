@@ -1,0 +1,127 @@
+<include file="Public/head"/>
+<body>
+<div id="tab_head">
+        <span >确认发货</span>
+</div>
+<div style="height:35px;"></div>
+<div style=" max-height:365px; overflow:auto;">
+<div class="data-table pop-table">
+<table cellspacing="1">
+  <tbody>
+    <tr>
+      <th>订单编号</th>
+      <td>{$info.ordernum}</td>
+      <th>订单金额</th>
+      <td>{$info.total_price} 元</td>
+      </tr>
+    <tr>
+      <th>支付方式</th>
+      <td>{$info.payType|get_name_by_status=payType,$model_id}</td>
+      <th>支付时间</th>
+      <td>{$info.payTime|time_format}</td>
+    </tr>
+      <th>收货人</th>
+      <td>{$info.name}</td>
+      <th>联系电话</th>
+      <td>{$info.phone}</td>
+    </tr>
+    <tr>
+      <th>收货地址</th>
+      <td colspan="3">{$info.province} {$info.city} <neq name='info.area' value='null'>{$info.area}</neq> {$info.address}</td>
+    </tr>
+    <tr>
+      <th>物流公司</th>
+      <td colspan="3"><select id="wuliu_gongsi">
+              <notempty name="shop_list" >
+                 <option value="门店派送">门店派送</option>
+              </notempty>
+                <option value="圆通">圆通</option>
+                <option value="韵达">韵达</option>
+                <option value="申通">申通</option>
+                <option value="中通">中通</option>
+                <option value="顺丰">顺丰</option>
+                <option value="EMS">EMS</option>
+                <option value="天天快递">天天快递</option>
+                <option value="客户自提">客户自提</option>
+            </select></td>
+    </tr>
+       <tr id="shop_id_tr">
+      <th>派货门店</th>
+      <td colspan="3">
+        <select id="shop_id">
+            <volist name="shop_list" id="shop_vo">
+                <option value="{$shop_vo.id}" <eq name="shop_vo.is_checked" value="true">selected="selected"</eq>>{$shop_vo.name}</option>
+            </volist>
+        </select>
+      </td>
+      </tr>
+    <tr id="wuliu_num_tr">
+      <th>物流单号</th>
+      <td colspan="3">
+        <input id="wuliu_num"/></td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+<div id="tab_footer">
+<button class='btn' onClick="closeMe()">确认发货</button>
+</div>
+</body>
+<script>
+//选择不通的发货方式
+
+changeWuliu();//初始化
+$('#wuliu_gongsi').change(changeWuliu);
+    
+function changeWuliu(){
+    var name= $('#wuliu_gongsi').val();
+    if(name === '门店派送'){
+        $('#shop_id_tr').show();
+        $('#wuliu_num_tr').hide();
+    }else{
+        $('#shop_id_tr').hide();
+        $('#wuliu_num_tr').show();
+    }
+}
+
+function closeMe(){
+    var id = "{$info.id}";
+    var wuliu_gongsi = $('#wuliu_gongsi').val();
+    var shop_id = $('#shop_id').val();
+    var wuliu_num = $('#wuliu_num').val();
+    if(id==""){
+        alert('参数错误，请刷新后从试');
+    }else if(wuliu_gongsi == ""){
+        confirm('不选择发货公司');
+    }else if(wuliu_gongsi != '门店派送'&&wuliu_num ==""){
+        confirm('不填写物流单号信息');
+    }
+    var jsonData = '{"id":"'+id+'","wuliu_gongsi":"'+wuliu_gongsi+'","wuliu_num":"'+wuliu_num+'","shop_id":"'+shop_id+'"}';
+    jsonData = $.parseJSON(jsonData);
+    $.ajax({
+        url:"{:addons_url('Shop://Order/ajaxSendOrder')}",
+        type:"get",
+        dataType:"json",
+        data:jsonData,
+        success:function(re){
+            if(re){
+                alert('发货成功');
+                var index = parent.layer.getFrameIndex(window.name);
+                parent.layer.close(index);
+            }else{
+                alert('发货操作失败');
+            }
+        }
+    });
+    /*
+    var id = $('.tips .tips_id span').html();
+    var title = $('.tips .tips_title span').html();
+    var url   = $('.tips .tips_url span').html();
+    parent.seturl(id,title,url);
+    var index = parent.layer.getFrameIndex(window.name);
+    parent.layer.close(index);
+    */
+}
+
+</script>

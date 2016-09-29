@@ -1,0 +1,360 @@
+<include file="Public/mobile_head"/><include file="./Addons/Shop/View/default/Index/base.html" />
+<body class="cate">
+<header style="background-color:#{$shop_config.color}">
+    <section id="title"><a href="javascript:history.back()"><span class="topback"></span></a>确认订单</section>
+</header>
+<section id="order">
+    <p class="pl10"><a href="{:addons_url('Shop://Index/addaddress')}" class="r btn_add_address"></a><span>收货信息</span></p>
+    <ul>
+        <li class="pr"> <a <empty name='address_list'>href="{:addons_url('Shop://Index/addaddress')}"<else/>href="#" class="exp"</empty>><em class="dib r t5"><img src="{:ADDON_PUBLIC_PATH}/images/icon-arrow.png"></em>
+            <span id="user_address">
+                您需要填写收货地址
+            </span></a>
+            <div class="n">
+                <volist name="address_list" id="address_list_vo">
+                    <p class="clear">
+                        <label for="shdz{$key}"> <input type="radio" name="shdz" value="{$address_list_vo.id}" id="shdz{$key}" class="l" style="margin:30px 0px auto 20px;" <eq name="address_list_vo.is_default" value="1">checked</eq>>
+                <span class="dib address"> <span><a class="address_select" href="{:addons_url('Shop://Index/editaddress',array('id'=>$address_list_vo['id']))}">{$address_list_vo.name} {$address_list_vo.phone}<br>
+                    <notempty name="address_list_vo.province">{$address_list_vo.province}</notempty>
+                    <notempty name="address_list_vo.city">{$address_list_vo.city}</notempty>
+                    <neq name="address_list_vo.area" value="null">{$address_list_vo.area}</neq>
+                    <br>
+                    <span style="text-overflow:ellipsis; overflow:hidden; width:-webkit-calc(100% - 0px); display:block; "><nobr>{$address_list_vo.address}</nobr></span>
+               </span> </a></span> </label>
+                    </p>
+                </volist>
+            </div>
+        </li>
+    </ul>
+    优惠券:
+    <select id="coupon">
+        <volist name="coupon" id="coupondata">
+            <option value="{$coupondata.id}">{$coupondata.score}</option>
+        </volist>
+        <option value="0">不使用优惠券</option>
+    </select>
+    <p class="pl10">付款方式</p>
+    <ul>
+        <li> <a href="#" class="exp"><em class="dib r t5"><img src="{:ADDON_PUBLIC_PATH}/images/icon-arrow.png"></em><span id="pay_type">微信支付</span></a>
+            <div class="n payment">
+                <volist name='shop_config.pay_type' id ='vo'>
+                    <eq name='vo' value='1'>
+                        <p>
+                            <label for="zffs1">
+                                <input type="radio" value="1" name="zffs" id="zffs1" checked class="m20" cname="微信支付">
+                                微信支付或积分支付
+                            </label>
+                        </p>
+                    </eq>
+                    <eq name='vo' value='3'>
+                        <p>
+                            <label for="zffs3">
+                                <input type="radio" value="3" name="zffs" id="zffs3" class="m20" cname="货到付款">
+                                货到付款</label>
+                        </p>
+                    </eq>
+                    <eq name='vo' value='4'>
+                        <p>
+                            <label for="zffs4">
+                                <input type="radio" value="4" name="zffs" id="zffs4" class="m20" cname="余额支付">
+                                账户余额支付<span></span></label>
+                        </p>
+                    </eq>
+                </volist>
+            </div>
+        </li>
+    </ul>
+    <div id="paycode" style="display: none">
+        <p class="pl10">支付密码</p>
+        <ul>
+            <li class="pr paymentmode mb10">
+                <div class="p10">
+                    <p>
+                        <input  id="safecode" placeholder="请输入支付密码"  name="safecode" type="password" class="fr">
+                    </p>
+                    <div style="clear:both;"></div>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <p class="pl10">买家备注</p>
+    <ul>
+        <li class="pr paymentmode mb10">
+            <div class="p10">
+                <p>
+                    <input type="text" name="remarks" id="remarks" placeholder="请输入备注信息" class="fr">
+                </p>
+                <!--
+                  <select name="" id="" class="fl">
+                    <option value="">个人</option>
+                  </select>
+                  <input type="text" name="" id="" placeholder="请输入备注信息" class="fr">
+                </p>
+                <div class="pa switch t5"><span>是</span><span>否</span><em class="t2"></em></div>
+              </div>-->
+                <div style="clear:both;"></div>
+            </div>
+        </li>
+    </ul>
+    <p class="pl10">商品信息</p>
+    <ul>
+        <li class="f1-2"> <a href="#" class="exp"><em class="dib r"><img src="{:ADDON_PUBLIC_PATH}/images/icon-arrow.png"></em>查看购物清单</a>
+            <div class="n h">
+                <div class="order_list">
+                    <ul>
+                        <volist  name="products_list" id="products_list_vo"> <a href="#">
+                            <li pid="{$products_list_vo.id}" pnum="{$products_list_vo.num}"> <img src="{$products_list_vo.head_img|get_cover_url}"> <span class="order_title">{$products_list_vo.name}</span><span>￥{$products_list_vo.true_price} × {$products_list_vo.num} </span></li>
+                        </a> </volist>
+                    </ul>
+                </div>
+            </div>
+        </li>
+    </ul>
+    <p class="pl10">价格明细</p>
+    <ul>
+        <li>
+            <div class="p10 clear accounts">
+                <div class="l w50p tr" style="color:#666;">
+                    <p>商品金额：</p>
+                    <neq name="price.r_price" value="0"><p>会员折扣优惠：</p></neq>
+                    <p>运费：</p>
+                    <p>总计需支付：</p>
+                </div>
+                <div class="r w50p cp">
+                    <p id = 'p_price'>￥{$price.p_price}</p>
+                    <neq name="price.r_price" value="0"><p id = 'r_price' style="color:#44b549;">￥-{$price.r_price}</p></neq>
+                    <p id = 'y_price'>￥{$price.y_price}</p>
+                    <p id = 'total_price' value='{$price.total_price}'>￥{$price.total_price}</p>
+                </div>
+            </div>
+        </li>
+    </ul>
+</section>
+<section id="order-submit">
+    <div class="btn_buy fr"><a href="" id="sureorder">确认并提交订单</a></div>
+    <span class="fr ml10">支付金额：<b class="price" id="comfirmPrice">￥{$price.total_price}</b></span></section>
+<!--底部 版权信息-->
+<include file="./Addons/Shop/View/default/Index/footerbq.html" />
+<!--END 底部导航-->
+</body>
+<script src="{:ADDON_PUBLIC_PATH}/js/jquery.js"></script>
+<script src="{:ADDON_PUBLIC_PATH}/js/swiper.js"></script>
+<script src="{:ADDON_PUBLIC_PATH}/js/comm.js"></script>
+<script>
+    function changeaddress(){
+        var id = $(':input[name=shdz]:checked').val();
+        var html = $(':input[name=shdz]:checked').parent().find('span').html();
+        $('#user_address').html(html);
+    }
+    function changepaytype(){
+        var html = $(':input[name=zffs]:checked').attr('cname');
+        $('#pay_type').html(html);
+        var value = $(':input[name=zffs]:checked').val();
+        if(value == 4){
+            //判断  1：余额是否足够  2:是否要显示密码输入框（未设置密码的不需要显示)
+            var total_price = $('#total_price').attr('value');
+            $.ajax({
+                type: "get",
+                url: "{:addons_url('Shop://Order/checkPayGold')}&total_price="+total_price,
+                dataType: "json",
+                success: function(data){
+                    if(data.safecode){
+                        //设置了安全密码，则显示出来
+                        $('#paycode').show();
+                    }
+                    if(!data.golden){
+                        //余额不足
+                        $('#zffs4').parent().find('span').html('[余额不足]');
+                    }
+
+                },
+                error:function(){
+                }
+            })
+        }else{
+            $("#paycode").hide();
+        }
+    }
+
+    $(function(){
+        changeaddress();
+        changepaytype();
+        //提交订单
+        $('#sureorder').click(function(){
+            var address_id = $(':input[name=shdz]:checked').val();
+            var pay_type = $(':input[name=zffs]:checked').val();
+            var remarks = $('#remarks').val();
+            var products = '';
+            $('.order_list ul li').each(function(){
+                products += ','+$(this).attr('pid')+'-'+$(this).attr('pnum');
+            });
+            var from ="{$from}";
+            var safecode = $('#safecode').val();
+            var coupon=$('#coupon').val();
+            var cate_id='{$products_list[0].cate_id}';
+            var name='{$products_list[0].name}'
+            var storeid='{$storeid}';
+            var product_id='{$product_id}';
+            var jsonData ='{"from":"'+from+'","address_id":"'+address_id+'","pay_type":"'+pay_type+'","remarks":"'+remarks+'","products":"'+products+'","safecode":"'+safecode+'","coupon":"'+coupon+'","cate_id":"'+cate_id+'","name":"'+name+'","storeid":"'+storeid+'","product_id":"'+product_id+'"}';
+            var jsonData = $.parseJSON(jsonData);
+            $.ajax({
+                url:"{:addons_url('Shop://Index/neworder')}",
+                type:"post",
+                dataType:"json",
+                data:jsonData,
+                success:function(re){
+                    if(re.status!= false){
+                        if(pay_type==1){
+                            //跳转到支付页面
+                            var url = 'index.php?s=addon/Shop/Index/payorder.html'+'&id='+re;
+                            if(cate_id==4)
+                            {
+                                url='index.php?s=addon/Shop/Index/paymoney.html'+'&id='+re;
+                            }
+                            window.location=url;
+                        }else if(pay_type==3){
+                            alert('订单已生成');
+                            //货到付款订单，跳到我的订单
+                            var url = "{:addons_url('Shop://Index/orderlist',array('type'=>'pay'))}";
+                            window.location=url;
+                        }else if(pay_type==4){
+                            alert('订单已生成');
+                            //货到付款订单，跳到我的订单
+                            var url = "{:addons_url('Shop://Index/orderlist',array('type'=>'pay'))}";
+                            window.location=url;
+                        }else{
+                            alert('参数异常');
+                        }
+                    }else{
+                        alert(re.msg);
+                        // alert('生成订单失败，请填写收货信息')
+                    }
+                },
+                error:function(){
+                    alert('操作失败');
+                }
+            })
+            return false;
+        })
+
+        $('#order li .exp').click(function(){
+            $(this).next('.n').slideToggle();
+            $(this).parent().find('em.dib').toggleClass('open');
+            return false
+        });
+        $(':input[name=shdz]').change(changeaddress);
+        $(':input[name=zffs]').change(changepaytype);
+
+        $('#order li div.p10 p input').click(function(){
+            $(this).parent().parent().parent().prev('.exp').find('span').html($(this).next('span').html())
+        });
+        $('.swiper').width($('.swiper').parent().parent().width());
+
+        //减去总价
+        var a = {$price.p_price};
+    var A = "￥"+a;
+    var price="￥"+(a-$("#coupon").children('option:selected').html());
+    if($('#coupon').val()==0) {
+        $("#total_price").html(A);
+        $("#comfirmPrice").html(A);
+    }
+    else
+    {
+        if(a-$("#coupon").children('option:selected').html()<0)
+        {
+            $("#total_price").html("￥"+0);
+            $("#comfirmPrice").html("￥"+0);
+        }
+        else {
+            $("#total_price").html(price);
+            $("#comfirmPrice").html(price);
+        }
+    }
+    $('#coupon').change(function(){
+        if($(this).children('option:selected').val() !=0 ){
+            var b = $(this).children('option:selected').html();
+            var c = "￥"+(a - b);
+            if(a-b<0)
+            {
+                c="￥"+0;
+            }
+            $("#total_price").html(c);
+            $("#comfirmPrice").html(c);
+        }else{
+            $("#total_price").html(A);
+            $("#comfirmPrice").html(A);
+        }
+    })
+    });
+
+
+    var list=new Swiper('.swiper',{
+        slidesPerView:4
+    })
+
+
+    /*
+     //通知有新订单了
+     var ws=new WebSocket("ws://192.168.0.15:7272");
+     reconnect=false;
+     var token = "{$token}";
+     ws.onopen=function(){
+     //将我们的form改变为可以输入的形式
+     //timeid && window.clearInterval(timeid);
+     if(reconnect == false)
+     {
+     // 登录
+
+     var login_data = JSON.stringify({"type":"user_login","name":token});
+     console.log("websocket握手成功，发送登录数据:"+login_data);
+     ws.send(login_data);
+     reconnect = true;
+     alert('链接成功');
+     neworder();
+     }else{
+     alert('222');
+     }
+     }
+
+     ws.onerror = function(){
+     alert("WebSocketError!");
+     };
+     //接受服务器传入的数据的处理
+     ws.onmessage=function(e){
+     var data = JSON.parse(e.data);
+     switch(data['type']){
+     // 服务端ping客户端
+     case 'ping':
+     ws.send(JSON.stringify({"type":"pong"}));
+     break;;
+     // 登录 更新用户列表
+     case 'login':
+     //{"type":"login","client_id":xxx,"client_name":"xxx","client_list":"[...]","time":"xxx"}
+
+     console.log(data['client_name']+"登录成功");
+     break;
+     // 断线重连，只更新用户列表
+     case 're_login':
+     //{"type":"re_login","client_id":xxx,"client_name":"xxx","client_list":"[...]","time":"xxx"}
+     break;
+     // 发言
+     case 'say':
+     //{"type":"say","from_client_id":xxx,"to_client_id":"all/client_id","content":"xxx","time":"xxx"}
+     //say(data['from_client_id'], data['from_client_name'], data['content'], data['time']);
+     break;
+     // 用户退出 更新用户列表
+     case 'logout':
+     //{"type":"logout","client_id":xxx,"time":"xxx"}
+     break;
+     case 'neworder':
+     alert('您有新订单了！');
+     break;
+     }
+     }
+     function neworder(){
+     var login_data = JSON.stringify({"type":"new_order","name":token});
+     ws.send(login_data);
+     }
+     */
+</script>
+</html>

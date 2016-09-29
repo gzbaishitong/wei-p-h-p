@@ -1,0 +1,119 @@
+<include file="Public/mobile_head"/>
+<include file="./Addons/Shop/View/default/Index/base.html" />
+<body class="cate">
+<header style="background-color:#{$shop_config.color}">
+    <section id="title"><a href="javascript:history.back()"><span class="topback"></span></a>商品详情<a class="go_index" href="{:addons_url('Shop://Index/index')}"></a></section>
+</header>
+<section id="goods-detail">
+    <div class="clear top">
+        <div class="w100p image h">
+            <div class="swiper-wrapper h">
+                <div class="swiper-slide l"><a href="#"><img src="{$info.head_img|get_cover_url}" style="margin:10px auto 10px auto;"></a></div>
+            </div>
+        </div>
+        <div class="bgf p10" style="border-top:1px solid #e0e0e0; border-bottom:1px solid #e0e0e0;">
+            <div class="pa calc">
+                <a href="#" class="undo" onClick="return productinfo.reduce(this)">-</a>
+                <span id="pronum" class="num">1</span>
+                <a href="#"  onClick="return productinfo.plus(this)">+</a>
+            </div>
+            <p class="c9"><b class="price f1-8">￥{$info.true_price}</b><del class="ml10">￥{$info.old_price}</del></p>
+            <p class="name">{$info.name}</p>
+            <p class="c6"><span>上架时间：{$info.cTime|time_format}</span><span class="ml10">已售：{$info.sellnum}</span></p>
+        </div>
+    </div>
+    <div class="bottom bgf mt10" style="border-top:1px solid #e0e0e0; border-bottom:1px solid #e0e0e0;">
+        <div class="tab-title f1-2">
+            <ul class="w50">
+                <li tb="tab_z1"><a href="#" class="current">商品详情</a></li>
+                <li tb="tab_z2"><a href="#">基本信息</a></li>
+            </ul>
+        </div>
+        <div class="tab-bd p15" id="tab_z1">
+            {$info.content}
+            <!--
+<ul class="c9">
+    <li>品牌：其他</li>
+    <li>类型：红葡萄酒</li>
+    <li>原产地：澳大利亚</li>
+    <li>含糖量：干型葡萄酒</li>
+    <li>规格：750ml</li>
+    <li>酒精度：13%</li>
+    <li>产区：新南威尔士</li>
+</ul>
+            -->
+        </div>
+        <div class="tab-bd p15" id="tab_z2" style="display:none">
+            {$info.intro}
+            <!--
+            <ul class="c9">
+                    <li>品牌：其他</li>
+                    <li>类型：红葡萄酒</li>
+                    <li>原产地：澳大利亚</li>
+                    <li>含糖量：干型葡萄酒</li>
+                    <li>规格：750ml</li>
+                    <li>酒精度：13%</li>
+                    <li>产区：新南威尔士</li>
+            </ul>
+            -->
+        </div>
+    </div>
+</section>
+<section class="bottom_panel">
+    <a href="{:addons_url('Shop://Index/cart')}" class="cart_bottom"><span class="pa shopcart_count"  style="<eq name='shopcart_count' value='0'>display:none</eq>">{$shopcart_count}</span></a>
+    <div class="btn_bottom fr" style="background-color:#dc214c"><a href="#" id="gopay">立即购买</a></div>
+    <div class="btn_bottom fr" style="background-color:#ff4622"><a href="#" id="addCart" class="add2car">加入购物车</a></div>
+</section>
+<!--底部 版权信息-->
+<include file="./Addons/Shop/View/default/Index/footerbq.html" />
+<!--END 底部导航-->
+</body>
+<script src="{:ADDON_PUBLIC_PATH}/js/jquery.js"></script>
+<script src="{:ADDON_PUBLIC_PATH}/js/swiper.js"></script>
+<script src="{:ADDON_PUBLIC_PATH}/js/comm.js"></script>
+<script src="{:ADDON_PUBLIC_PATH}/js/shopcar.js"></script>
+<script>
+    var img=new Swiper('.image');
+    var hot=new Swiper('.hot-bd .m10',{
+        slidesPerView:3
+    });
+    $('#gopay').click(function(){
+        var num = $('#pronum').html();
+        var paurl = "{:addons_url('Shop://Index/sureorder')}&id={$info.id}-"+num;
+        window.location.href=paurl;
+    });
+    $('#addCart').click(function(){
+        var num = $('#pronum').html();
+
+        $.ajax({
+            url:"{:addons_url('Shop://Cart/inCart')}&id={$info.id}-"+num,
+            type:"get",
+            dataType:"json",
+            success:function(re){
+                if(re){
+                    cartNum(re);
+                    alert('已添加进购物车');
+                }else{
+                    alert('添加失败');
+                }
+            },
+            error:function(){
+                alert('添加失败');
+            }
+        });
+    });
+
+    $('.tab-title ul li').click(function(){
+        var tb= $(this).attr('tb');
+        $('.tab-title ul li a').removeClass('current');
+        $(this).find('a').addClass('current');
+
+        $('.tab-bd').hide();
+        $('#'+tb).show();
+        return false;
+    })
+
+
+</script>
+<include file="Public/mobile_footer"/>
+</html>

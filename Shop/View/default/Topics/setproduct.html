@@ -1,0 +1,238 @@
+<extend name="Base/common" />
+<block name="body">
+<style type="text/css">
+#all_contents{padding: 10px;}    
+#left_contents {width:60%;float:left;}
+#right_contents {width:36%;height:600px;float:right;border:0px solid #f8f8f8; overflow:auto; margin-top:40px;}
+
+#right_contents_top{height:30px;background-color:#f8f8f8;}
+#right_contents_list{height:550px}
+
+#right_contents_list li{;border-bottom:1px solid #eee;color:#686868; height:50px; }
+#right_contents_list li img{width:40px;height:40px; border:0px solid #eee;}
+#right_contents_bottom{height: 27px;padding:0px; position:absolute; top:114px; width:30%; right:10px;}
+#right_contents_bottom .btn{float:right}
+
+.d_image{ width:40px;}
+.d_name{position:relative; margin-left:60px; margin-top:-45px; overflow:hidden; text-overflow:ellipsis; width:70%;}
+.d_btn{position: relative; float:right; width:40px; text-align:center; margin-top:-20px; height:20px; line-height:20px;}
+</style>
+  
+   <div class="span9 page_message">
+    <section id="contents">
+        <include file="Addons/_nav" />
+        <div id="all_contents">
+            <div id ="left_contents" >
+                <!--选择待勾选内容-->
+                <div class="table-bar" style="padding:0;padding-top:10px; width:100%">
+                    <div class="fl">
+                        <div class="tools">
+                            <button class="btn ml_10" target-form="ids" url="" onClick="selectAll()">提交勾选项</button>
+                        </div>
+                    </div>
+                    
+                    <div class="search-form fr cf">
+                        <div class="sleft">
+                            <select id="cate_list_select">
+                                    <option value="all">全部商品</option>
+                                <volist name="cate_list" id="cate_list_vo">
+                                    <option value="{$cate_list_vo.id}">{$cate_list_vo.name}</option>
+                                </volist>
+                                
+                            </select>
+                        </div>
+                        <div class="sleft"><input type="text" name="" class="search-input" value="">
+                            <a class="sch-btn" href="javascript:;" id="search" url="{$search_url}"><i class="btn-search"></i></a> 
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="data-table fl" style="width:100%">
+                    <div class="table-striped">
+                        <table cellpadding="0" cellspacing="1">
+                            <!-- 表头 -->
+                            <thead>
+                              <tr>
+                                <th class="row-selected row-selected"> <input type="checkbox" id="checkAll" class="check-all regular-checkbox"><label for="checkAll"></label></th>
+                                <th width="20%">商品图片</th>
+                                <th width="50%">商品名称</th>
+                                <th width="20">商铺编码</th>
+                                <th width="10">操作</th>
+                              </tr>
+                            </thead>
+
+                            <!-- 列表 -->
+                            <tbody>
+                              <volist name="list_data" id="vo">
+                                <tr>
+                                  <td><input class="ids regular-checkbox" type="checkbox" value="{$vo.id}" name="ids[]" id="check_{$vo.id}"><label for="check_{$vo.id}"></label></td>
+                                  <td class="p_image">{$vo.head_img|get_img_html}</td>
+                                  <td id="news_{$vo.id}" class="p_name">{$vo.name}<input type="hidden" value="{$vo.id}" name="ids[]"></td>
+                                  <td>{$vo.number}</td>
+                                  <td><a href="javascript:void(0);" onClick="select_news({$vo.id})">选择</a></td>
+                                </tr>
+                              </volist>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="page"> {$_page|default=''} </div>
+            </div>
+            <div id ="right_contents">
+                <!--已勾选内容 预览  可排序-->
+                <div id="right_contents_list">
+                    <ul class="dragsort" id="Dragsort">
+                        <volist name="select_data" id="vo">
+                            <li rel="{$vo.id}">
+                                <div class="d_image m_10">{$vo.head_img|get_img_html}</div>
+                                <div class="d_name"><nobr>{$vo.name}</nobr></div>
+                                <div class="button d_btn"><a href="javascript:void(0);" onclick="del(this)">删除</a></div>
+                            </li>
+                        </volist>
+                    </ul>
+                </div>
+                <div id="right_contents_bottom">
+                <button class="btn" id="save_select" class="fr">保存选择的数据</button>
+                    <span id="get_count" class="fr mr10">您已勾选了<em></em> 条数据</span>
+                    
+                </div>
+            </div>
+        </div>
+    </section>
+   </div>
+</block>
+<block name="script"> 
+  <script type="text/javascript" src="__STATIC__/jquery.dragsort-0.5.1.min.js"></script> 
+  <script type="text/javascript">
+$("#Dragsort").dragsort();
+//选中效果
+function select_news(id){
+    var count = 0;
+    var isExist = false;
+    $('#Dragsort li').each(function() { 
+       if( $(this).attr('rel')==id )  {
+               isExist = true;
+       }
+       count +=1;
+    });
+    if(isExist){
+        return false;
+    }
+
+    var p_name = $('#news_'+id).parent().find('.p_name').html();
+    var p_image = $('#news_'+id).parent().find('.p_image').html();
+    
+    html = '<li rel="'+id+'" id="select_tr_'+id+'">'+
+                ' <div class="d_image m_10">'+p_image+'</div>'+
+                ' <div class="d_name"><nobr>'+p_name+'</nobr></div>'+
+                '<div class="button d_btn"><a href="javascript:void(0);" onclick="del(this)">删除</a></div>'+
+                                    '</li>';
+
+    $('#Dragsort').append(html);
+    get_count();
+}
+//删除已选
+function del(me){
+    $(me).parent().parent().remove();
+    get_count();
+}
+function get_count(){
+    var count = 0;
+    count = $('#Dragsort li').length;
+    $('#get_count em').html(count);
+}
+
+function selectAll(){
+   // var id = $('.ids').get(0).nodeName;
+    $('.ids').each(function(k,v){
+        if(v.type=='checkbox' && v.checked==true){
+           //alert($(this)[0]['value']);
+           select_news($(this)[0]['value']);
+        }
+    })
+}
+
+$(function(){
+    get_count();
+    //分类刷新
+    $('#cate_list_select').change(function(){
+        //alert($('#cate_list_select').val());
+        $('.search-input').val('');//清空关键词搜索
+        refdata();
+    })
+    
+    //搜索刷新数据
+    $('.btn-search').click(function(){
+        //alert($('.search-input').val());
+        refdata();
+    })
+    
+    //刷新数据
+    function refdata(){
+        //获取分类过滤条件
+        var cate_id = $('#cate_list_select').val();
+        var search = $('.search-input').val();
+        var jsonData = '{"cate_id":"'+cate_id+'","search":"'+search+'"}';
+        jsonData = $.parseJSON(jsonData);
+        $.ajax({
+            url:"{:addons_url('Shop://Topics/setproduct')}",
+            type:"post",
+            dataType:"json",
+            data:jsonData,
+            success:function(r){
+                var html ='';
+                $(r).each(function(){
+                    html += '<tr>'+
+                        '<td><input class="ids regular-checkbox" type="checkbox" value="'+$(this)[0]['id']+'" name="ids[]" id="check_'+$(this)[0]['id']+'"><label for="check_'+$(this)[0]['id']+'"></label></td>'+
+                        '<td class="p_image">'+$(this)[0]['head_img']+'</td>'+
+                        '<td id="news_'+$(this)[0]['id']+'" class="p_name">'+$(this)[0]['name']+'<input type="hidden" value="'+$(this)[0]['id']+'" name="ids[]"></td>'+
+                        '<td>'+$(this)[0]['number']+'</td>'+
+                        '<td><a href="javascript:void(0);" onClick="select_news('+$(this)[0]['id']+')">选择</a></td>'+
+                      '</tr>';
+                })
+                $('tbody').html(html);
+            },
+            error:function(){
+                alert('数据获取失败');
+            }
+        })
+    }
+    
+    
+    //保存选择的数据
+    $('#save_select').click(function(){
+        //判断是否有商品
+        var count = 0;
+        var data = "";
+        $('#Dragsort li').each(function() { 
+           data += ","+$(this).attr('rel');
+           count +=1;
+        });
+        
+        
+        //数据准备
+        var topic_id = "{$id}";
+        var jsonData = '{"t_id":"'+topic_id+'","p_id":"'+data+'"}';
+        jsonData = $.parseJSON(jsonData);
+        //保存想关数据
+        $.ajax({
+            url:"{:addons_url('Shop://Topics/saveproduct')}",
+            type:"post",
+            dataType:"json",
+            data:jsonData,
+            success:function(re){
+                if(re){
+                    updateAlert('保存成功','success');
+                }else{
+                    updateAlert('保存失败');
+                }
+            },
+            error:function(){
+                alert('操作失败')
+            }
+        })
+    })
+    
+})
+</script> 
+</block>

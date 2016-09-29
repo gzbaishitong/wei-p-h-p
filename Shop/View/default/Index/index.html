@@ -1,0 +1,216 @@
+<!--<include file="Public/mobile_head"/>-->
+<include file="./Addons/Shop/View/default/Index/base.html" />
+<link rel="stylesheet" type="text/css" href="{:ADDON_PUBLIC_PATH}/style/common/index.css">
+<body>
+<!--底部导航-->
+<include file="./Addons/Shop/View/default/Index/footer.html" />
+<!--END 底部导航-->
+
+<section id="banner">
+    <div class="m10 pr h" style="margin:0px;">
+        <div class="swiper-wrapper h">
+            <volist name ="banner_list" id="banner_list_vo">
+                <div class="swiper-slide l"><a href="{$banner_list_vo.url}"><img src="{$banner_list_vo.image|get_cover_url}"></a></div>
+            </volist>
+        </div>
+        <div class="banner-pager w100p tc pa"></div>
+    </div>
+</section>
+<section id="lunbo">
+	<ul>
+		<volist name="BuyRecord" id="BuyData">
+			<li style="line-height:2rem;color:#50aadb;font-size:1rem;font-weight:bold"><p style="margin-left:5%">会员：<span style="color:#eaa249">{$BuyData.nickname}</span>已经兑换<span style="color:#eaa249">{$BuyData.title}</span></p></li>
+		</volist>
+    </ul>
+</section>
+<!--
+<section id="menu">
+	<div class="mb10 mlr10 bgf">
+		<ul class="w20">
+			<li><a href=""><em><img src="{:ADDON_PUBLIC_PATH}/images/icon-m1.gif" alt="劲爆特惠"></em><br>劲爆特惠</a></li>
+			<li><a href=""><em><img src="{:ADDON_PUBLIC_PATH}/images/icon-m2.gif" alt="精品收藏"></em><br>精品收藏</a></li>
+			<li><a href=""><em><img src="{:ADDON_PUBLIC_PATH}/images/icon-m3.gif" alt="门店查询"></em><br>门店查询</a></li>
+			<li><a href=""><em><img src="{:ADDON_PUBLIC_PATH}/images/icon-m4.gif" alt="订单状态"></em><br>订单状态</a></li>
+			<li><a href=""><em><img src="{:ADDON_PUBLIC_PATH}/images/icon-m4.gif" alt="人工服务"></em><br>人工服务</a></li>
+		</ul>
+	</div>
+</section>
+
+<section id="active">
+    <div class="bgf">
+        <ul class="w50">
+            <volist name="topic_list" id="topic_list_vo">
+                <li><a href="{:addons_url('Shop://Index/topic',array('id'=>$topic_list_vo['id']))}"><img src="{$topic_list_vo.image|get_cover_url}" alt="{$topic_list_vo.title}"></a></li>
+            </volist>
+        </ul>
+    </div>
+</section>-->
+<notempty name="product_show">
+    <section id="recommend">
+        <h3><i class="fa fa-heart" style="color:#ff61b3"></i> 店长推荐</h3>
+        <ul class="w100" >
+
+            <volist name='product_show' id='list_vo'>
+                <li>
+                    <empty name="list_vo.cover">
+                        <a href="{:addons_url('Shop://Index/productinfo',array('id'=>$list_vo['id']))}">
+                <span class="recommend-bd">
+                <img src="{$list_vo['head_img']|get_cover_url}" />
+                <p class="tit_h">{$list_vo.name} </p>
+                <p class="price mt20">￥{$list_vo.true_price}</p>
+                <p class="oldprice">￥{$list_vo.old_price}</p>
+                </span>
+                            <a>
+                                <else/>
+                                <a href="{:addons_url('Shop://Index/productinfo',array('id'=>$list_vo['id']))}">
+                                    <img src="{$list_vo['cover']|get_cover_url}" class="coverimg" >
+                                </a>
+                    </empty>
+                </li>
+            </volist>
+            <div style="clear:both"></div>
+        </ul>
+    </section>
+</notempty>
+<section class="sectionChoose">
+	<div id="cS" class="normal active">积分满兑</div>
+	<div id="cM" class="normal">优惠支付</div>
+	<div id="cX" class="normal">限时秒杀</div>
+	<div id="decorate"></div>
+</section>
+<section id="hot" class="mt10">
+    <!--老版本店长推荐代码
+        <notempty name='product_show'>
+       <h3 class="mt10"><i class="fa fa-heart" style="color:#{$shop_config.color}"></i> 店长推荐</h3>
+      <div class="hot-bd">
+        <div>
+          <ul class="w50" >
+            <volist name='product_show' id='list_vo'>
+                <a href="{:addons_url('Shop://Index/productinfo',array('id'=>$list_vo['id']))}">
+                    <li><div class="fang_div" style="background-image: url({$list_vo['head_img']|get_cover_url})"></div>
+                        <span class="hot_title">
+                          <p class="tit_h">{$list_vo.name}</p>
+                          <p class="price mt10">￥{$list_vo.true_price}</p>
+                          <p class="oldprice">￥{$list_vo.old_price}</p>
+                        </span>
+                    </li>
+              </a>
+            </volist>
+          </ul>
+        </div>
+      </div>
+        </notempty>
+    老版本店长推荐代码-->
+    <!--<h3><i class="fa fa-shopping-cart" style="color:#59a3d9"></i>积分商品</h3>-->
+    <div class="hot-bd scorelist view">
+        <div>
+            <ul class="w50" id='plist'>
+                <volist name='scorelist' id='scorelist_vo'>
+                    <a href="{:addons_url('Shop://Index/productinfo',array('id'=>$scorelist_vo['id']))}">
+                        <li>
+							<div class="lazy background-img" data-original="{$scorelist_vo['head_img']|get_cover_url}"></div>
+							<span class="hot_title">
+							  <!--<p class="tit_h"><nobr>{$list_vo.name}</nobr></p>-->
+								<p class="name">{$scorelist_vo.name}</p>
+								<p class="price">
+								<!--<if condition="$list_vo.payType eq 0 ">{$scorelist_vo.true_price}积分
+								<else/>{$scorelist_vo.true_price}元
+								</if>-->{$scorelist_vo.true_price}积分</p>
+								<p class="oldprice"><del>{$scorelist_vo.old_price}积分</del></p>
+							  <!--<div class="detail_btn" style="background-color:#{$shop_config.color|default=dc214c}">详情</div>-->
+								<div class="detail_btn">剩余:<span style="color:#e95514">{$scorelist_vo.inventory}</div>
+							</span>
+                        </li>
+                    </a>
+                </volist>
+            </ul>
+        </div>
+        <div class="listloading" id = "loading">
+           <!-- <if condition="$page.num gt 1">
+                数据加载中...
+            </if>-->
+        </div>
+    </div>
+	
+	<div class="hot-bd moneylist">
+        <div>
+			<!--<div style="text-align:center">后续更多功能敬请期待~</div>-->
+			<ul class="w50" id='plist'>
+				<volist name='moneylist' id='moneylist_vo'>
+					<a href="{:addons_url('Shop://Index/productinfo',array('id'=>$moneylist_vo['id']))}">
+						<li>
+							<div class="lazy background-img" data-original="{$moneylist_vo['head_img']|get_cover_url}"></div>
+							<span class="hot_title">
+							  <!--<p class="tit_h"><nobr>{$list_vo.name}</nobr></p>-->
+								<p  class="name">{$moneylist_vo.name}</p>
+								<p class="price">
+								<!--<if condition="$list_vo.payType eq 0 ">{$scorelist_vo.true_price}积分
+								<else/>{$scorelist_vo.true_price}元
+								</if>-->{$moneylist_vo.true_price}元</p>
+								<p class="oldprice"><del>{$moneylist_vo.old_price}元</del></p>
+							  <!--<p class="oldprice"><del>￥{$list_vo.old_price}</del></p>-->
+							  <!--<div class="detail_btn" style="background-color:#{$shop_config.color|default=dc214c}">详情</div>-->
+								<div class="detail_btn">剩余:<span style="color:#e95514">{$moneylist_vo.inventory}</div>
+							</span>
+						</li>
+					</a>
+				</volist>
+			</ul>
+		</div>
+		<div class="listloading" id = "loading">
+			<div style="display:none" id="pageNum">{$page.num}</div>
+			<!--<if condition="$page.num gt 1">
+				数据加载中...
+			</if>-->
+		</div>	
+    </div>
+
+	<div class="hot-bd secklist">
+        <div>
+            <ul class="w50" id='plist'>
+                <volist name='secklist' id='secklist_vo'>
+                    <a href="{:addons_url('Shop://Index/productinfo',array('id'=>$secklist_vo['id']))}">
+                        <div id="secklist">
+							<if condition="$secklist_vo.dutyid neq 0">
+								<div class="symbol"></div>
+							</if>
+							<div class="background-img" style="background-image:url({$secklist_vo['head_img']|get_cover_url})"></div>
+							<span class="hot_title">
+							  <!--<p class="tit_h"><nobr>{$list_vo.name}</nobr></p>-->
+								<p  class="seckname">{$secklist_vo.name}</p>
+								<p class="price seckprice">需要：
+								<if condition="$secklist_vo.payType eq 0 ">{$secklist_vo.true_price}积分
+								<else/>{$secklist_vo.true_price}元
+								</if></p>
+								<!--<p class="oldprice" style="    position: absolute;
+								left: 8%;
+								bottom: 9%;
+								font-weight: normal;
+								font-size: 0.8rem;"><del>
+								<if condition="$secklist_vo.payType eq 0 ">{$secklist_vo.old_price}积分
+								<else/>{$secklist_vo.old_price}元
+								</if>
+								</del></p>-->
+							  <!--<p class="oldprice"><del>￥{$list_vo.old_price}</del></p>-->
+							  <!--<div class="detail_btn" style="background-color:#{$shop_config.color|default=dc214c}">详情</div>-->
+								<div class="detail_btn seckbtn">库存:<span style="color:white">{$secklist_vo.inventory}</span></div>
+								<div class="daojishi" data-time="{$secklist_vo.seckilltime}" data-inventory="{$secklist_vo.inventory}"></div>
+							</span>
+						</div>
+                    </a>
+                </volist>
+            </ul>
+        </div>
+        <div class="listloading" id = "loading">
+			<div style="display:none" id="pageNum">{$page.num}</div>
+            <!--<if condition="$page.num gt 1">
+                数据加载中...
+            </if>-->
+        </div>
+    </div>	
+</section>
+</body>
+<!--<script src="{:ADDON_PUBLIC_PATH}/js/jquery.js"></script>
+<script src="{:ADDON_PUBLIC_PATH}/js/comm.js"></script>-->
+<script src="https://cdn.bootcss.com/require.js/2.2.0/require.min.js" data-main="{:ADDON_PUBLIC_PATH}/js/index.js"></script>
+</html>

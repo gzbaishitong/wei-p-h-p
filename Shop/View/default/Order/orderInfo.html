@@ -1,0 +1,107 @@
+<include file="Public/head"/>
+<body>
+<div id="tab_head">
+        <span >订单详情</span>
+</div>
+<div style="height:35px;"></div>
+<div style=" max-height:365px; overflow:auto; ">
+<div class="data-table pop-table">
+<table cellspacing="1">
+  <tbody>
+      <eq name="info.orderStatus" value="2">
+     <tr>
+      <th>关闭人</th>
+      <td><notempty name="info.close_mid">{$info.close_mid|get_username}</notempty>[{$info.close_from|get_name_by_status=close_from,$model_id}]</td>
+      <th>关闭时间</th>
+      <td>{$info.close_time|time_format}</td>
+    </tr>
+    <tr>
+      <th>关闭原因</th>
+      <td colspan="3">{$info.close_remark}</td>
+    </tr>
+    </eq>
+    <tr>
+      <th>订单编号</th>
+      <td>{$info.ordernum}</td>
+      <th>订单金额</th>
+      <td>{$info.total_price} 元</td>
+      </tr>
+    <tr>
+      <th>支付方式</th>
+      <td>{$info.payType|get_name_by_status=payType,$model_id}</td>
+      <th>支付时间</th>
+      <td>{$info.payTime|time_format}</td>
+    </tr>
+    <tr>
+      <th>物流公司</th>
+      <td>{$info.wuliu_gongsi}</td>
+      <th>物流单号</th>
+      <td>{$info.wuliu_num}</td>
+      </tr>
+    <tr>
+      <th>收货人</th>
+      <td>{$info.name}</td>
+      <th>联系电话</th>
+      <td>{$info.phone}</td>
+    </tr>
+  
+    <tr>
+      <th>收货地址</th>
+      <td colspan="3">{$info.province} {$info.city} <neq name='info.area' value='null'>{$info.area}</neq> {$info.address}</td>
+    </tr>
+    <tr>
+      <th>商品列表</th>
+      <td colspan="3"><volist name="info.detail" id="detail_vo">
+        <p>[{$detail_vo.number}]  {$detail_vo.name} 共{$detail_vo.num}件</p>
+      </volist></td>
+    </tr>
+    <tr>
+      <th>买家备注</th>
+      <td colspan="3">{$info.remarks}</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+<div style=" clear:both;"></div>  
+</body>
+<script>
+function closeMe(){
+    var id = "{$info.id}";
+    var wuliu_gongsi = $('#wuliu_gongsi').val();
+    var wuliu_num = $('#wuliu_num').val();
+    if(id==""){
+        alert('参数错误，请刷新后从试');
+    }else if(wuliu_gongsi == ""){
+        confirm('不选择发货公司');
+    }else if(wuliu_num ==""){
+        confirm('不填写物流单号信息');
+    }
+    var jsonData = '{"id":"'+id+'","wuliu_gongsi":"'+wuliu_gongsi+'","wuliu_num":"'+wuliu_num+'"}';
+    jsonData = $.parseJSON(jsonData);
+    $.ajax({
+            url:"{:addons_url('Shop://Order/ajaxSendOrder')}",
+            type:"get",
+            dataType:"json",
+            data:jsonData,
+            success:function(re){
+                if(re){
+                    alert('发货成功');
+                    var index = parent.layer.getFrameIndex(window.name);
+                    parent.layer.close(index);
+                }else{
+                    alert('发货操作失败');
+                }
+            }
+        })
+    /*
+    var id = $('.tips .tips_id span').html();
+    var title = $('.tips .tips_title span').html();
+    var url   = $('.tips .tips_url span').html();
+    parent.seturl(id,title,url);
+    var index = parent.layer.getFrameIndex(window.name);
+    parent.layer.close(index);
+    */
+}
+
+</script>

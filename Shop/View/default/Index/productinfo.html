@@ -1,0 +1,106 @@
+<include file="./Addons/Shop/View/default/Index/base.html" />
+<include file="./Addons/Shop/View/default/Index/footer.html" />
+<body>
+<link rel="stylesheet" type="text/css" href="{:ADDON_PUBLIC_PATH}/style/common/productinfo.css">
+<!--<header style="background-color:#{$shop_config.color}">
+    <!--<section id="title"><a href="javascript:history.back()"><span class="topback"></span></a>商品详情<a class="go_index" href="{:addons_url('Shop://Index/index')}"></a></section>
+    <if condition="$orderinfo.isuse eq 0">
+    <a href="{:U('verification',array('orderid'=>$orderid))}">去核销</a>
+        <else/>
+        已核销
+        </if>
+</header>-->
+<section id="goods-detail">
+    <div class="clear top">
+        <div class="headimg" style="background-image:url({$info.head_img|get_cover_url});">
+			<div class="name">{$info.name}</div>
+        </div>        
+        <div class="container">
+			<div  class="trueprice">{$info.true_price}
+			<if condition="$info.payType eq 1">元
+			<else/>
+			积分
+			</if>
+			</div>
+			<div class="xiangqing">详情简介
+			</div>
+			<div style="clear:both"></div>
+			<!--<div style="position:relative;color:#777791;font-size:0.8rem;display: inline-block;float: right;margin-right: 5%;margin-top: 1%;"><span style="
+				 width: 14px;
+				height: 14px;
+				background: url(http://ob26aihye.bkt.clouddn.com/chanpin1.png);
+				background-size: 100% 100%;
+				display: inline-block;
+				/* margin-right: 1rem; */
+				margin-top: 0.8re;
+				position: absolute;
+				left: -1.5rem;
+				top: 0.2rem;
+						"></span>已换 {$info.sellnum}
+			</div>-->
+			<div style="clear:both"></div>
+			<div class="content">{$info.content}</div>
+			<div class="bar">
+			<span class="chanpin2"></span><p class="infos">{$info.address}</p>
+			</div>
+			<div class="bar"><span class="chanpin3"></span><p class="infos">{$info.telphone}</p>
+			</div>
+			<div style="background: url(http://ob26aihye.bkt.clouddn.com/bgwhite2.jpg);background-size:contain;padding-top:4rem;">
+				<div id="noCount" style="">
+				<a href="#" id="gopay2"><if condition="$info.seckilltime neq 0">
+							立即秒杀
+							<elseif condition="$info.payType eq 1"/>立即购买
+							<else/>
+							立即兑换
+							</if>
+						<!--<if condition="$orderinfo.isuse eq 0">
+		<a href="#" id="gopay2">去核销</a>
+			<else/>
+			<a href="#">已核销</a>
+			</if>-->
+				</a>
+				</div>
+				<div id="count"></div>
+			</div>
+			<div style="background: url(http://ob26aihye.bkt.clouddn.com/bgwhite2.jpg);background-size:contain;padding-top:2rem;width:100%;height:6rem">
+				<div style="position:absolute;width: 33%;right:5%;bottom: 2%;">
+					<img id="symbol" src="" style="width:100%">
+				</div>
+			</div>
+		</div>  
+    </div>
+</section>
+<!--<section class="bottom_panel" style="display:none">
+    <a href="{:addons_url('Shop://Index/cart')}" class="cart_bottom"><span class="pa shopcart_count"  style="<eq name='shopcart_count' value='0'>display:none</eq>">{$shopcart_count}</span></a>
+    <div class="btn_bottom fr" style="background-color:#dc214c">立即购买</div>
+    <div class="btn_bottom fr" style="background-color:#ff4622"><a href="#" id="addCart" class="add2car">加入购物车</a></div>
+</section>-->
+
+<section id="mask">
+	<div class="mask-container">
+		<p class="mask-text">
+			<if condition="$info.seckilltime neq 0">
+			你确定秒杀
+				<elseif condition="$info.payType eq 1"/>你确定购买
+					<else/>
+					你确定兑换
+					</if>
+			<if condition="$orderinfo.isuse eq 0"></p>
+		<p class="mask-num">{$info.name}1个</p>
+	</div>
+	<div id="gopay" style="">确 定</div>
+	<div id="notgopay" style="">取 消</div>
+</section>
+<section id="information" data-time="{$info.seckilltime}" data-num="{$info.inventory}" data-url="{:addons_url('Shop://Index/sureorder')}&id={$info.id}-"></section>
+<!--底部 版权信息-->
+<include file="./Addons/Shop/View/default/Index/footerbq.html" />
+<!--END 底部导航-->
+</body>
+<!--<script src="{:ADDON_PUBLIC_PATH}/js/swiper.js"></script>-->
+<!--<script src="{:ADDON_PUBLIC_PATH}/js/comm.js"></script>
+<script src="{:ADDON_PUBLIC_PATH}/js/shopcar.js"></script>-->
+<script src="https://cdn.bootcss.com/require.js/2.2.0/require.min.js" data-main="{:ADDON_PUBLIC_PATH}/js/productinfo"></script>
+<include file="Public/mobile_footer"/>
+</html>
+
+

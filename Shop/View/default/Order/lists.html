@@ -1,0 +1,258 @@
+<extend name="Base/common" />
+<block name="body">
+  <div class="span9 page_message">
+    <section id="contents"> 
+      <include file="Addons/_nav" /> 
+      <if condition="$add_button || $del_button || $search_button || !empty($top_more_button)">   
+      <div class="table-bar">
+        <div class="fl">
+          <empty name="model.extend">
+			<div class="tools">
+                            <a class="btn <eq name="type" value="unpay">btn-blue btn_arrow</eq>" href="{:addons_url('Shop://Order/lists',array('type'=>unpay))}">待支付订单</a>
+                            <a class="btn <eq name="type" value="waitfa">btn-blue btn_arrow</eq>" href="{:addons_url('Shop://Order/lists',array('type'=>waitfa))}">待发货订单</a>
+                            <a class="btn <eq name="type" value="over">btn-blue btn_arrow</eq>" href="{:addons_url('Shop://Order/lists',array('type'=>over))}">已发货订单</a>
+                            <a class="btn <eq name="type" value="close">btn-blue btn_arrow</eq>" href="{:addons_url('Shop://Order/lists',array('type'=>close))}">已关闭订单</a>
+                            
+                            <!--<i id="link_status" class="fa fa-chain-broken" style="border:2px solid #01a0e4;padding:5px;margin-left:30px">已联线</i>-->
+				<if condition="$add_button"><php> $add_url || $add_url = U('add?model='.$model['id'], $get_param);</php><a class="btn" href="{$add_url}">新 增</a></if>
+                                <if condition="$del_button"><php> $del_url || $del_url = U('del?model='.$model['id'], $get_param);</php><button class="btn ajax-post confirm" target-form="ids" url="{$del_url}">删 除</button></if>    
+               
+               <volist name="top_more_button" id="vo">
+                <if condition="$vo[is_buttion]">
+                <button class="btn {$vo.class}" target-form="ids" url="{$vo.url}">{$vo.title}</button>
+                <else />
+                <a class="btn" href="{$vo.url}">{$vo.title}</a>
+                </if>
+                &nbsp;
+                </volist>            
+			</div>
+          </empty>
+        </div>
+        <!-- 高级搜索 -->
+        <if condition="$search_button">
+        <div class="search-form fr cf">
+        
+          <div class="sleft">
+              <php> $get_param[model]=$model['name'];unset($get_param[$search_key]); $search_url || $search_url = addons_url($_REQUEST ['_addons'].'://'.$_REQUEST ['_controller'].'/lists', $get_param);</php>
+             <php>empty($search_key) && $search_key=$model['search_key'];empty($search_key) && $search_key='title';</php>
+            <input type="text" name="{$search_key}" class="search-input" value="{:I($search_key)}" placeholder="{$placeholder}">
+            <a class="sch-btn" href="javascript:;" id="search" url="{$search_url}"><i class="btn-search"></i></a> </div>
+        </div>
+        </if>
+      </div>
+      </if>
+      <!-- 数据列表 -->
+      <div class="data-table">
+        <div class="table-striped">
+          <table cellspacing="1">
+            <!-- 表头 -->
+            <thead>
+              <tr>
+                <if condition="$check_all"><th class="row-selected row-selected"> <input type="checkbox" id="checkAll" class="check-all regular-checkbox"><label for="checkAll"></label></th></if>
+                <volist name="list_grids" id="field">
+                  <th <notempty name="field.width">width="{$field.width}%"</notempty> >{$field.title}</th>
+                </volist>
+              </tr>
+            </thead>
+            
+            <!-- 列表 -->
+            <tbody>
+              <volist name="list_data" id="data">
+                <tr>
+                  <if condition="$check_all"><td><input class="ids regular-checkbox" type="checkbox" value="{$data['id']}" name="ids[]" id="check_{$data['id']}"><label for="check_{$data['id']}"></label></td></if>
+                  <volist name="list_grids" id="grid">
+                      <td>{:get_list_field($data,$grid,$model,$remove_btn)}
+                            <if condition="$grid.title eq '操作' AND $type eq 'waitfa'">
+                                <a href="#" class="idfahuo" val="{$data.id}">发货</a>
+                                <a href="#" class="closeorder" val="{$data.id}">关闭订单</a>
+                            </if> 
+                      </td>
+                  </volist>
+                </tr>
+              </volist>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="page"> {$_page|default=''} </div>
+    </section>
+  </div>
+</block>
+<block name="script"> 
+  <script type="text/javascript">
+$(function(){
+	//搜索功能
+	$("#search").click(function(){
+	var url = $(this).attr('url');
+        var query  = $('.search-form').find('input').serialize();
+        query = query.replace(/(&|^)(\w*?\d*?\-*?_*?)*?=?((?=&)|(?=$))/g,'');
+        query = query.replace(/^&/g,'');
+        if( url.indexOf('?')>0 ){
+            url += '&' + query;
+        }else{
+            url += '?' + query;
+        }
+		window.location.href = url;
+	});
+
+    //回车自动提交
+    $('.search-form').find('input').keyup(function(event){
+        if(event.keyCode===13){
+            $("#search").click();
+        }
+    });
+    
+    
+    $('.idinfo').click(function(){
+        var id = $(this).attr('val');
+        var url="{:addons_url('Shop://Order/orderInfo')}"+"&id="+id;
+        var is_reload = true;
+         $.layer({
+            type: 2,
+            shadeClose: true,
+            title: false,
+            border: [0],
+            area: ['600px','400'],
+            iframe: {src: url},
+            close:function(){
+                is_reload = false
+            },
+            end: function(){
+                if(is_reload){
+                    location.reload();
+                }
+            }
+        });
+    })
+     $('.idfahuo').click(function(){
+         var id = $(this).attr('val');
+         var url="{:addons_url('Shop://Order/sendOrder')}"+"&id="+id;
+         var is_reload = true;
+         $.ajax({
+             url:url,
+             type:"get",
+             dataType:"json",
+             success:function(re){
+                 if(re.status){
+                     $.layer({
+                        type: 2,
+                        shadeClose: true,
+                        title: false,
+                        border: [0],
+                        area: ['600px','400'],
+                        iframe: {src: url},
+                        close:function(){
+                            is_reload = false
+                        },
+                        end: function(){
+                            if(is_reload){
+                                location.reload();
+                            }
+                        }
+                    });
+                 }else{
+                     alert(re.msg);
+                 }
+             }
+         })
+    })
+    $('.closeorder').click(function(){
+            var id = $(this).attr('val');
+            var url="{:addons_url('Shop://Order/closeOrderShop')}"+"&id="+id;
+            var is_reload = true;
+            $.layer({
+                type: 2,
+                shadeClose: true,
+                title: false,
+                border: [0],
+                area: ['600px','400'],
+                iframe: {src: url},
+                close:function(){
+                        is_reload = false
+                    },
+                end: function(){
+                    if(is_reload){
+                        location.reload();
+                    }
+                }
+            });
+    })
+})
+/*
+//websocket 信息
+if(!window.WebSocket && window.MozWebSocket)
+            window.WebSocket=window.MozWebSocket;
+        if(!window.WebSocket){
+            alert("此浏览器不支持WebSocket");
+        }
+        //创建WebSocket,location.host获得主机名+端口号
+       
+ var ws=new WebSocket("ws://192.168.2.13:7272");
+//连接建立后调用的函数
+
+var reconnect=false
+
+ws.onopen=function(){
+    //将我们的form改变为可以输入的形式
+    //timeid && window.clearInterval(timeid);
+    if(reconnect == false)
+    {
+        // 登录
+        var token = "{$token}";
+        var login_data = JSON.stringify({"type":"admin_login","shop_id":token});
+        ws.send(login_data);
+        reconnect = true;
+         $('#link_status').removeClass("fa fa-chain-broken").addClass("fa fa-link");
+    }
+};
+
+ws.onerror = function(){
+    //alert("WebSocketError!");
+    $('#link_stauts').removeClass("fa fa-link").addClass("fa-chain-broken");
+};  
+//接受服务器传入的数据的处理
+ws.onmessage=function(e){
+    var data = JSON.parse(e.data);
+        switch(data['type']){
+              // 服务端ping客户端
+            case 'ping':
+              ws.send(JSON.stringify({"type":"pong"}));
+              break;
+            // 登录 更新用户列表
+            case'newOrder':
+                //alert('您有新订单了！');
+                music();
+                break;
+            case 'login':
+                //{"type":"login","client_id":xxx,"client_name":"xxx","client_list":"[...]","time":"xxx"}
+                console.log(data['client_name']+"登录成功");
+                break;
+            // 断线重连，只更新用户列表
+            case 're_login':
+                //{"type":"re_login","client_id":xxx,"client_name":"xxx","client_list":"[...]","time":"xxx"}
+                break;
+            // 发言
+            case 'say':
+                //{"type":"say","from_client_id":xxx,"to_client_id":"all/client_id","content":"xxx","time":"xxx"}
+                //say(data['from_client_id'], data['from_client_name'], data['content'], data['time']);
+                break;
+           // 用户退出 更新用户列表
+            case 'logout':
+                //{"type":"logout","client_id":xxx,"time":"xxx"}
+                break;
+      }
+}
+
+
+//新订单提示音
+$('<audio id="chatAudio"><source src="{:ADDON_PUBLIC_PATH}/music/notify.ogg" type="audio/ogg"><source src="{:ADDON_PUBLIC_PATH}/music/notify.mp3" type="audio/mpeg"><source src="{:ADDON_PUBLIC_PATH}/music/notify.wav" type="audio/wav"></audio>').appendTo('body');
+//$('<audio id="chatAudio"><source src="{:ADDON_PUBLIC_PATH}/music/4204.mp3" type="audio/mpeg">').appendTo('body');
+
+function music(){
+    $('#chatAudio')[0].play(); //播放声音 
+};
+
+//music();
+*/
+</script> 
+</block>

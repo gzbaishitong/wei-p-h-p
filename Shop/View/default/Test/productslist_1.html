@@ -1,0 +1,150 @@
+<include file="Public/mobile_head"/>
+<include file="./Addons/Shop/View/default/Index/base.html" />
+<body >
+<!--顶部搜索-->
+<include file="./Addons/Shop/View/default/Index/header.html" />
+<!--END 顶部搜索 -->
+
+<!--底部导航-->
+<include file="./Addons/Shop/View/default/Index/footer.html" />
+<!--END 底部导航-->
+<section id="selector">
+		
+	<div class="order w100p">
+		<ul class="w33" id="sort_top">
+                    <li><a href="{:addons_url('Shop://Index/productslist',array('ordertype'=>'default','cate_id'=>$cate_id))}" <eq name="ordertype" value="default">class="current"</eq>>默认</a></li>
+                        <li><a href="{:addons_url('Shop://Index/productslist',array('ordertype'=>'sellnum','cate_id'=>$cate_id))}" <eq name="ordertype" value="sellnum">class="current"</eq>>销量</a></li>
+			<li><a href="{:addons_url('Shop://Index/productslist',array('ordertype'=>'price','cate_id'=>$cate_id))}" <eq name="ordertype" value="price">class="current"</eq>>价格</a></li>
+		</ul>
+	</div>
+</section>
+<section id="goods-list">
+	<ul>
+               <volist name="list" id="vo_list">
+                    <li class="clear pr">
+                        <a href="{:addons_url('Shop://Index/productinfo',array('id'=>$vo_list['id']))}">
+                                     <span class="image l mr10"><img src="{$vo_list.head_img|get_cover_url}" alt=""></span>
+                                     <div class="product_title fl">{$vo_list.name}</div>
+                                     <div class="price f1-6 fb fl mt_10">￥{$vo_list.true_price}</div>
+                                     <del class="c9 fl ml_10 mt_10">￥{$vo_list.old_price}</del>
+                                     <div class="c9 sale_num">已售出 {$vo_list.sellnum} 件</div>
+                                     <a href="#" class="addcar" url="{:addons_url('Shop://Cart/inCart',array('id'=>$vo_list['id']))}" ></a>
+                             </a>
+                             <div class="btn pa">
+                                     <a href="#" class="add2fav"><img src="{:ADDON_PUBLIC_PATH}/images/icon-fav.png" alt="收藏"></a>
+                                     <a href="#" class="add2car"><img src="{:ADDON_PUBLIC_PATH}/images/icon-car.png" alt="添加到购物车"></a>
+                             </div>
+                     </li>
+                </volist>
+		
+	</ul>
+</section>
+<section id="loading" class="listloading">
+    <gt name="pageinfo.num" value="1">数据加载中...</gt>
+</section>
+<footer>
+  <p class="copyright">Copyright by 宝税电商<span class="ml10 mr10">|</span>UBoat100.com 技术支持</p>
+  <div class="logo_footer"><a href="{:addons_url('Shop://Index/index')}"><img src="{:ADDON_PUBLIC_PATH}/images/temp/logo.png" alt="宝税电商"></a></div>
+</footer>
+</body>
+<script src="{:ADDON_PUBLIC_PATH}/js/jquery.js"></script>
+<script src="{:ADDON_PUBLIC_PATH}/js/swiper.js"></script>
+<script src="{:ADDON_PUBLIC_PATH}/js/comm.js"></script>
+<script>
+$(function(){
+        var num = 2;
+        var cate_id = "{$cate_id}";
+        $(window).scroll(function(){ 
+            totalheight = parseFloat($(window).height()) + parseFloat($(window).scrollTop()); 
+            if($(document).height() <= totalheight){
+                loadPage(num);
+            } 
+        });
+        
+        function loadPage(){
+                $('#loading').show();
+                var jsondata='{"p":"'+num+'","cate_id":"'+cate_id+'"}';
+                jsondata=$.parseJSON(jsondata);
+		$.ajax({
+			url:"{:addons_url('Shop://Index/productslist')}",
+			type:'POST',
+			dataType:'json',
+                        data:jsondata,
+			success: function(data){
+                            var html = '';
+                            $(data).each(function(){
+                                  html = html+'<li class="clear pr"><a href="'+$(this)[0]['url']+'" class="w80p db"><span class="image l mr10"><img src="'+$(this)[0]['head_img']+'" alt=""></span><p class="f1-2 pb10">'+$(this)[0]['name']+'</p><del class="c9">￥'+$(this)[0]['old_price']+'</del><p class="price f1-6 fb">￥'+$(this)[0]['true_price']+'</p><p class="c9">已售：'+$(this)[0]['sellnum']+'</p></a> <div class="btn pa"><a href="#" class="add2fav"><img src="{:ADDON_PUBLIC_PATH}/images/icon-fav.png" alt="收藏"></a><a href="#" class="add2car"><img src="{:ADDON_PUBLIC_PATH}/images/icon-car.png" alt="添加到购物车"></a></div></li>'
+                             })
+                            num = num + 1;
+                            $('#loading').hide();
+                            $('#goods-list ul').append(html);
+                                
+			},
+			error:function(){
+                            $('#loading').hide();
+                            alert('数据加载失败')
+			}
+		})
+	};
+        
+	$('p.more').click(function(){
+		if($('em',this).hasClass('open')){
+			$('em',this).removeClass('open');
+			$('.cate-more').slideUp()
+		}else{
+			$('em',this).addClass('open');
+			$('.cate-more').slideDown()
+		}
+	});
+	$('.add2car').click(function(){
+            var cont='<center class="f1-4 mb10">添加成功</center><ul class="w50"><li><a href="shopcar-list.html" class="btn-red">查看购物车</a></li><li><div class="ml10"><a href="#" class="btn-grey" onclick="return KmPop.hide()">继续购物</a></div></li></ul>';
+            KmPop.init(cont);
+            return false
+	});
+        $('.addcar').click(function(){
+            var url = $(this).attr('url');
+            $.ajax({
+                url:url,
+                type:"get",
+                dataType:"json",
+                success:function(re){
+                    if(re){
+                        cartNum(re);
+                        alert('已添加进购物车');
+                    }else{
+                        alert('添加失败');
+                    }
+                },
+                error:function(){
+                    alert('添加失败');
+                }
+            });
+	});
+	$('.add2fav').click(function(){
+		var $this=$('img',this);
+		if($this.attr('src').indexOf('fav2')>0){
+			var cont='<center class="f1-4 mb10">已加入我的收藏了哦，亲~</center><ul class="w50"><li><a href="user-fav.html" class="btn-red">去收藏夹看看</a></li><li><div class="ml10"><a href="#" class="btn-grey" onclick="return KmPop.hide()">点错了</a></div></li></ul>';
+			KmPop.init(cont)
+		}else{
+			$this.addClass('add2favui');
+			setTimeout(function(){
+				$this.removeClass('add2favui').attr('src','images/icon-fav2.png')
+			},500)
+		};
+		return false
+	});
+        
+        //顶部效果
+        /*
+        $('#sort_top li').click(function(){
+            $(this).parent().find('a').removeClass('current');
+            $(this).find('a').addClass('current');
+            return false;
+        })
+	
+	$(window).scroll(function(){
+		$(document).height()-$(this).scrollTop()-$(window).height()<50?loadPage():true
+	})*/
+})
+</script>
+</html>

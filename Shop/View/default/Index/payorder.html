@@ -1,0 +1,61 @@
+<include file="Public/mobile_head"/><include file="./Addons/Shop/View/default/Index/base.html" />
+<body class="cate">
+<header style="background-color:#{$shop_config.color}">
+  <section id="title"><a href="{:addons_url('Shop://Index/index')}"><span class="topback"></span></a>支付订单</section>
+</header>
+<section id="payorder" class="mb10 mt10">    
+    <div id="loadpay" class="paymsg tc p20"><img src="{:ADDON_PUBLIC_PATH}/images/icon_order.png" style="margin:auto;">
+    <p style="width:80%; margin:auto; color:#666; font-weight:bold; padding:10px;">已生成订单，请尽快完成支付</p></div>
+    <div id="payfail" style="display:none" class="paymsg tc p20"><img src="{:ADDON_PUBLIC_PATH}/images/warning.png" style="margin:auto;">
+    <p style="width:80%; margin:auto; color:#666; font-weight:bold; padding:10px;">支付失败！请尝试重新支付或稍后再试</p></div>
+    <div id="paysuccess" style="display:none" class="paymsg tc p20"><img src="{:ADDON_PUBLIC_PATH}/images/success.png" style="margin:auto;">
+    <p style="width:80%; margin:auto; color:#666; font-weight:bold;padding:10px;">
+	<if condition="$products_list[0]['payType'] eq 1">支付成功！请到会员中心-我的奖品页面查看，根据页面规则提示进行换领。
+					<else/>兑换成功！请到会员中心-我的奖品页面查看，根据页面规则提示进行换领。
+					</if>
+	</p></div>
+    <div class="order_panel p20">
+        <!--<p><span>订单号：</span>{$orderinfo.ordernum}</p>-
+        <p><span>商品价格：</span><font class="pc">{$orderinfo.p_price}积分</font></p>
+        <p><span>运费：</span><font class="pc">{$orderinfo.y_price}积分</font></p>-->
+        <p><span>总价：</span><font class="pc">{$payprice}积分</font></p>
+        <div style="clear:both;"></div>
+    </div>
+    <div id="waitpay" class="paybtn p10">
+       <!--<div class="btn_bottom fr" style="background-color:#dc214c"><a href="#" onclick="paynow()">立即重新支付</a></div>-->
+       <div class="btn_bottom fr" style="background-color:#ccc"><a href="{:addons_url('Shop://Index/index')}">稍后支付</a></div>
+    </div>
+    <div id="haspay" style="display: none" class="paybtn p10">
+ 
+       <div class="btn_bottom fr" style="background-color:#ccc"><a href="{:addons_url('UserInfo://Index/mygoods')}">回我的奖品</a></div>
+    </div>
+</section>
+</body>
+<script src="{:ADDON_PUBLIC_PATH}/js/jquery.js"></script>
+<script src="{:ADDON_PUBLIC_PATH}/js/swiper.js"></script>
+<script src="{:ADDON_PUBLIC_PATH}/js/comm.js"></script>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script>
+ var ispay='{$info}';
+ if(ispay=='true')
+ {
+                    $('.paymsg').hide();
+                    $('#paysuccess').show();
+
+                    $('.paybtn').hide();
+                    $('#haspay').show();
+                }else{
+                    $('.paymsg').hide();
+                    $('#payfail').show();
+                    $('#payfail p').html('积分不足');
+
+                    $('.paybtn').hide();
+                    $('#waitpay').show();
+                }
+ function paynow(){
+
+   var   url = "{:addons_url('Shop://Index/payorder',array('id'=>$orderinfo['id']))}";
+     location.href=url;
+ }
+</script>
+</html>

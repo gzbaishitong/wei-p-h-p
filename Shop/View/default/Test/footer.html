@@ -1,0 +1,47 @@
+<nav class="pf w100p">
+	<ul class="w25">
+		<li>
+                    <a href="{:addons_url('Shop://Index/index')}" <eq name="footer_current" value="index">class="current" style="color:#{$shop_config.color}"</eq>>
+				<em><div class="icon_home" <eq name="footer_current" value="index">style="background-color:#{$shop_config.color}"</eq>></div></em><br>
+				微店首页
+			</a>
+		</li>
+		<li>
+			<a href="{:addons_url('Shop://Index/categories')}" <eq name="footer_current" value="categories">class="current" style="color:#{$shop_config.color}"</eq>>
+				<em><div class="icon_list" <eq name="footer_current" value="categories">style="background-color:#{$shop_config.color}"</eq>></div></em><br>
+				商品分类
+			</a>
+		</li>
+		<li>
+			<a href="{:addons_url('Shop://Index/cart')}" <eq name="footer_current" value="cart">class="current" style="color:#{$shop_config.color}"</eq>>
+				<em><div class="icon_cart" <eq name="footer_current" value="cart">style="background-color:#{$shop_config.color}"</eq>></div></em><br>
+				购物车
+				<span class="pa num shopcart_count" style="<eq name='shopcart_count' value='0'>display:none</eq>">{$shopcart_count}</span>
+			</a>
+		</li>
+                <li>
+			<a href="{:addons_url('Shop://Index/orderlist')}" <eq name="footer_current" value="usercenter">class="current" style="color:#{$shop_config.color}"</eq>>
+				<em><div class="icon_ucenter" <eq name="footer_current" value="usercenter">style="background-color:#{$shop_config.color}"</eq>></div></em><br>
+				我的订单
+                                <eq name='has_un_pay' value='1'><span class="pa"></span></eq>
+			</a>
+		</li>
+                <!--
+		<li>
+			<a href="{:addons_url('Shop://Index/orderlist')}" <eq name="footer_current" value="orderlist">class="current" style="color:#{$shop_config.color}"</eq>>
+				<em><div class="icon_order" <eq name="footer_current" value="orderlist">style="background-color:#{$shop_config.color}"</eq>></div></em><br>
+				我的订单
+                                <eq name='has_un_pay' value='1'><span class="pa"></span></eq>
+			</a>
+		</li
+                -->
+        <!--
+		<li>
+			<a href="{:addons_url('Shop://Index/usercenter')}" <eq name="footer_current" value="usercenter">class="current"</eq>>
+				<em><img src="{:ADDON_PUBLIC_PATH}/images/icon-n5<eq name="footer_current" value="usercenter">_color</eq>.png" alt="用户中心"></em><br>
+				用户中心
+			</a>
+		</li>
+        -->
+	</ul>
+</nav>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="{:ADDON_PUBLIC_PATH}/style/global.css">
+        <link rel="stylesheet" href="{:ADDON_PUBLIC_PATH}/style/default.css">
+        <link href="__STATIC__/font-awesome/css/font-awesome.min.css?v={:SITE_VERSION}" rel="stylesheet">
+
+        <title>收货二维码</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+
+    <section id="shopcar-null" class="mtb20 tc">
+        <div class="empty_default">
+            <p><img src="{:addons_url('Shop://Index/ercode')}&content={$orderinfo.ordernum}" style="width:240px; height:240px;">
+                <br/>
+                <h3>收货时请展示此二维码图片<br/>如非本人收货将此页面分享给收货人<h3>
+            </p>
+            <br/>
+            <br/>
+            <a onclick="button2()">分享此页面给收货人</a>
+        </div>
+    </section>
+</body>
+</html>
+

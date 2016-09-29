@@ -1,0 +1,87 @@
+<include file="Public/mobile_head"/>
+<include file="./Addons/Shop/View/default/Index/base.html" />
+<body class="cate">
+<header style="background-color:#{$shop_config.color}">
+  <section id="title"><a href="javascript:history.back()"><span class="topback"></span><span class="topback_name">取消</span></a>新增地址<a class="top_accept" href="#" id="savedata"></section>
+</header>
+<section id="user-address" class="pt5">
+	<div class="item"><input type="text" name="name" id="name" placeholder="姓名"></div>
+        <div class="item"><input type="number" name="phone" id="phone" placeholder="手机"></div>
+	<div class="item" id="select_address" style="padding:0px 10px;">
+	    <select class="province" id="province"></select> 
+            <select class="city" id="city"></select> 
+            <select class="area" id="area"></select> 
+	</div>
+	<div class="item"><input type="text" name="address" id="address" placeholder="详细地址"></div>
+	<div class="item pr" style="margin:10px 0px; border-left:0px; border-right:0px; padding-left:19px;">设为常用地址<div id="is_default" class="pa switch t5" style="background-color:#{$shop_config.color}"><span>是</span><span>否</span><em class="t2"></em></div></div>
+</section>
+<!--底部 版权信息--> 
+<include file="./Addons/Shop/View/default/Index/footerbq.html" /> 
+<!--END 底部导航-->
+</body>
+<script src="{:ADDON_PUBLIC_PATH}/js/jquery.js"></script>
+<script src="{:ADDON_PUBLIC_PATH}/js/comm.js"></script>
+<script src="{:ADDON_PUBLIC_PATH}/js/jquery.cxselect.min.js"></script>
+<script>
+// selects 为数组形式，请注意顺序 
+$(function(){
+    $('#select_address').cxSelect({ 
+        url: '{:ADDON_PUBLIC_PATH}/js/cityData.min.js',    // 提示：如果服务器不支持 .json 类型文件，请将文件改为 .js 文件
+        selects: ['province', 'city', 'area'], 
+        nodata: 'none' 
+    }); 
+    
+    //保存事件
+    $('#savedata').click(savedata);
+})
+
+function savedata(){
+    var name = $('#name').val();
+    var phone = $('#phone').val();
+    var province = $('#province').val();
+    var city = $('#city').val();
+    var area = $('#area').val();
+    var address = $('#address').val();
+    if(name == ''){
+        alert('名字不能为空');
+        return false;
+    }else if(phone==''){
+        alert('手机号码不能为空');
+        return false;
+    }else if(province==0||city==0){
+        alert('省市不能为空');
+        return false;
+    }else if(address==''){
+        alert('详细地址不能为空');
+        return false;
+    }
+    
+    if($('#is_default').hasClass('switch-off')){
+        is_default=2;
+    }else{
+        is_default=1;
+    }
+    
+    //组装数据
+    var jsonData = '{"name":"'+name+'","phone":"'+phone+'","province":"'+province+'","city":"'+city+'","area":"'+area+'","address":"'+address+'","is_default":"'+is_default+'"}';
+    jsonData = $.parseJSON(jsonData);
+    //提交数据
+    $.ajax({
+        url:'{:addons_url("Shop://Index/addaddress")}',
+        type:'post',
+        dataType:'json',
+        data:jsonData,
+        success:function(re){
+            if(re){
+                window.location.href=document.referrer;
+            }else{
+                alert('保存失败');
+            }
+        },
+        error:function(){
+            alert('操作失败');
+        }
+    });
+}
+</script>
+</html>

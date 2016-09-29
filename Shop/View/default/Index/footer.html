@@ -1,0 +1,94 @@
+<footer class="menu">
+    <div style="position:absolute;top:0;width:100%;height:100%">
+        <!--<span class="menuItem"></span>
+        <span class="menuItem" id="mall"><a href="{:addons_url('Shop://Index/index')}" style="display:inline-block;width:100%;height:100%"></a></span>
+        <a href=""><span class="menuItem"></span></a>
+        </a>-->
+        <a class="menuItem" href="{:addons_url('UserInfo://Index/index')}">
+			
+			<div id="menu1" style="z-index:100"></div>
+		</a>
+        <a class="menuItem" href="{:addons_url('UserInfo://Index/howtogetscore')}">
+			<div id="menu2" style=""></div>
+		</a>
+        <a class="menuItem" href="{:addons_url('Shop://Index/index')}">
+			<span class="menu-after"></span>
+			<div  id="menu3" style=""></div>
+		</a>
+    </div>
+</footer>
+<style>
+.menu{
+	position: fixed;
+    bottom: 0;
+    background: black;
+    height: 4.5rem;
+    width: 100%;
+	z-index:50
+}
+.menuItem{
+		height:100%;
+		width:33.33%;
+		float:left;
+		display:inline-block;
+		position:relative
+		}
+
+#menu1{
+	background: url(http://ob26aihye.bkt.clouddn.com/menu2icon1.png);
+			position: absolute;
+			width: 27%;
+			left: 35%;
+			height: 3rem;
+			top: 0.6rem;
+			background-size: 100% 100%;
+}
+
+#menu2{
+	background: url(http://ob26aihye.bkt.clouddn.com/menuIcon2.png);
+    position: absolute;
+    width: 27%;
+    left: 35%;
+    height: 3.6rem;
+    top: 0.rem;
+    background-size: 100% 100%;
+}
+
+#menu3{
+	background: url(http://ob26aihye.bkt.clouddn.com/menu3icon3.png);
+			position: absolute;
+			width: 28%;
+			left: 35%;
+    height: 3.1rem;
+    top: 0.6rem;
+			background-size: 100% 100%;
+			z-index:100
+}
+
+/*#menu3:before{
+	    content: "";
+    width: 0.6rem;
+    height: 0.6rem;
+    background: red;
+    border: 2px solid black;
+    border-radius: 0.4rem;
+    z-index: 200;
+    position: absolute;
+    right: 0rem;
+    top: -0.3rem;
+}*/
+
+.menu-after{
+    width: 3rem;
+    height: 1.5rem;
+    background: black;
+    border: 1px solid #898989;
+    border-top-left-radius: 1.5rem;
+    border-top-right-radius: 1.5rem;
+    border-bottom: 0px;
+    z-index: 50;
+    position: absolute;
+    right: 34%;
+    top: -0.6rem;
+}
+</style>

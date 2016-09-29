@@ -1,0 +1,351 @@
+/* !global css for mobile 2013.10.11 - http://wenkm.com */
+
+html, body, ul, li, p, h1, h2, h3, h4, h5, h6, dl, dt, dd, form, input, textarea, table, tr, th, td {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+.t2 {
+	-webkit-transition: .2s;
+	-moz-transition: .2s;
+	-ms-transition: .2s;
+	-o-transition: .2s;
+	transition: .2s
+}
+.t5 {
+	-webkit-transition: .5s;
+	-moz-transition: .5s;
+	-ms-transition: .5s;
+	-o-transition: .5s;
+	transition: .5s
+}
+.t8 {
+	-webkit-transition: .8s;
+	-moz-transition: .8s;
+	-ms-transition: .8s;
+	-o-transition: .8s;
+	transition: .8s
+}
+img {
+	display: block;
+	height: auto
+}
+a {
+	text-decoration: none
+}
+.l, ul.float li, ul.w20 li, ul.w25 li, ul.w33 li, ul.w50 li {
+	float: left
+}
+.r {
+	float: right
+}
+.n {
+	display: none
+}
+.h {
+	overflow: hidden
+}
+.dib {
+	display: inline-block
+}
+.db {
+	display: block
+}
+:focus {
+	outline: none
+}
+.clear:after, ul.float:after, ul.w20:after, ul.w25:after, ul.w33:after, ul.w50:after {
+	content: '';
+	display: table;
+	clear: both;
+	visibility: hidden
+}
+.c3, .ac3 a {
+	color: #333
+}
+.c4, .ac4 a {
+	color: #444
+}
+.c5 {
+	color: #555
+}
+.c6, .ac6 a {
+	color: #666
+}
+.c7 {
+	color: #777
+}
+.c8, .ac8 a {
+	color: #888
+}
+.c9, .ac9 a {
+	color: #999
+}
+.cc, .acc a {
+	color: #ccc
+}
+.cd, .acd a {
+	color: #ddd
+}
+.cf, .acf a {
+	color: #fff
+}
+.c0, html, body, .ac0 a {
+	color: #000
+}
+.bgf {
+	background-color: #fff
+}
+.pf {
+	position: fixed;background-color:black;height:5.5rem
+}
+.pa {
+	position: absolute
+}
+.pr {
+	position: relative
+}
+
+
+.mt5 {
+	margin-top: 5px
+}
+
+.m10 {
+	margin: 10px
+}
+.ml10 {
+	margin-left: 10px
+}
+.mr10, .amr10 a {
+	margin-right: 10px
+}
+.mt10 {
+	margin-top: 10px
+}
+.mb10 {
+	margin-bottom: 10px
+}
+.mtb10 {
+	margin-top: 10px;
+	margin-bottom: 10px
+}
+.mlr10, .amlr10 a {
+	margin-left: 10px;
+	margin-right: 10px
+}
+.m15 {
+	margin: 15px
+}
+.ml15 {
+	margin-left: 15px
+}
+.mr15 {
+	margin-right: 15px
+}
+.mt15 {
+	margin-top: 15px
+}
+.mb15 {
+	margin-bottom: 15px
+}
+.mtb15 {
+	margin-top: 15px;
+	margin-bottom: 15px
+}
+.mlr15 {
+	margin-left: 15px;
+	margin-right: 15px
+}
+.m20 {
+	margin: 20px
+}
+.ml20 {
+	margin-left: 20px
+}
+.mr20 {
+	margin-right: 20px
+}
+.mt20 {
+	margin-top: 20px
+}
+.mb20 {
+	margin-bottom: 20px
+}
+.mtb20 {
+	margin-top: 20px;
+	margin-bottom: 20px
+}
+.mlr20 {
+	margin-left: 20px;
+	margin-right: 20px
+}
+
+.pt5 {
+	padding-top: 5px
+}
+.p10 {
+	padding: 10px
+}
+.pl10 {
+	padding-left: 10px
+}
+.pr10 {
+	padding-right: 10px
+}
+.pt10 {
+	padding-top: 10px
+}
+.pb10 {
+	padding-bottom: 10px
+}
+.ptb10 {
+	padding-top: 10px;
+	padding-bottom: 10px
+}
+.plr10 {
+	padding-left: 10px;
+	padding-right: 10px
+}
+.p15 {
+	padding: 15px
+}
+.pl15 {
+	padding-left: 15px
+}
+.pr15 {
+	padding-right: 15px
+}
+.pt15 {
+	padding-top: 15px
+}
+.pb15 {
+	padding-bottom: 15px
+}
+.ptb15 {
+	padding-top: 15px;
+	padding-bottom: 15px
+}
+.plr15 {
+	padding-left: 15px;
+	padding-right: 15px
+}
+.p20 {
+	padding: 20px
+}
+.pl20 {
+	padding-left: 20px
+}
+.pr20 {
+	padding-right: 20px
+}
+.pt20 {
+	padding-top: 20px
+}
+.pb20 {
+	padding-bottom: 20px
+}
+.ptb20 {
+	padding-top: 20px;
+	padding-bottom: 20px
+}
+.plr20 {
+	padding-left: 20px;
+	padding-right: 20px
+}
+.fb {
+	font-weight: bold
+}
+.fwn {
+	font-weight: normal
+}
+.fsn {
+	font-style: normal
+}
+.fi {
+	font-style: italic
+}
+.tc {
+	text-align: center
+}
+.tr {
+	text-align: right
+}
+.tl {
+	text-align: left
+}
+.del {
+	text-decoration: line-through
+}
+.und {
+	text-decoration: underline
+}
+.ti2 {
+	text-indent: 2em
+}
+.w110p {
+	width: 110%;
+}
+.w100p, img {
+	width: 100%;
+}
+.w80p {
+	width: 80%
+}
+.w75p {
+	width: 75%
+}
+.w70p {
+	width: 70%
+}
+.w50p, ul.w50 li {
+	width: 50%
+}
+.w33p, ul.w33 li {
+	width: 33.3%
+}
+.w30p {
+	width: 30%
+}
+.w25p, ul.w25 li {
+	width: 25%
+}
+.w20p, ul.w20 li {
+	width: 20%
+}
+.wm {
+	width: 99999px
+}
+.f1-2 {
+	font-size: 1.2em
+}
+.f1-3 {
+	font-size: 1.3em
+}
+.f1-4 {
+	font-size: 1.4em
+}
+.f1-5 {
+	font-size: 1.5em
+}
+.f1-6 {
+	font-size: 1.6em
+}
+.f1-8 {
+	font-size: 1.8em
+}
+.f2 {
+	font-size: 2em
+}
+.f2-2 {
+	font-size: 2.2em
+}
+.f2-4 {
+	font-size: 2.4em
+}
+.f3 {
+	font-size: 3em
+}
+.f4 {
+	font-size: 4em
+}

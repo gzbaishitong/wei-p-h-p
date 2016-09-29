@@ -1,0 +1,171 @@
+<include file="Public/mobile_head"/><include file="./Addons/Shop/View/default/Index/base.html" />
+<body class="cate">
+<header style="background-color:#{$shop_config.color}">
+  <section id="title"><a href="javascript:history.back()"><span class="topback"></span></a>我的订单</section>
+</header>
+<!--底部导航-->
+<include file="./Addons/Shop/View/default/Index/footer.html" />
+<!--END 底部导航-->
+<section id="selector">
+  <div class="order w100p">
+    <ul class="w33">
+        <li><a href="{:addons_url('Shop://Index/orderlist',array('type'=>'unpay'))}" <eq name="type" value="unpay">class="current"  style="border-bottom-color:#{$shop_config.color}; color:#{$shop_config.color}"</eq>>待支付</a></li>
+      <li><a href="{:addons_url('Shop://Index/orderlist',array('type'=>'pay'))}" <eq name="type" value="pay">class="current" style="border-bottom-color:#{$shop_config.color}; color:#{$shop_config.color}"</eq>>待收货</a></li>
+      <li><a href="{:addons_url('Shop://Index/orderlist',array('type'=>'over'))}" <eq name="type" value="over">class="current" style="border-bottom-color:#{$shop_config.color}; color:#{$shop_config.color}"</eq>>已完成</a></li>
+    </ul>
+  </div>
+</section>
+<section id="myorder" class="mb10 mt10">
+  <notempty name="list">
+    <volist name ="list" id="vo">
+        <div class="order_panel p10 mb10">
+          <div class="myorder-info_top pr pb10 mb10"> <span class="fl mr10">订单号：{$vo.ordernum}</span> <span class="fl">下单时间：{$vo.cTime|date="Y-m-d H:i:s",###}</span></div>
+          <div class="order_list">
+            <ul>
+              <volist name='vo.detail' id='vo_detail'>
+                <a href="#">
+                    <li> <a href="<neq name='vo.can_use' value='0'>{:addons_url('Shop://Index/productinfo')}&id={$vo_detail.p_id}</else>#</neq>"><img src="{$vo_detail.head_img|get_cover_url}"></a><span class="order_title mt5">{$vo_detail.name}</span><span>￥{$vo_detail.true_price} × {$vo_detail.num} </span></li>
+                </a> 
+              </volist>
+            </ul>
+            <div style="clear:both;"></div>
+            <div class="myorder-info_bottom"><span class="fl" style="width:40px; color:#999; padding-left:5px;">送至</span> <span class="fl mr10">{$vo.name}</span><span class="fl">{$vo.phone}</span> <span class="fl" style="padding-left:45px; font-style:11px; color:#999; width:-webkit-calc(100% - 55px); line-height:20px; padding-bottom:10px;">{$vo.province} {$vo.city} <neq name='vo.area' value='null'>{$vo.area}</neq> {$vo.address}</span>
+                <div style="clear:both;"></div>
+            </div>
+            <div style="clear:both;"></div>
+            <notempty name="vo.wuliu_gongsi">
+                <div class="myorder-info_bottom"><span class="fl" style="width:40px; color:#999; padding-left:5px;">物流</span> <span class="fl mr10">{$vo.wuliu_gongsi}</span><span class="fl">{$vo.wuliu_num}</span>
+                 </div>
+            </notempty>
+            
+            <!--备注行，无备注时不显示-->
+            <notempty name='vo.remarks'>
+            <div class="myorder-info_bottom"><span class="fl" style="width:40px; color:#999;padding-left:5px;">备注</span> <span class="fl mr10" style="width:-webkit-calc(100% - 55px); overflow:hidden; text-overflow:ellipsis;"><nobr>{$vo.remarks}</nobr></span></div>
+            </notempty>
+            <div class="myorder-info_bottom">
+                <div class="fl order_status">总金额：<span class="cp">￥{$vo.total_price} </span><span class="ml10"><if condition ="$vo.payType eq 1"><elseif condition="$vo.payType eq 3"/><br />货到付款订单</if></span></div>
+              <if condition="($vo.payStatus eq 1) AND ($vo.payType neq 3)">
+                <div style="width:220px;" class="fr">
+                    <neq name='vo.can_use' value='0'>
+                    <div class="btn_bottom fr" style="background-color:#dc214c"><a href="{:addons_url('Shop://Index/payorder',array('id'=>$vo['id']))}" id="sureorder">立即支付</a></div>
+                    </neq>
+                    <div class="btn_bottom fr" style="background-color:#ccc"><a href="#"  class="add2car" onClick='delorder(this,{$vo.id})'>取消交易</a></div>
+                </div>
+             <elseif condition="$vo.wuliuStatus eq 1"/>
+                <div class="fr order_status">等待发货</div>
+             <elseif condition="$vo.wuliuStatus eq 2"/>
+                <!--<div class="fr order_status">已发货，等待收货</div>-->
+                <div class="btn_bottom fr" style="background-color:#dc214c"><a href="#" onClick="isGet({$vo.id})" id="sureorder">确认收货</a></div>
+                <div onClick="ercode(this,{$vo.ordernum})" class="btn_qrcode fr mr_20"><i class="fa fa-qrcode"></i></div>
+             <else />
+                 <div class="fr order_status">交易成功</div>
+              </if>
+              <div style="clear:both;"></div>
+            </div>
+            <div style="clear:both;"></div>
+          </div>
+        </div>
+    </volist>
+      <div class="empty_default" style="display:none" >
+        <p><img src="__IMG__/m/face_sad.png"/><br/>您没有此类订单～</p><br/><br/>
+	<a class="go_shop" href="{:addons_url('Shop://Index/index')}">查看店铺推荐商品</a>
+     </div>
+  <else /> 
+    <div class="empty_default" >
+        <p><img src="__IMG__/m/face_sad.png"/><br/>您没有此类订单～</p><br/><br/>
+	<a class="go_shop" href="{:addons_url('Shop://Index/index')}">查看店铺推荐商品</a>
+     </div>
+   </div>
+   </notempty>
+</section>
+<!--底部 版权信息--> 
+<include file="./Addons/Shop/View/default/Index/footerbq.html" /> 
+<!--END 底部导航-->
+</body>
+<script src="{:ADDON_PUBLIC_PATH}/js/jquery.js"></script>
+<script src="{:ADDON_PUBLIC_PATH}/js/comm.js"></script>
+<script src="{:ADDON_PUBLIC_PATH}/js/swiper.js"></script>
+<script>
+<!-- 注意：HTML和JS中的sl,.prev,.next,.myorder-image需要循环出不同的结果，并跟上面的HTML对应 -->
+var sl1=new Swiper('.myorder-image1',{
+	slidesPerView:4
+});
+$('.prev1').click(function(){
+	sl1.swipePrev()
+});
+$('.next1').click(function(){
+	sl1.swipeNext()
+});
+var sl2=new Swiper('.myorder-image2',{
+	slidesPerView:4
+});
+$('.prev2').click(function(){
+	sl2.swipePrev()
+});
+$('.next2').click(function(){
+	sl2.swipeNext()
+});
+
+function delorder(me,id){
+      if(confirm("确定要取消交易吗?")){
+        $.ajax({
+            url:"{:addons_url('Shop://Order/closeOrderBuyer')}"+"&id="+id,
+            type:"get",
+            dataType:"json",
+            success:function(re){
+                if(re){
+                    $(me).parent().parent().parent().parent().parent().remove();
+                    //如果为空，则显示空的消息
+                    var len = $('.order_panel').length;
+                    if(len<=0){
+                        $('.empty_default').show();
+                    }else{
+                        $('.empty_default').hide();
+                    }
+                }else{
+                    alert('删除失败');
+                }
+            },
+            error:function(){
+                alert('操作失败');
+            }
+        });
+      }
+      return false;
+}
+//确认收货
+function isGet(id){
+    if(confirm("您确认已收货吗?")){
+        $.ajax({
+            url:"{:addons_url('Shop://Order/isGet')}"+"&id="+id,
+            type:"get",
+            dataType:"json",
+            success:function(re){
+                if(re){
+                    //刷新当前页面
+                    location.reload();
+                }else{
+                    alert('确认收货失败');
+                }
+            },
+            error:function(){
+                alert('操作失败');
+            }
+        });
+      }
+}
+
+function ercode(me,content){
+   window.location.href="{:addons_url('Shop://Index/orderCode')}&content="+content;
+   /*
+  //alert(content);
+   var url = "{:addons_url('Shop://Index/ercode')}&content="+content;
+   layer.open({
+        content: '<img src="'+url+'">',
+        style: 'background-color:#09C1FF; color:#fff; border:none;',
+        //time: 2
+    });
+    */
+}
+</script>
+</html>

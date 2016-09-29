@@ -1,0 +1,64 @@
+<include file="Public/mobile_head"/>
+<include file="./Addons/Shop/View/default/Index/base.html" />
+<body>
+<!--顶部搜索-->
+
+<!--END 顶部搜索 -->
+
+<!--底部导航-->
+<include file="./Addons/Shop/View/default/Index/footer.html" />
+<!--END 底部导航-->
+<section id="cate">
+  <div class="tit tc f1-4 c8">选择类别</div>
+  <ul>
+    <volist name="list" id="vo_list">
+      <li>
+        <div class="h f1-4"><a href="{$vo_list.url|default='#'}">{$vo_list.name}</a></div>
+		<div style="width:40%;margin-left:30%;margin-top:0.2rem">
+			<img src="{$vo_list.icon|get_cover_url}" style="width:100%">
+		</div>
+        <div class="n">
+          <volist name="vo_list.child" id="vo_list_child">
+            <p><a href="{$vo_list_child.url}">{$vo_list_child.name}</a></p>
+          </volist>
+        </div>
+      </li>
+    </volist>
+  </ul>
+  <!--
+  <ul>
+    <volist name="list" id="vo_list">
+      <li>
+        <div class="h f1-4"><span><em class="icon-state"></em></span><a href="{$vo_list.url|default='#'}">{$vo_list.name}</a></div>
+        <div class="n">
+          <volist name="vo_list.child" id="vo_list_child">
+            <p><a href="{$vo_list_child.url}">{$vo_list_child.name}</a></p>
+          </volist>
+        </div>
+      </li>
+    </volist>
+  </ul>
+  -->
+</section>
+<!--底部 版权信息--> 
+<include file="./Addons/Shop/View/default/Index/footerbq.html" /> 
+<!--END 底部导航-->
+</body>
+<script src="{:ADDON_PUBLIC_PATH}/js/jquery.js"></script>
+<script src="{:ADDON_PUBLIC_PATH}/js/comm.js"></script>
+<script>
+$(function(){
+        $('#cate li .h').each(function(){
+            $(this).addClass('open').next('.n').slideDown();
+        })
+    
+	$('#cate li .h').click(function(){
+		if($(this).hasClass('open')){
+			$(this).removeClass('open').next('.n').slideUp()
+		}else{
+			$(this).addClass('open').next('.n').slideDown()
+		}
+	})
+})
+</script>
+</html>

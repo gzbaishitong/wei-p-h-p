@@ -1,0 +1,75 @@
+<include file="Public/head"/>
+<body>
+<div id="tab_head">
+        <span >关闭订单</span>
+</div>
+<div style="height:35px;"></div>
+<div style=" max-height:365px; overflow:auto; ">
+<div class="data-table pop-table">
+<table cellspacing="1">
+  <tbody>
+    <tr>
+      <th>订单编号</th>
+      <td>{$info.ordernum}</td>
+      <th>订单金额</th>
+      <td>{$info.total_price} 元</td>
+      </tr>
+    <tr>
+      <th>支付方式</th>
+      <td>{$info.payType|get_name_by_status=payType,$model_id}</td>
+      <th>支付时间</th>
+      <td>{$info.payTime|time_format}</td>
+    </tr>
+      <th>收货人</th>
+      <td>{$info.name}</td>
+      <th>联系电话</th>
+      <td>{$info.phone}</td>
+    </tr>
+    <tr>
+      <th>收货地址</th>
+      <td colspan="3">{$info.province} {$info.city} <neq name='info.area' value='null'>{$info.area}</neq> {$info.address}</td>
+    </tr>
+    <tr>
+      <th>关闭原因</th>
+      <td colspan="3"><textarea id = "closeremark"></textarea
+        ></td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+<div id="tab_footer">
+<button class='btn' onClick="closeMe()">确认关闭订单</button>
+</div>
+</body>
+<script>
+function closeMe(){
+    var id = "{$info.id}";
+    var closeremark = $('#closeremark').val();//关闭备注
+    
+    if(id==""){
+        alert('参数错误，请刷新后从试');
+    }else if(closeremark == ""){
+        alert('您未填写关闭说明');
+    }else{
+        var jsonData = '{"id":"'+id+'","closeremark":"'+closeremark+'"}';
+        jsonData = $.parseJSON(jsonData);
+        $.ajax({
+            url:"{:addons_url('Shop://Order/closeOrderShop')}",
+            type:"get",
+            dataType:"json",
+            data:jsonData,
+            success:function(re){
+                if(re){
+                    var index = parent.layer.getFrameIndex(window.name);
+                    parent.layer.close(index);
+                }else{
+                    alert('操作失败');
+                }
+            }
+        })
+    }
+    
+}
+
+</script>

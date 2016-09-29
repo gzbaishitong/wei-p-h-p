@@ -1,0 +1,93 @@
+<include file="Public/mobile_head"/><include file="./Addons/Shop/View/default/Index/base.html" />
+<body class="cate">
+<header style="background-color:#{$shop_config.color}">
+    <section id="title"><a href="{:addons_url('Shop://Index/index')}"><span class="topback"></span></a>支付订单</section>
+</header>
+<section id="payorder" class="mb10 mt10">
+    <div id="loadpay" class="paymsg tc p20"><img src="{:ADDON_PUBLIC_PATH}/images/icon_order.png" style="margin:auto;">
+        <p style="width:80%; margin:auto; color:#666; font-weight:bold; padding:10px;">已生成订单，请尽快完成支付</p></div>
+    <div id="payfail" style="display:none" class="paymsg tc p20"><img src="{:ADDON_PUBLIC_PATH}/images/warning.png" style="margin:auto;">
+        <p style="width:80%; margin:auto; color:#666; font-weight:bold; padding:10px;">支付失败！请尝试重新支付或稍后再试</p></div>
+    <div id="paysuccess" style="display:none" class="paymsg tc p20"><img src="{:ADDON_PUBLIC_PATH}/images/success.png" style="margin:auto;">
+        <p style="width:80%; margin:auto; color:#666; font-weight:bold;padding:10px;">支付成功！请到会员中心-我的奖品页面查看，根据页面规则提示进行换领。</p></div>
+    <div class="order_panel p20">
+        <!--<p><span>订单号：</span>{$orderinfo.ordernum}</p>-->
+        <!--<p><span>商品价格：</span><font class="pc">￥{$orderinfo.p_price}</font></p>
+        <p><span>运费：</span><font class="pc">￥{$orderinfo.y_price}</font></p>-->
+        <p><span>总价：</span><font class="pc">￥{$orderinfo.total_price}</font></p>
+        <div style="clear:both;"></div>
+    </div>
+    <div id="waitpay" class="paybtn p10">
+        <div class="btn_bottom fr" style="background-color:#dc214c"><a href="#" onclick="payNow()">立即重新支付</a></div>
+        <div class="btn_bottom fr" style="background-color:#ccc"><a href="{:addons_url('Shop://Index/index')}">稍后支付</a></div>
+    </div>
+    <div id="haspay" style="display: none" class="paybtn p10">
+
+        <div class="btn_bottom fr" style="background-color:#ccc"><a href="{:addons_url('UserInfo://Index/mygoods')}">回我的奖品</a></div>
+    </div>
+</section>
+</body>
+<script src="{:ADDON_PUBLIC_PATH}/js/jquery.js"></script>
+<script src="{:ADDON_PUBLIC_PATH}/js/swiper.js"></script>
+<script src="{:ADDON_PUBLIC_PATH}/js/comm.js"></script>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script>
+    var paylock = false;
+    wx.config({
+        debug:false,
+        appId: '{$signPackage.appId}',
+        timestamp: '{$signPackage.timestamp}',
+        nonceStr: '{$signPackage.nonceStr}',
+        signature: '{$signPackage.signature}',
+        jsApiList: ['chooseWXPay']
+    });
+    wx.ready(function (){
+        payNow();
+    });
+    function payNow(){
+        if(paylock == 'true'){
+            return false;
+        }
+        paylock = true;
+
+        wx.chooseWXPay({
+                    timestamp: {$apipay.timeStamp}, // 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符
+                nonceStr: '{$apipay.nonceStr}', // 支付签名随机串，不长于 32 位
+                package: '{$apipay.package}', // 统一支付接口返回的prepay_id参数值，提交格式如：prepay_id=***）
+                signType: '{$apipay.signType}', // 签名方式，默认为'SHA1'，使用新版支付需传入'MD5'
+                paySign: '{$apipay.paySign}', // 支付签名
+                success: function (res) {
+            // 支付成功后的回调函数
+            searchPay();
+        }
+    });
+    paylock = false;
+    }
+    //触发查询是否支付成功
+    function searchPay(){
+
+        url = "{:addons_url('Shop://Index/ispay',array('id'=>$orderinfo['id']))}";
+        $.ajax({
+            url:url,
+            type:"get",
+            dataType:"json",
+            success:function(re){
+                if(re){
+                    $('.paymsg').hide();
+                    $('#paysuccess').show();
+
+                    $('.paybtn').hide();
+                    $('#haspay').show();
+                }else{
+                    $('.paymsg').hide();
+                    $('#payfail').show();
+                    $('#payfail p').html('支付完成，但未得到微信确认，请联系我们的工作人员！');
+
+                    $('.paybtn').hide();
+                    $('#waitpay').show();
+                }
+            }
+        })
+    }
+</script>
+</html>

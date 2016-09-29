@@ -1,0 +1,82 @@
+<include file="./Addons/Shop/View/default/Index/base.html" />
+<body>
+<include file="./Addons/Shop/View/default/Index/footer.html" />
+<header style="background-color:#{$shop_config.color}">
+	<div class="logo pa"><a href="#"><img src="{:ADDON_PUBLIC_PATH}/images/temp/logo.png" alt="宝税电商"></a></div>
+	<div class="search pa h"><input type="text" value="无忧品尽在宝税电商"><button><img src="{:ADDON_PUBLIC_PATH}/images/icon-search.png" alt=""></button></div>
+</header>
+<section id="banner">
+	<div class="m10 pr h" style="margin:0px;">
+		<div class="swiper-wrapper h">
+        	<div class="swiper-slide l"><a href="#"><img src="{:ADDON_PUBLIC_PATH}/images/temp/banner01.jpg"></a></div>
+			<div class="swiper-slide l"><a href="#"><img src="{:ADDON_PUBLIC_PATH}/images/temp/banner02.jpg"></a></div>
+        <!--
+			<div class="swiper-slide l"><a href="#"><img src="{:ADDON_PUBLIC_PATH}/upload/0.jpg"></a></div>
+			<div class="swiper-slide l"><a href="#"><img src="{:ADDON_PUBLIC_PATH}/upload/1.jpg"></a></div>
+			<div class="swiper-slide l"><a href="#"><img src="{:ADDON_PUBLIC_PATH}/upload/2.jpg"></a></div>
+        -->
+		</div>
+		<div class="banner-pager w100p tc pa"></div>
+	</div>
+</section>
+<section id="menu">
+	<div class="mb10 mlr10 bgf">
+		<ul class="w20">
+			<li><a href=""><em><img src="{:ADDON_PUBLIC_PATH}/images/icon-m1.gif" alt="劲爆特惠"></em><br>劲爆特惠</a></li>
+			<li><a href=""><em><img src="{:ADDON_PUBLIC_PATH}/images/icon-m2.gif" alt="精品收藏"></em><br>精品收藏</a></li>
+			<li><a href=""><em><img src="{:ADDON_PUBLIC_PATH}/images/icon-m3.gif" alt="门店查询"></em><br>门店查询</a></li>
+			<li><a href=""><em><img src="{:ADDON_PUBLIC_PATH}/images/icon-m4.gif" alt="订单状态"></em><br>订单状态</a></li>
+			<li><a href=""><em><img src="{:ADDON_PUBLIC_PATH}/images/icon-m4.gif" alt="人工服务"></em><br>人工服务</a></li>
+		</ul>
+	</div>
+</section>
+<section id="active">
+	<div class="bgf">
+		<ul class="w50 h">
+			<li>
+				<a href=""><img src="{:ADDON_PUBLIC_PATH}/upload/7.jpg" alt=""></a>
+			</li>
+			<li>
+				<ul>
+					<li><a href=""><img src="{:ADDON_PUBLIC_PATH}/upload/8.jpg" alt=""></a></li>
+					<li><a href=""><img src="{:ADDON_PUBLIC_PATH}/upload/9.jpg" alt=""></a></li>
+				</ul>
+			</li>
+		</ul>
+	</div>
+</section>
+<section id="hot">
+	<h3 class="tc">热卖商品</h3>
+	<div class="hot-bd h">
+            <div class="m10">
+                <div class="swiper-wrapper h">
+                    <div class="swiper-slide l"><a href="#"><img src="{:ADDON_PUBLIC_PATH}/upload/4.jpg"><span>￥99.00</span></a></div>
+                    <div class="swiper-slide l"><a href="#"><img src="{:ADDON_PUBLIC_PATH}/upload/5.jpg"><span>￥119.00</span></a></div>
+                    <div class="swiper-slide l"><a href="#"><img src="{:ADDON_PUBLIC_PATH}/upload/3.jpg"><span>￥99.00</span></a></div>
+                    <div class="swiper-slide l"><a href="#"><img src="{:ADDON_PUBLIC_PATH}/upload/6.jpg"><span>￥119.00</span></a></div>
+                    <div class="swiper-slide l"><a href="#"><img src="{:ADDON_PUBLIC_PATH}/upload/4.jpg"><span>￥99.00</span></a></div>
+                    <div class="swiper-slide l"><a href="#"><img src="{:ADDON_PUBLIC_PATH}/upload/5.jpg"><span>￥119.00</span></a></div>
+                    <div class="swiper-slide l"><a href="#"><img src="{:ADDON_PUBLIC_PATH}/upload/3.jpg"><span>￥99.00</span></a></div>
+                    <div class="swiper-slide l"><a href="#"><img src="{:ADDON_PUBLIC_PATH}/upload/6.jpg"><span>￥119.00</span></a></div>
+                </div>
+            </div>
+	</div>
+</section>
+<!--底部 版权信息--> 
+<include file="./Addons/Shop/View/default/Index/footerbq.html" /> 
+<!--END 底部导航-->
+</body>
+<script src="{:ADDON_PUBLIC_PATH}/js/jquery.js"></script>
+<script src="{:ADDON_PUBLIC_PATH}/js/swiper.js"></script>
+<script src="{:ADDON_PUBLIC_PATH}/js/comm.js"></script>
+<script>
+var banner=new Swiper('#banner .m10',{
+	autoplay:2000,
+	loop:true,
+	pagination:'.banner-pager'
+});
+var hot=new Swiper('.hot-bd .m10',{
+	slidesPerView:3
+})
+</script>
+</html>

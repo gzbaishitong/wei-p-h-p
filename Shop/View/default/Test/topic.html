@@ -1,0 +1,64 @@
+<include file="Public/mobile_head"/><include file="./Addons/Shop/View/default/Index/base.html" />
+<style type="text/css">
+.logo_footer {
+	margin: auto;
+	text-align: center;
+	padding: 5px 10px 20px 10px;
+	border-top: 0px solid rgba(245,245,245,0.10);
+}
+.logo_footer img {
+	height: 30px;
+	width: auto;
+	margin: auto;
+}
+.copyright {
+	text-align: center;
+	line-height: 20px;
+	padding: 30px 10px 5px 10px;
+	color: rgba(245,245,245,0.50);
+	font-size: 10px;
+	border-bottom: 1px solid rgba(245,245,245,0.20);
+	text-shadow:none;
+}
+</style>
+<body style="background-color:#{$info.color}">
+<header style="background-color:#{$shop_config.color}">
+  <section id="title"><a href="javascript:history.back()"><span class="topback"></span></a>{$info.title}</section>
+</header>
+<section class="topic-banner">
+    <div> <a href="#"><img src="<empty name='info.head_image'>{$info.image|get_cover_url}<else/>{$info.head_image|get_cover_url}</empty>"> </a> </div>
+</section>
+<section id="topic">
+  <div class="topic-bd">
+    <div>
+      <ul class="w50">
+          <volist name='info.products_info' id='info_vo'>
+            <a href="{:addons_url('Shop://Index/productinfo',array('id'=>$info_vo['id']))}">
+            <li><img src="{$info_vo.head_img|get_cover_url}"><span class="topic_title">
+              <p class="tit_h">{$info_vo.name}</p>
+              <p class="price mt10">￥{$info_vo.true_price}<del class="oldprice">￥{$info_vo.old_price}</del></p>
+              </span></li>
+            </a>
+          </volist>
+      </ul>
+    </div>
+  </div>
+</section>
+<!--底部 版权信息--> 
+<include file="./Addons/Shop/View/default/Index/footerbq.html" /> 
+<!--END 底部导航-->
+</body>
+<script src="{:ADDON_PUBLIC_PATH}/js/jquery.js"></script>
+<script src="{:ADDON_PUBLIC_PATH}/js/swiper.js"></script>
+<script src="{:ADDON_PUBLIC_PATH}/js/comm.js"></script>
+<script>
+var banner=new Swiper('#banner .m10',{
+	autoplay:2000,
+	loop:true,
+	pagination:'.banner-pager'
+});
+var hot=new Swiper('.hot-bd .m10',{
+	slidesPerView:3
+})
+</script>
+</html>

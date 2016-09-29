@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>商家兑换</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/zepto/1.1.6/zepto.min.js"></script>
+    <script>
+        $(function(){
+            $('#sub').click(function(){
+                var code=$('#code').val();
+                $.ajax({
+                    type:"post",
+                    url:"{:U('verification')}",
+                    data:{
+                    openid:'{$openid}',
+                        code:code,
+                        orderid:'{$orderid}'
+                    },
+                    success:function(data)
+                    {
+                         if(data.status==1)
+                         {
+							$("#mask").css("display","block")
+                            $("#mask-text").html("兑换成功")
+							$("#gopay").click(function(){
+								location.href="{:addons_url('UserInfo://Index/mygoods')}"
+							})
+                         }else
+                         {
+                             $("#mask").css("display","block")
+                            $("#mask-text").html("兑换失败");
+							$("#gopay").click(function(){
+								$("#mask").css("display","none")
+							})
+                         }
+                    },
+					error:function()
+					{
+					alert('网络有错误哦');
+					}
+                })
+            })
+        })
+    </script>
+	<style>
+	/*grey:#dcdddd；yellow:#fedd30;light-grey:#efefef;red:#e60012;light-red:#ea5514*/
+*{
+            margin:0;padding:0;
+}
+        body,html{
+            width:100%;
+			height:100%;
+            overflow-y:scroll;
+			box-sizing:border-box;
+			overflow-x:hidden;
+			background:url(http://ob26aihye.bkt.clouddn.com/bgGrey.jpg) repeat;
+			background-size:100% 100%;
+        }
+
+.ab{
+	position:absolute;
+}
+
+.in{
+	display:inline-block;
+}
+
+.yahei{
+	font-family:Microsoft YaHei, Helvetica, Verdana, Sans-Serif;
+}
+
+.gap{
+	width:100%;
+	height:1rem;
+	background:url(http://ob26aihye.bkt.clouddn.com/bg04.jpg) repeat;
+	background-size:contain
+}
+
+.submit-btn{
+	background: #fedd30;
+    height: 2rem;
+    width: 40%;
+    text-align: center;
+    line-height: 2rem;
+    position: absolute;
+    left: 30%;
+    bottom: 20%;
+	font-size:1rem;
+}
+
+	input{
+	/*Chrome和Firefox里面的边框是不一样的，所以复写了一下*/
+  border: solid 0px #000;
+
+  /*很关键：将默认的select选择框样式清除*/
+  appearance:none;
+  -moz-appearance:none;
+  -webkit-appearance:none;
+}
+	</style>
+</head>
+<body>
+<section style="width:96%;position:absolute;left:2%;background:#f5f5f7;height:50%;top:1rem">
+	<div style="width:100%;height:50%;position:absolute:top:0;background:url(http://ob26aihye.bkt.clouddn.com/hexiao.jpg);background-size:100% 100%">
+	<div style="width:70%;position:absolute;height:2.5rem;top:60%;left:15%;background:#fedd30;border-radius:0.5rem">
+		<div style="width:35%;height:2.5rem;line-height:2.5rem;text-align:center;font-size:1.2rem;">兑换码</div>
+		<div style="width:2px;background:black;height:1.2rem;position:absolute;left:35%;top:0.6rem"></div>
+		<input type="text" id="code" placeholder="输入兑换码" style="width:60%;position:absolute;right:0;line-height:2.5rem;font-size:1.2rem;top:0;background:transparent;border:0px solid #ffffff">
+	</div>
+	<div style="color:#c9caca;text-align:center;width:90%;position:absolute;left:5%;bottom:5%;font-size:0.8rem">注意：此操作需由
+	商家工作人员进行兑换，非工作人员请勿自行兑换，否则视为已兑换不再补兑</div>
+</section>
+<input type="button" id="sub" value="提 交" style="background: #fedd30;
+    height: 2rem;
+    width: 40%;
+    text-align: center;
+    line-height: 2rem;
+    position: absolute;
+    left: 30%;
+    bottom: 20%;
+	font-size:1rem;">
+<section id="mask" style="width:100%;height:100%;background:rgba(0,0,0,0.5);position:fixed;top:0;display:none">
+	<div style="    width: 80%;
+    height: 47%;
+    background: #fedd30;
+    position: absolute;
+    top: 15%;
+    left: 10%;
+    border-radius: 1rem;">
+		<p id="mask-text" style="text-align: center;
+    font-size: 2.4rem;
+    font-weight: bold;
+    position: absolute;
+    top: 33%;
+    width: 100%;">你确定兑换</p>
+	</div>
+	<div id="gopay" style="background: #fedd30;
+    height: 2rem;
+    width: 40%;
+    text-align: center;
+    line-height: 2rem;
+    position: absolute;
+    left: 30%;
+    bottom: 20%;
+	font-size:1rem;">确 定</div>
+</section>
+<footer class="menu">
+    <div style="position:absolute;top:0;width:100%;height:100%">
+        <!--<span class="menuItem"></span>
+        <span class="menuItem" id="mall"><a href="{:addons_url('Shop://Index/index')}" style="display:inline-block;width:100%;height:100%"></a></span>
+        <a href=""><span class="menuItem"></span></a>
+        </a>-->
+        <a class="menuItem" href="{:addons_url('UserInfo://Index/index')}">
+			
+			<div id="menu1" style="z-index:100"></div>
+		</a>
+        <a class="menuItem" href="{:addons_url('UserInfo://Index/howtogetscore')}">
+			<div id="menu2" style=""></div>
+		</a>
+        <a class="menuItem" href="{:addons_url('Shop://Index/index')}">
+			<span class="menu-after"></span>
+			<div  id="menu3" style=""></div>
+		</a>
+    </div>
+</footer>
+<style>
+.menu{
+	position: fixed;
+    bottom: 0;
+    background: black;
+    height: 3.5rem;
+    width: 100%;
+	z-index:50
+}
+.menuItem{
+		height:100%;
+		width:33.33%;
+		float:left;
+		display:inline-block;
+		position:relative
+		}
+
+#menu1{
+	background: url(http://ob26aihye.bkt.clouddn.com/menu2icon1.png);
+			position: absolute;
+			width: 27%;
+			left: 35%;
+			height: 2.7rem;
+			top: 0.6rem;
+			background-size: 100% 100%;
+}
+
+#menu2{
+	background: url(http://ob26aihye.bkt.clouddn.com/menuIcon2.png);
+    position: absolute;
+    width: 27%;
+    left: 35%;
+    height: 3.2rem;
+    top: 0.1rem;
+    background-size: 100% 100%;
+}
+
+#menu3{
+	background: url(http://ob26aihye.bkt.clouddn.com/menu3icon3.png);
+			position: absolute;
+			width: 28%;
+			left: 35%;
+    height: 2.7rem;
+    top: 0.6rem;
+			background-size: 100% 100%;
+			z-index:100
+}
+
+/*#menu3:before{
+	    content: "";
+    width: 0.6rem;
+    height: 0.6rem;
+    background: red;
+    border: 2px solid black;
+    border-radius: 0.4rem;
+    z-index: 200;
+    position: absolute;
+    right: 0rem;
+    top: -0.3rem;
+}*/
+
+.menu-after{
+    width: 3rem;
+    height: 1.5rem;
+    background: black;
+    border: 1px solid #898989;
+    border-top-left-radius: 1.5rem;
+    border-top-right-radius: 1.5rem;
+    border-bottom: 0px;
+    z-index: 50;
+    position: absolute;
+    right: 30%;
+    top: -0.6rem;
+}
+
+<section id="mask" style="width:100%;height:100%;background:rgba(0,0,0,0.5);position:fixed;top:0;display:none">
+	<div style="    width: 80%;
+    height: 47%;
+    background: #fedd30;
+    position: absolute;
+    top: 15%;
+    left: 10%;
+    border-radius: 1rem;">
+		<p style="text-align: center;
+    font-size: 2.4rem;
+    font-weight: bold;
+    position: absolute;
+    top: 33%;
+    width: 100%;">你确定兑换</p>
+		<p style="text-align: center;
+    font-size: 2rem;
+    position: absolute;
+    top: 45%;
+    width: 100%;">{$info.name}1个</p>
+	</div>
+	<div id="gopay" style="">确 定</div>
+	<div id="notgopay" style="">取 消</div>
+</section>
+</style>
+</body>
+</html>

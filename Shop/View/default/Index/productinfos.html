@@ -1,0 +1,294 @@
+<include file="Public/mobile_head"/>
+<include file="./Addons/Shop/View/default/Index/base.html" />
+<include file="./Addons/Shop/View/default/Index/footer.html" />
+<body style="position: absolute;width: 100%;">
+<!--<header style="background-color:#{$shop_config.color}">
+    <!--<section id="title"><a href="javascript:history.back()"><span class="topback"></span></a>商品详情<a class="go_index" href="{:addons_url('Shop://Index/index')}"></a></section>
+    <if condition="$orderinfo.isuse eq 0">
+    <a href="{:U('verification',array('orderid'=>$orderid))}">去核销</a>
+        <else/>
+        已核销
+        </if>
+</header>-->
+<section id="goods-detail" style="width:100%;height:100%;position:absolute;overflow:scroll;-webkit-overflow-scrolling:touch">
+    <div class="clear top">
+        <div style="width:100%;background:#fedd30;height:30%;position:absolute;background-image:url({$info.head_img|get_cover_url});
+		background-repeat:no-repeat;background-size:100% 100%;background-position:center center">
+            <div style="position:absolute;left:5%;bottom:5%;color:white;font-size:1.5rem">{$info.name}</div>
+        </div>
+        <div style="width:100%;position:absolute;background:#f5f5f7;top:30%;margin-bottom:40%;">
+            <div style="color:#8c8ca1;font-size:1.2rem;margin-left: 5%;margin-top: 2%;width: 50%;display:inline-block">{$info.true_price}
+                <if condition="$info.payType eq 1">元
+                    <else/>
+                    积分
+                </if>
+            </div>
+            <div style="    width: 5rem;
+				height: 1.2rem;
+				font-size: 0.8rem;
+				line-height: 1.2rem;
+				background: #ea5514;
+				color: white;
+				border-radius: 1rem;
+				text-align: center;
+				float:right;
+				margin-top: 3%;
+				margin-right: 4%;
+			   ">详情简介
+            </div>
+            <div style="clear:both"></div>
+            <!--<div style="position:relative;color:#777791;font-size:0.8rem;display: inline-block;float: right;margin-right: 5%;margin-top: 1%;"><span style="
+                 width: 14px;
+                height: 14px;
+                background: url(http://ob26aihye.bkt.clouddn.com/chanpin1.png);
+                background-size: 100% 100%;
+                display: inline-block;
+                /* margin-right: 1rem; */
+                margin-top: 0.8re;
+                position: absolute;
+                left: -1.5rem;
+                top: 0.2rem;
+                        "></span>已换 {$info.sellnum}
+            </div>-->
+            <div style="clear:both"></div>
+            <div style="width: 90%;margin-left: 5%;word-wrap: break-word;word-break: normal; ">{$info.content}</div>
+
+            <div style="position:relative;width:100%;height:2rem;background:white;line-height:2rem;margin-top:1rem;margin-bottom:1rem">
+			<span style="
+			 width: 14px;
+    height: 14px;
+    background: url(http://ob26aihye.bkt.clouddn.com/chanpin2.png);
+    background-size: 100% 100%;
+    display: inline-block;
+    left: 2rem;
+    top: 0.4rem;
+	position:absolute;
+			"></span><p style="display: inline-block;position: absolute;left: 15%;height: 1rem;">{$info.address}</p>
+            </div>
+            <div style="position:relative;width:100%;height:2rem;background:white;line-height:2rem;margin-top:1rem;margin-bottom:1rem"><span style="
+					 width: 14px;
+			height: 14px;
+			background: url(http://ob26aihye.bkt.clouddn.com/chanpin3.png);
+			background-size: 100% 100%;
+			display: inline-block;
+			left: 2rem;
+			top: 0.4rem;
+			position:absolute;
+					"></span><p style="display: inline-block;position: absolute;left: 15%;height: 1rem;">{$info.telphone}</p>
+            </div>
+            <if condition="$orderinfo.code neq ''">
+                <div style="position:relative;width:100%;height:2rem;background:white;line-height:2rem;margin-top:1rem;margin-bottom:1rem"><p style="display: inline-block;position: absolute;left: 6%;height: 1rem;">格瓦拉兑换码：{$orderinfo.code}</p>
+                </div>
+            </if>
+            <div style="background: url(http://ob26aihye.bkt.clouddn.com/bgwhite2.jpg);background-size:contain;padding-top:2rem;">
+                <!--<if condition="$info.payType eq 1">立即购买
+                        <else/>
+                        立即兑换
+                        </if>--></a>
+                <if condition="$orderinfo.isuse eq 0 && $orderinfo.endtime gt $localtime">
+                    <div style="
+				background:#fedd30;				
+				height: 2rem;
+				width: 40%;
+				text-align: center;
+				line-height: 2rem;
+				margin-left: 30%;">
+                        <a href="#" id="gopay2">立即换领</a></div>
+                    <elseif condition="$orderinfo.endtime lt $localtime"/>
+                    <div style="
+				color:white;
+				background:grey;				
+				height: 2rem;
+				width: 40%;
+				text-align: center;
+				line-height: 2rem;
+				margin-left: 30%;">
+                        <a href="#" style="color:white">已过期</a>
+                    </div>
+                    <else/>
+                    <div style="
+				background:#fedd30;				
+				height: 2rem;
+				width: 40%;
+				text-align: center;
+				line-height: 2rem;
+				margin-left: 30%;">
+                        <a href="#">已换领</a>
+                    </div>
+                </if>
+                <if condition="$orderinfo.code neq ''">
+                    <div id="duihuanma" style="
+				background:#fedd30;				
+				height: 4rem;
+				width: 40%;
+				text-align: center;
+				line-height: 2rem;
+				margin-left: 30%;margin-bottom:2rem">兑换码:</br>
+                        <if condition="$orderinfo.code|get_cover_url neq ''">
+                            <img src="{$orderinfo.code|get_cover_url}">
+							请点击放大
+                        <else/>{$orderinfo.code}
+                        </if></div>
+                </if>
+            </div>
+
+            <div style="background: url(http://ob26aihye.bkt.clouddn.com/bgwhite2.jpg);background-size:contain;padding-top:2rem;width:100%;height:6rem">
+
+            </div>
+        </div>
+    </div>
+</section>
+<!--<section class="bottom_panel" style="display:none">
+    <a href="{:addons_url('Shop://Index/cart')}" class="cart_bottom"><span class="pa shopcart_count"  style="<eq name='shopcart_count' value='0'>display:none</eq>">{$shopcart_count}</span></a>
+    <div class="btn_bottom fr" style="background-color:#dc214c">立即购买</div>
+    <div class="btn_bottom fr" style="background-color:#ff4622"><a href="#" id="addCart" class="add2car">加入购物车</a></div>
+</section>-->
+
+<section id="mask" style="width:100%;height:100%;background:rgba(0,0,0,0.5);position:fixed;top:0;display:none">
+    <div style="    width: 80%;
+    height: 47%;
+    background: #fedd30;
+    position: absolute;
+    top: 15%;
+    left: 10%;
+    border-radius: 1rem;">
+        <p style="text-align: center;
+    font-size: 2.4rem;
+    font-weight: bold;
+    position: absolute;
+    top: 33%;
+    width: 100%;"><if condition="$info.payType eq 1">你确定购买
+            <else/>
+            你确定兑换
+        </if></a>
+            <if condition="$orderinfo.isuse eq 0"></p>
+        <p style="text-align: center;
+    font-size: 2rem;
+    position: absolute;
+    top: 45%;
+    width: 100%;">{$info.name}1个</p>
+    </div>
+    <div id="gopay" style="">确 定</div>
+    <div id="notgopay" style="">取 消</div>
+</section>
+<!--<div class="duihuanma">
+	<img src="http://addon.rtda.cn/weiphp/Uploads/Picture/2016-09-21/57e230b5d7ac8.jpg" width="200%">
+</div>-->
+<style>
+    #gopay{
+        width: 31%;
+        height: 2.4rem;
+        position: absolute;
+        top: 66%;
+        left: 10%;
+        background: #fedd30;
+        text-align: center;
+        line-height: 2.4rem;
+        font-size: 1.2rem;
+
+    }
+
+    #notgopay{
+        width: 31%;
+        height: 2.4rem;
+        position: absolute;
+        top: 66%;
+        right: 10%;
+        background: #fedd30;
+        text-align: center;
+        line-height: 2.4rem;
+        font-size: 1.2rem;
+
+    }
+
+	.duihuanma{
+		width:100%;
+		height:100%;
+		position:absolute;
+		top:0;
+		left:0;
+		background:rgba(0,0,0,0.4);
+		overflow:scroll;
+		-webkit-overflow-scrolling:touch
+	}
+	
+	.w100p, img {
+		width: 300%; 
+	}
+	
+	img {
+    border: none;
+     max-width: 300%; 
+	}
+</style>
+<!--底部 版权信息-->
+<include file="./Addons/Shop/View/default/Index/footerbq.html" />
+<!--END 底部导航-->
+</body>
+<script src="{:ADDON_PUBLIC_PATH}/js/jquery.js"></script>
+<!--<script src="{:ADDON_PUBLIC_PATH}/js/swiper.js"></script>-->
+<script src="{:ADDON_PUBLIC_PATH}/js/comm.js"></script>
+<script src="{:ADDON_PUBLIC_PATH}/js/shopcar.js"></script>
+<script>
+    /*var img=new Swiper('.image');
+     var hot=new Swiper('.hot-bd .m10',{
+     slidesPerView:3
+     });*/
+    $('#gopay2').click(function(){
+        $("#mask").css("display","block");
+        $('#gopay').click(function(){
+            var num = $('#pronum').html();
+            var paurl="{:U('verification',array('orderid'=>$orderid))}";
+            //var paurl = "{:addons_url('Shop://Index/sureorder')}&id={$info.id}-"+1;
+            window.location.href=paurl;
+        });
+        $("#notgopay").click(function(){
+            $("#mask").css("display","none")
+        })
+    })
+
+    $('#addCart').click(function(){
+        var num = $('#pronum').html();
+
+        $.ajax({
+            url:"{:addons_url('Shop://Cart/inCart')}&id={$info.id}-"+1,
+            type:"get",
+            dataType:"json",
+            success:function(re){
+                if(re){
+                    cartNum(re);
+                    alert('已添加进购物车');
+                }else{
+                    alert('添加失败');
+                }
+            },
+            error:function(){
+                alert('添加失败');
+            }
+        });
+    });
+
+    $('.tab-title ul li').click(function(){
+        var tb= $(this).attr('tb');
+        $('.tab-title ul li a').removeClass('current');
+        $(this).find('a').addClass('current');
+
+        $('.tab-bd').hide();
+        $('#'+tb).show();
+        return false;
+    })
+
+	var imgurl="{$orderinfo.code|get_cover_url}";
+	if(imgurl){
+		$("#duihuanma img").click(function(){
+			var src=$(this).attr('src')
+			$("body").append("<div class='duihuanma'></div>")
+			$(".duihuanma").append("<img src="+src+">")
+			$(".duihuanma").click(function(){
+				$(this).remove()
+			})
+		})
+	}
+</script>
+<include file="Public/mobile_footer"/>
+</html>
