@@ -1,0 +1,86 @@
+html,body,div,p,h1,h2,h3,h4,h5,h6,blockquote,ul,ol,li,table,th,td,span,img,dl,dd,dt,input,textarea,button{border:medium none;padding:0;margin:0;}
+ul li{
+list-style-type:none;
+}
+		
+body{background:#000; overflow-x:hidden; height:100%; overflow:hidden;}
+
+.load_main{width:640px; height:1011px; background:#333; position:absolute; left:50%; top:0; z-index:99; margin-left:-320px; overflow:hidden;}
+.load_cont{width:124px; height:124px; position:absolute; left:50%; margin-left:-62px; top:400px;}
+.loading{width:50px; height:50px; position:absolute; left:50%; top:0; margin-left:-25px;}
+.loadingBar{width:50px; height:50px;}
+.progress{position:absolute; left:50%; top:50px; margin-left:-25px; font-size:1.5em; z-index:888; color:#000; width:50px; height:30px; text-align:center; display:none;}
+
+a,img,button,textarea,canvas{ -webkit-tap-highlight-color: transparent; -webkit-touch-callout: none; -webkit-user-select: none; }
+
+
+.wrapper{width:640px; height:1011px; position:absolute; left:50%; top:0; z-index:10; margin-left:-320px; overflow:hidden;}
+.wrapper .gameMain{width:640px; height:auto; position:absolute; left:0; top:0; z-index:10; background:url('http://addon.gzbaishitong.com/weiphp/Uploads/Download/furious/images/road.jpg'); background-repeat:repeat; background-size:640px auto;}
+.wrapper .left_btn{position:absolute; left:0; bottom:0; z-index:15; opacity:0.5; width:320px; height:200px;}
+.wrapper .left_btn img{position:absolute; right:130px; bottom:30px;}
+.wrapper .right_btn{position:absolute; right:0; bottom:0; z-index:16; opacity:0.5;width:320px; height:200px;}
+.wrapper .right_btn img{position:absolute; left:130px; bottom:30px;}
+
+.wrapper .logo{position:absolute; left:160px; top:50px; z-index:20;}
+.wrapper .intro{position:absolute; width:100%; left:0; top:0; z-index:21;}
+.wrapper .intro .t1{position:absolute; left:10px; top:0; z-index:21;}
+.wrapper .intro .t2{position:absolute; left:70px; top:150px; z-index:21;}
+.wrapper .intro .t3{position:absolute; left:140px; top:320px; z-index:21;}
+.wrapper .intro .start_btn{position:absolute; left:160px; top:320px; z-index:22; width:130px; height:130px; background:#000; opacity:0;}
+
+.countDown{width:640px; height:1000px; position:absolute; left:50%; top:0; background:#FFF; z-index:50; margin-left:-320px; background:rgba(0,0,0,0.7); display:none;}
+.countDown .cont{width:190px; height:190px; position:absolute; left:50%; top:50%; margin-left:-95px; margin-top:-95px;}
+.countDown .cont .time{width:190px; height:190px; position:absolute; z-index:5; left:0; top:0;}
+.countDown .cont .bg{ -webkit-animation:rotates 1s infinite linear;}
+
+.wrapper .score{width:190px; height:190px; position:absolute; z-index:30; left:30px; top:50px; display:none;}
+.wrapper .score .label1{width:190px; height:30px; position:absolute; left:0; top:50px; text-align:center; z-index:5; font-size:1.5em; color:#FFF;}
+.wrapper .score .label2{width:190px; height:30px; position:absolute; left:0; top:95px; text-align:center; z-index:5; font-size:2em; color:#FFF;}
+
+.wrapper .yibiao{position:absolute; right:40px; top:40px; z-index:30; display:none;}
+.wrapper .yibiao .line{position:absolute; left:2px; top:100px; z-index:30;}
+
+.result{width:640px; height:1011px; position:absolute; left:50%; top:0; z-index:50; margin-left:-320px; overflow:hidden; background:rgba(0,0,0,0.85); display:none;}
+.result .logo{position:absolute; left:160px; top:50px; z-index:20;}
+.result .txt1{position:absolute; left:240px; top:60px;}
+.result .txt2{position:absolute; left:290px; top:300px; z-index:19;}
+.result .sc{position:absolute; left:0; top:100px; width:640px; height:50px; font-size:9em; color:#dcac48; text-align:center; font-family:Verdana, Geneva, sans-serif}
+.result .pm{position:absolute; left:0; top:340px; width:640px; height:50px; font-size:2.2em; color:#dcac48; text-align:center; font-family:Verdana, Geneva, sans-serif; z-index:20;}
+.result .icon{position:absolute; left:125px; top:60px; width:640px; height:auto; opacity:0.6;}
+.result .icon img{position:absolute; right:130px;}
+.result .again_btn{position:absolute; left:140px; top:670px; opacity:0.6;}
+.result .share_btn{position:absolute; left:140px; top:780px; opacity:0.6;}
+/*-------------*/
+.result .pop_layer{background-color:#ffca40; border:3px solid #f90; border-radius:25px; text-align:center; line-height:50px; font-size:1.5em; font-weight:bold; z-index:99; width:400px; height:450px; left:50%; top:40%; margin-left:-200px; margin-top:-140px; padding-top:20px; position:absolute; display:none}
+.result .pop_layer input{width:300px; height:50px; z-index:99; font-size:1em}
+.result .pop_layer a{background-color: #ff6200; border-bottom: 3px solid #a63f00; border-radius:5px; display:inline-block; width:100px; margin-top:45px; padding:10px 20px;}
+.result .bg{background-color: #000; width: 100%; height: 100%; left:0; top:0; opacity:0.7; z-index:98; position:absolute; display:none;}
+#rankDiv{z-index:110; height:600px; margin-top:-150px; /*overflow:scroll;*/}
+#rankInnerDiv{width:400px; height:600px; /*height:1200px;*/}
+#close{z-index:120; width:60px; height:60px; position:absolute; top:50%; left:50%; margin-top:-330px; margin-left:170px; background:url('http://addon.gzbaishitong.com/weiphp/Uploads/Download/furious/images/close.png') top left no-repeat; display:block;}
+#rankDiv li{list-style:none; display:block; width:400px; height:110px; border-bottom:2px dashed #a65c00; padding:10px 0 0 0;}
+#rankDiv li:nth-child(1){margin-top:0;}
+#rankDiv li:nth-last-child(1){border-bottom:none;}
+#rankDiv li span{display:inline-block; float:left; white-space:nowrap; text-overflow:ellipsis; overflow:hidden;}
+#rankDiv li .fir_list {width:120px; clear:both;}
+#rankDiv li .sec_list {width:180px;}
+#rankDiv li .thd_list {width:100px;}
+#rankDiv li span img{width:50px;display:block;}
+#rankDiv li span p{text-align:left;}
+/*-------------*/
+.effects{-webkit-animation:effect 1s infinite linear;}
+
+.share_cont{width:640px; height:1011px; position:absolute; left:50%; top:0; z-index:51; margin-left:-320px; overflow:hidden; background:rgba(0,0,0,0.85); display:none; color:#FFF; font-size:2em; text-align:center; padding-top:100px; font-family:Verdana, Geneva, sans-serif;}
+
+@-webkit-keyframes rotates{
+  0%{-webkit-transform:rotate(0deg);}
+  50%{-webkit-transform:rotate(180deg);}
+  100%{-webkit-transform:rotate(360deg);}
+}
+
+@-webkit-keyframes effect{
+  0%{-webkit-transform:scale(1);}
+  50%{-webkit-transform:scale(1.1);}
+  100%{-webkit-transform:scale(1);}
+}
+

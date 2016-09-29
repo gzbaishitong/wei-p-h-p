@@ -1,0 +1,542 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>奔跑吧</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+    <style>
+        *{margin:0;padding:0;}
+        html,body{width:100%;height:100%;font-size: 0;overflow:hidden}
+        #cas{width:100%;height:100%;}
+        #begin{
+            width: 60%;
+            height: 7%;
+            background: url('http://addon.gzbaishitong.com/weiphp/Uploads/Download/Run/img/btn-begin.png');
+            background-size: 100% 100%;
+            position: fixed;
+            z-index: 20;
+            bottom: 7%;
+            left: 20%;
+            display:none;
+            -webkit-animation:begin 2s infinite ease-in-out;
+        }
+        @-webkit-keyframes begin{
+            0%{
+                -webkit-transform:scale(1)
+            }
+            50%{
+                -webkit-transform:scale(1.2)
+            }
+            100%{
+                -webkit-transform:scaleX(1)
+            }
+        }
+        #fail{width:100%;height:100%;background:url('http://addon.gzbaishitong.com/weiphp/Uploads/Download/Run/img/fail.png') top left;background-size:100% 100%;position:fixed;z-index:20;top:0;display:none}
+    </style>
+</head>
+<body onload = "init()">
+<canvas id="cas"></canvas>
+<div id="begin"></div>
+<div id="fail"></div>
+<script src="https://code.createjs.com/createjs-2015.05.21.min.js"></script>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script type="text/javascript">
+    wx.config({
+        debug: false,
+        appId: '{$signPackage["appId"]}',
+        timestamp: '{$signPackage["timestamp"]}',
+        nonceStr: '{$signPackage["nonceStr"]}',
+        signature: '{$signPackage["signature"]}',
+        jsApiList: [
+            'onMenuShareTimeline','onMenuShareAppMessage'
+        ]
+    });
+
+    wx.ready(function () {
+        //分享给朋友圈
+        wx.onMenuShareTimeline({
+            title: '百事通奔跑吧', // 分享标题
+            link: "http://addon.gzbaishitong.com/weiphp/index.php?s=/addon/HFive/Run/index.html",// 分享链接
+            imgUrl: 'http://o9z6un8mv.bkt.clouddn.com/share1.jpg', // 分享图标
+            success: function () {
+//                    $.ajax({
+//                        type: "post",
+//                        url: "{:U('sharenews')}",
+//                        data: {
+//                            newsid:'{$NewsList.id}',
+//                            openid:'{$openid}',
+//                            method:'sf'
+//                        },
+//                        success: function (data) {
+//
+//                        }
+//                    })
+            },
+            cancel: function () {
+
+                // 用户取消分享后执行的回调函数
+            }
+        });
+        //分享给朋友
+        wx.onMenuShareAppMessage({
+            title: '百事通奔跑吧', // 分享标题
+            desc: '百事通奔跑吧', // 分享描述
+            link: "http://addon.gzbaishitong.com/weiphp/index.php?s=/addon/HFive/Run/index.html",// 分享链接
+            imgUrl: 'http://o9z6un8mv.bkt.clouddn.com/share1.jpg', // 分享图标
+            type: '', // 分享类型,music、video或link，不填默认为link
+            dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+            success: function () {
+//                    $.ajax({
+//                        type: "post",
+//                        url: "{:U('sharenews')}",
+//                        data: {
+//                            newsid:'{$NewsList.id}',
+//                            openid:'{$openid}',
+//                            method:'sd'
+//                        },
+//                        success: function (data) {
+//
+//                        }
+//                    })
+                // 用户确认分享后执行的回调函数
+            },
+            cancel: function () {
+                // 用户取消分享后执行的回调函数
+            }
+        });
+    })
+    //--------------------------------------------------------------
+    var canvas,stage,loadContainer,C_H,C_W,gameContainer;
+    var c = createjs;
+    var gameBgs = [];
+    var scaleX,scaleY;
+    var brick,brickHeight,brickWidth;
+    var gap,newBrick;
+    var newBricks = [];
+    var turn = false;
+    var ss,s;
+    var barX,barHeight,bar;
+    var stick,stickHeight;
+    var score = 0;
+    var currentBg;
+    var loadingPercent = 0;
+    var loadingTurn = true;
+    var totalScore;
+    var able = false;
+    var btnSoundClose;
+    ss = new c.SpriteSheet({
+        "images":["http://addon.gzbaishitong.com/weiphp/Uploads/Download/Run/img/sprite.png"],
+        "frames":{
+            "height":471,
+            "width":306,
+            "count":11
+        },
+        "animations":{
+            "stand":[0],
+            "run":[0,9]
+        }
+    });
+
+    function init(){
+        c.Touch.enable(stage);
+        canvas = document.getElementById('cas');
+        canvas.height = document.body.clientHeight;
+        C_H = canvas.height;
+        C_W = canvas.width;
+        stage = new c.Stage('cas');
+        var manifest = [
+            {src:"http://addon.gzbaishitong.com/weiphp/Uploads/Download/Run/img/bg.jpg",id:"bg"},
+            {src:"http://addon.gzbaishitong.com/weiphp/Uploads/Download/Run/img/btn-begin.png",id:"btnBegin"},
+            {src:"http://addon.gzbaishitong.com/weiphp/Uploads/Download/Run/img/btn-rule.png",id:"btnRule"},
+            {src:"http://addon.gzbaishitong.com/weiphp/Uploads/Download/Run/img/btn-soundOpen.png",id:"btnSoundOpen"},
+            {src:"http://addon.gzbaishitong.com/weiphp/Uploads/Download/Run/img/gamebg1.jpg",id:"gamebg1"},
+            {src:"http://addon.gzbaishitong.com/weiphp/Uploads/Download/Run/img/gamebg2.jpg",id:"gamebg2"},
+            {src:"http://addon.gzbaishitong.com/weiphp/Uploads/Download/Run/img/gamebg3.jpg",id:"gamebg3"},
+            {src:"http://addon.gzbaishitong.com/weiphp/Uploads/Download/Run/img/gamebg4.jpg",id:"gamebg4"},
+            {src:"http://addon.gzbaishitong.com/weiphp/Uploads/Download/Run/img/btn-soundClose.png",id:"btnSoundClose"},
+            {src:"http://addon.gzbaishitong.com/weiphp/Uploads/Download/Run/img/bg-icon.png",id:"bgIcon"},
+            {src:"http://addon.gzbaishitong.com/weiphp/Uploads/Download/Run/img/sprite.png",id:"sprite"},
+            {src:"http://addon.gzbaishitong.com/weiphp/Uploads/Download/Run/img/fail.png",id:"fail"},
+            {src:"http://addon.gzbaishitong.com/weiphp/Uploads/Download/Run/game.mp3",id:"audio"}
+        ];
+
+        loader = new c.LoadQueue(false,null,true);
+        loader.installPlugin(createjs.Sound);
+        loader.addEventListener('complete', handleComplete);
+        loader.on("progress", handleFileProgress);
+        loader.loadManifest(manifest);
+
+        drawLoading();
+        startGame();
+    }
+
+    function drawLoading(){
+        loadContainer = new c.Container();
+        loadingBg = new c.Shape();
+        loadingBg.graphics.beginFill('black')
+        loadingBg.graphics.drawRect(0,0,C_W,C_H);
+        loadContainer.addChild(loadingBg);
+        loadingImg = new c.Sprite(ss,'run');
+        loadingImg.scaleX = 0.2;
+        loadingImg.scaleY = 0.2;
+        loadingImg.x = C_W*0.38;
+        loadingImg.y = C_H*0.40;
+        loadContainer.addChild(loadingImg);
+        loadingCount = new c.Text(loadingPercent + "%",'20px Arail','white');
+        loadingCount.x = C_W*0.42;
+        loadingCount.y = C_H*0.54;
+        loadContainer.addChild(loadingCount)
+        stage.addChild(loadContainer);
+    }
+
+    function loadingPercentUpdate(){
+        loadContainer.removeChild(loadingCount);
+        loadingCount = new c.Text(loadingPercent + "%",'20px Arail','white');
+        loadingCount.x = C_W*0.42;
+        loadingCount.y = C_H*0.54;
+        loadContainer.addChild(loadingCount)
+    }
+
+    function startGame(){
+        //c.Ticker.setFPS(45);
+        createjs.Ticker.timingMode = createjs.Ticker.RAF
+        c.Ticker.addEventListener('tick', function(e){
+            if(!e.pause && loadingTurn){
+                //runGame();
+                loadingPercentUpdate();
+                stage.update();
+            }else if(!loadingTurn){
+                runGame();
+                stage.update();
+            }
+        })
+    }
+
+    function handleFileProgress(){
+        loadingPercent = loader.progress*100|0;
+    }
+
+    function handleComplete(){
+        loadingTurn = false;
+        setTimeout(function(){
+            stage.removeChild(loadContainer);
+            drawPanel();
+            //createjs.Sound.play("audio")
+            var instance = createjs.Sound.play("audio");  // play using id.  Could also use full sourcepath or event.src.
+            instance.volume = 0.5;
+        }, 0)
+
+        gameBgs = [loader.getResult('gamebg1'),loader.getResult('gamebg2'),loader.getResult('gamebg3'),loader.getResult('gamebg4')]
+
+    }
+
+    function drawPanel(){
+        var bg = loader.getResult('bg');
+        var bitmapBg = new c.Bitmap(bg);
+        scaleX = C_W/bitmapBg.image.width;
+        scaleY = C_H/bitmapBg.image.height;
+        bitmapBg.scaleX = scaleX*1.2
+        bitmapBg.scaleY = scaleY*1.2
+        bitmapBg.alpha = 0;
+        //var btnBegin = new c.Bitmap(loader.getResult('btnBegin'));
+        //btnBegin.regX = btnBegin.image.width/2;btnBegin.regY = 0;
+        //btnBegin.x = canvas.width/2;btnBegin.y = canvas.height;
+        //btnBegin.scaleX = scaleX
+        //btnBegin.scaleY = scaleY
+        //btnBegin.alpha = 0;
+        var btnRule = new c.Bitmap(loader.getResult('btnRule'));
+        btnRule.scaleX = scaleX
+        btnRule.scaleY = scaleY
+        btnRule.y = C_H*0.05;
+        btnRule.regX = btnRule.image.width;btnRule.x = 0;
+        btnRule.alpha = 0;
+        var btnSoundOpen = new c.Bitmap(loader.getResult('btnSoundOpen'));
+        btnSoundOpen.scaleX = scaleX
+        btnSoundOpen.scaleY = scaleY
+        btnSoundOpen.y = C_H*0.05;
+        btnSoundOpen.x = C_W;
+        btnSoundOpen.alpha = 0;
+        var btnSoundClose = new c.Bitmap(loader.getResult('btnSoundClose'));
+        btnSoundClose.scaleX = scaleX
+        btnSoundClose.scaleY = scaleY
+        btnSoundClose.y = C_H*0.06;
+        btnSoundClose.x = C_W*0.835;
+        btnSoundClose.alpha = 1;
+        var bgIcon = new c.Bitmap(loader.getResult('bgIcon'))
+        bgIcon.scaleX = scaleX;
+        bgIcon.scaleY = scaleY;
+        bgIcon.x = -50;
+        bgIcon.y = C_H*0.42;
+        bgIcon.alpha = 0
+        panel = new c.Container();
+        panel.addChild(bitmapBg);
+        //panel.addChild(btnBegin);
+        panel.addChild(btnRule);
+        panel.addChild(btnSoundOpen);
+        panel.addChild(bgIcon)
+        stage.addChild(panel);
+        c.Tween.get(bitmapBg).to({scaleX:bitmapBg.scaleX/1.2,scaleY:bitmapBg.scaleY/1.2,alpha:1},1200)
+        //c.Tween.get(btnBegin).to({y:C_H*0.86,alpha:1},800).call(function(){
+        //c.Tween.get(this,{loop:true}).to({scaleX:scaleX*1.1,scaleY:scaleY*1.1},800,c.Ease.getPowInOut(4)).to({scaleX:scaleX,scaleY:scaleY},800,c.Ease.getPowInOut(2))
+        //})
+        c.Tween.get(btnRule).to({x:C_W*0.17,alpha:1},800)
+        c.Tween.get(btnSoundOpen).to({x:C_W*0.78,alpha:1},800)
+        c.Tween.get(bgIcon).to({x:C_W*0.31,alpha:1},800)
+
+        btnSoundOpen.on('click',function(){
+            createjs.Sound.stop();
+            panel.removeChild(btnSoundOpen);
+            panel.addChild(btnSoundClose)
+        })
+
+        btnSoundClose.on('click',function(){
+            createjs.Sound.play("audio")
+            panel.removeChild(btnSoundClose);
+            panel.addChild(btnSoundOpen)
+        })
+
+
+        btnBegin = document.getElementById('begin');
+        btnBegin.style.display = "block";
+        btnBegin.addEventListener('click', function(e){
+            btnBegin.style.display = "none"
+            e.preventDefault()
+            c.Tween.get(panel).to({alpha:0},800).call(function(){
+                stage.removeChild(panel);
+                newGame()
+            })
+        })
+    }
+
+    function newGame(){
+        gameContainer = new c.Container();
+        gameContainer.alpha = 0;
+        currentBg = new c.Bitmap(gameBgs[Math.floor(Math.random()*4)]);
+        currentBg.scaleX = scaleX;
+        currentBg.scaleY = scaleY
+        currentBg.x = 0;
+        currentBg.y = 0;
+        gameContainer.addChild(currentBg);
+        stage.addChild(gameContainer);
+        c.Tween.get(gameContainer).to({alpha:1},500)
+        c.Tween.get(currentBg,{loop:true}).to({scaleX:scaleX*1.1,scaleY:scaleY*1.1,x:-10,y:-10,alpha:0.95},2000,c.Ease.getPowIn(2)).to({scaleX:scaleX,scaleY:scaleY,x:0,y:0,alpha:1},2000,c.Ease.getPowIn(2));
+        setControl();
+        startBrick();
+        createBar();
+        xiaoren();
+        total();
+        newLevel();
+    }
+
+    function setControl(){
+        able = true;
+        if(able){
+            window.addEventListener('touchstart', stick)
+            window.addEventListener('touchend',stick)
+        }
+    }
+
+    function total(){
+        totalScore = new c.Text('闯关数:'+score,'20px Arial','white');
+        totalScore.x = C_W*0.35;
+        totalScore.y = C_H*0.02;
+        gameContainer.addChild(totalScore)
+    }
+
+
+    function stick(e){
+        e.preventDefault()
+        turn = !turn
+        if(!turn){
+            stickHeight = barHeight;
+            barHeight = 0;
+            stick = new c.Shape();
+            stick.graphics.beginFill('#00ff90');
+            stick.regX = 1;
+            stick.regY = stickHeight;
+            stick.x = barX;
+            stick.y = C_H-brickHeight;
+            stick.height = stickHeight;
+            stick.width = 1;
+            stick.graphics.drawRect(0,0,1,stickHeight);
+            stage.addChild(stick);
+            c.Tween.get(stick).to({rotation:90},200).call(check(),500)
+        }
+    }
+
+    function startBrick(){
+        brickWidth = C_W*0.2*Math.random()
+        if(brickWidth < 30){
+            brickWidth = 30
+        };
+        brickHeight = C_H*0.3;
+        brick = new createjs.Shape();
+        brick.graphics.beginFill('white');
+        brick.height = brickHeight;
+        brick.width = brickWidth;
+        brick.regX = 0;
+        brick.regY = brickHeight;
+        brick.x = 0;
+        brick.y = C_H;
+        brick.graphics.drawRect(0,0,brick.width,brick.height);
+        gameContainer.addChild(brick)
+    }
+
+    function newLevel(){
+        gap = canvas.width*0.6*Math.random();
+        if(gap<=40){
+            gap = 40
+        }
+        newBrickWidth = canvas.width*0.2*Math.random();
+        if(newBrickWidth < 30){
+            newBrickWidth = 30
+        }
+        newBrick = new c.Shape();
+        newBrick.graphics.beginFill('white');
+        newBrick.height = brickHeight;
+        newBrick.width = newBrickWidth;
+        newBrick.regX = 0;
+        newBrick.regY = brickHeight;
+        newBrick.x = brickWidth+gap;
+        newBrick.y = C_H+brickHeight;
+        newBrick.graphics.drawRect(0,0,newBrickWidth,brickHeight);
+        newBricks.push(newBrick);
+        gameContainer.addChild(newBrick)
+        setTimeout(function(){
+            c.Tween.get(newBrick).to({y:C_H},500)
+        }, 1000)
+    }
+
+    function xiaoren(){
+        s = new c.Sprite(ss,'stand');
+        s.scaleX = 0.2;
+        s.scaleY = 0.2;
+        s.regX = 210;
+        s.regY = 421;
+        s.x = 0;
+        s.y = C_H - brickHeight;
+        gameContainer.addChild(s);
+        setTimeout(function(){
+            s.gotoAndPlay('run')
+            c.Tween.get(s).to({x:brickWidth-2},500).call(function(){
+                s.gotoAndStop('run')
+            })
+        }, 1000)
+        // s.gotoAndPlay('run');
+    }
+
+    function createBar(){
+        barX = brick.width
+        barHeight = 0;
+        bar = new c.Shape();
+        bar.graphics.beginFill('green');
+        bar.regX = 1;
+        bar.regY = barHeight;
+        bar.x = barX;
+        bar.y = canvas.height-100;
+        bar.height = barHeight;
+        bar.width = 1;
+        bar.graphics.drawRect(0,0,1,barHeight);
+        stage.addChild(bar)
+    }
+
+    function runGame(){
+        updateBar();
+        render();
+    }
+
+    function updateBar(){
+        if(turn){
+            barHeight += 2.5
+        }
+    }
+
+    function render(){
+        stage.removeChild(bar);
+        bar = new c.Shape();
+        bar.graphics.beginFill('#00ff90');
+        bar.regX = 1;
+        bar.regY = barHeight;
+        bar.x = barX;
+        bar.y = C_H - brickHeight;
+        bar.height = barHeight;
+        bar.width = 1;
+        bar.graphics.drawRect(0,0,1,barHeight);
+        stage.addChild(bar)
+    }
+
+    function check(){
+        s.regX = 142
+        s.gotoAndPlay('run')
+        if(newBricks.length == 1){
+            c.Tween.get(s).to({x:brick.width+stickHeight},stickHeight/0.1).call(function(){
+                s.gotoAndPlay('stand')
+                checkDistance();
+            })
+        }else{
+            c.Tween.get(s).to({x:newBricks[newBricks.length-2].width+stickHeight},stickHeight/0.1).call(function(){
+                s.gotoAndPlay('stand')
+                checkDistance();
+            })
+        }
+    }
+
+    function checkDistance(){
+        if(stickHeight>=gap && stickHeight <= gap+newBrick.width){
+            nextLevel();
+        }else{
+            fail();
+        }
+    }
+
+    function nextLevel(){
+        score ++;
+        c.Tween.get(brick).to({x:-canvas.width},500).call(function(){
+            stage.removeChild(brick)
+        })
+        //c.Tween.get(newBricks[newBricks.length-2]).to({x:newBricks[newBricks.length-2].width},500);
+        c.Tween.get(stick).to({x:-stick.height},500)
+        c.Tween.get(s).to({x:newBricks[newBricks.length-1].width-20},500).call(function(){
+            c.Tween.get(currentBg).to({alpha:0},1000).call(function(){
+                gameContainer.removeChild(currentBg)
+                currentBg = new c.Bitmap(gameBgs[Math.floor(Math.random()*4)]);
+                currentBg.scaleX = scaleX;
+                currentBg.scaleY = scaleY;
+                currentBg.x = 0;
+                currentBg.y = 0;
+                gameContainer.addChildAt(currentBg,0);
+                c.Tween.get(currentBg,{loop:true}).to({scaleX:scaleX*1.1,scaleY:scaleY*1.1,x:-10,y:-10,alpha:1},2000,c.Ease.getPowIn(2)).to({scaleX:scaleX,scaleY:scaleY,x:0,y:0,alpha:0.95},2000,c.Ease.getPowIn(2));
+            })
+            gameContainer.removeChild(totalScore);
+            totalScore = new c.Text('闯关数:'+score,'20px Arial','white');
+            totalScore.x = C_W*0.35;
+            totalScore.y = C_H*0.02;
+            gameContainer.addChild(totalScore)
+        })
+        c.Tween.get(newBricks[newBricks.length-1]).to({x:0},500).call(function(){
+            if(newBricks.length-2>=0){
+                c.Tween.get(newBricks[newBricks.length-2]).to({x:-100},500).call(function(){})
+                stage.removeChild(newBricks[newBricks.length-2])
+            }
+            barX = newBrick.width;
+            brickWidth = newBrick.width
+            //stage.removeChild(newBrick);
+            newLevel()
+        })
+    }
+
+    function fail(){
+        //wxshare(score);
+        c.Tween.get(s).to({x:C_W+30,y:C_H+30},300).call(function(){
+            failContainer = document.getElementById('fail')
+            failContainer.style.display = 'block';
+            failContainer.addEventListener('touchstart',function(){
+                window.location.reload();
+            })
+        })
+    }
+
+</script>
+</body>
+</html>

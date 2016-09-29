@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="-1">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta charset="utf-8">
+    <title>拍史努比，赢史努比公仔！</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=0">
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-touch-fullscreen" content="yes">
+    <meta name="full-screen" content="yes">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="x5-fullscreen" content="true">
+    <meta name="360-fullscreen" content="true">
+    <link rel="stylesheet" href="{:ADDON_PUBLIC_PATH}/snpy/css/one.css">
+
+    <script src="{:ADDON_PUBLIC_PATH}/snpy/js/jquery-2.0.0.min.js"></script>
+    <script src="{:ADDON_PUBLIC_PATH}/snpy/js/mk1.js"></script>
+</head>
+<body>
+<div id="container" class="play">
+
+
+    <canvas id="canvas"><span>Browser does not support the canvas.</span></canvas>
+    <div id="info"></div>
+    <div id="share-tip">
+        <img src="http://addon.gzbaishitong.com/weiphp/Uploads/Download/snpy/images/8175051909340738288.png" width="100%" height="100%" />
+    </div>
+</div>
+<div id="preload"></div>
+<script src="{:ADDON_PUBLIC_PATH}/snpy/js/mk2.js"></script>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+
+<!--积分券-->
+<div class="fouth-page">
+    <div class="duihuanma"></div>
+    <div class="card"></div>
+    <!--<div class="send"></div>-->
+</div>
+<script type="text/javascript">
+
+
+    //wx share
+
+    wx.config({
+        debug: false,
+        appId: '{$signPackage["appId"]}',
+        timestamp: '{$signPackage["timestamp"]}',
+        nonceStr: '{$signPackage["nonceStr"]}',
+        signature: '{$signPackage["signature"]}',
+        jsApiList: [
+            'onMenuShareTimeline','onMenuShareAppMessage'
+        ]
+    });
+
+    wx.ready(function () {
+        //分享给朋友圈
+        wx.onMenuShareTimeline({
+            title: '百事通史努比', // 分享标题
+            link: "http://addon.gzbaishitong.com/weiphp/index.php?s=/addon/HFive/Snpy/index.html",// 分享链接
+            imgUrl: 'http://o9z6un8mv.bkt.clouddn.com/share1.jpg', // 分享图标
+            success: function () {
+//                    $.ajax({
+//                        type: "post",
+//                        url: "{:U('sharenews')}",
+//                        data: {
+//                            newsid:'{$NewsList.id}',
+//                            openid:'{$openid}',
+//                            method:'sf'
+//                        },
+//                        success: function (data) {
+//
+//                        }
+//                    })
+            },
+            cancel: function () {
+
+                // 用户取消分享后执行的回调函数
+            }
+        });
+        //分享给朋友
+        wx.onMenuShareAppMessage({
+            title: '百事通史努比', // 分享标题
+            desc: '百事通史努比', // 分享描述
+            link: "http://addon.gzbaishitong.com/weiphp/index.php?s=/addon/HFive/Snpy/index.html",// 分享链接
+            imgUrl: 'http://o9z6un8mv.bkt.clouddn.com/share1.jpg', // 分享图标
+            type: '', // 分享类型,music、video或link，不填默认为link
+            dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+            success: function () {
+//                    $.ajax({
+//                        type: "post",
+//                        url: "{:U('sharenews')}",
+//                        data: {
+//                            newsid:'{$NewsList.id}',
+//                            openid:'{$openid}',
+//                            method:'sd'
+//                        },
+//                        success: function (data) {
+//
+//                        }
+//                    })
+                // 用户确认分享后执行的回调函数
+            },
+            cancel: function () {
+                // 用户取消分享后执行的回调函数
+            }
+        });
+    })
+</script>
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan style='display:none;' id='cnzz_stat_icon_1257024640'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s4.cnzz.com/z_stat.php%3Fid%3D1257024640' type='text/javascript'%3E%3C/script%3E"));</script>
+
+</body>
+</html>

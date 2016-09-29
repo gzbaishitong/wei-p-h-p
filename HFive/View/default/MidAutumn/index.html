@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>中秋祝福</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+	<style>
+		input[type="text"]{
+			-webkit-appearance:none; 
+			border:0 solid transparent;
+			background: #c9caca;
+			border-radius:7px;
+			text-align: center;
+			width:100%;
+			height:100%;
+			background: url(http://od4l62rnq.bkt.clouddn.com/name.png) no-repeat;
+			background-size: 100% 100%;
+			display:border-box;
+		}
+		*{margin:0;padding:0}
+		body,html{
+			width:100%;
+			height:100%;
+			background: url(http://od4l62rnq.bkt.clouddn.com/bg.jpg) no-repeat center center;
+			background-size: 100% 100%;
+			overflow:hidden;
+		}
+		.title{
+			position:absolute;
+			width:92%;
+			height:38%;
+			left:4%;
+			top:7%;
+			background:url(http://od4l62rnq.bkt.clouddn.com/title.png) no-repeat center center;
+			background-size: 100% 100%
+		}
+		.fileInputContainer{
+			width:6rem;
+			height:6rem;
+			position:absolute;
+			top:45%;
+			left:50%;
+			margin-left:-3rem;
+			background:url(http://od4l62rnq.bkt.clouddn.com/photo.png) no-repeat center center;
+			background-size: 100% 100%
+		}
+		.fileInput{
+			width:6rem;
+			height:6rem;
+			opacity: 0
+		}
+		.buttonSmall{
+			position:absolute;
+			width:20%;
+			height:2rem;
+			top:73%;
+		}
+		.male{
+			background: url(http://od4l62rnq.bkt.clouddn.com/male.png) no-repeat;
+			background-size: 100% 100%;
+			left:25%;
+			z-index:100
+		}
+		.female{
+			background: url(http://od4l62rnq.bkt.clouddn.com/female.png) no-repeat;
+			background-size: 100% 100%;
+			right:25%;
+			z-index:100
+		}
+		.name{
+			width:50%;
+			height: 2rem;
+			position: absolute;
+			top:65%;
+			left:25%;
+		}
+		.sub{
+			background: url(http://od4l62rnq.bkt.clouddn.com/sub.png) no-repeat;
+			background-size: 100% 100%;
+			width:50%;
+			height: 2rem;
+			position: absolute;
+			top:81%;
+			left:25%;
+		}
+		.image_container{
+			width:100%;height:100%;
+			position:absolute;
+			top:0;left:0;
+			display:none;
+		}
+		#close{
+			display:inline-block;
+			height:1rem;width:1rem;background: #c9caca;border-radius: 0.5rem;overflow: hidden;
+			position: absolute;
+			top:-8px;
+		    right:-8px;
+		}
+		#close:before,#close:after{
+			content: '';
+		    position: absolute;
+		    height: 2px;
+		    width: 100%;
+		    top: 50%;
+		    left: 0;
+		    margin-top: -1px;
+		    background: #000;
+		}
+		#close:after{
+			transform: rotate(-45deg);
+		}
+		#close:before{
+			transform: rotate(45deg);
+		}
+		.maleList{
+			width:100%;
+			height:9rem;
+			background:url(http://od4l62rnq.bkt.clouddn.com/maleList.png) no-repeat;
+			background-size:100% 100%;
+			display:none;
+			position:absolute
+		}
+		.maleList-item{
+			width:100%;
+			height:1.5rem;
+			list-style:none;
+		}
+		.List-container{
+			width:90%;
+			height:9rem;
+			position:relative;
+			margin-left:5%;
+			margin-top:4%;
+			overflow:hidden;
+		}
+		.femaleList{
+			width:100%;
+			height:9rem;
+			background:url(http://od4l62rnq.bkt.clouddn.com/femalelist2.png) no-repeat;
+			background-size:100% 100%;
+			display:none;
+			position:absolute
+		}
+		.femaleList-item{
+			width:100%;
+			height:1.5rem;
+			list-style:none;
+		}
+		.feList-container{
+			width:90%;
+			height:9rem;
+			position:relative;
+			margin-left:5%;
+			margin-top:4%;
+			overflow:hidden;
+		}
+		#cas{
+			z-index:200;
+			position:fixed
+		}
+	</style>
+</head>
+<body>
+	<div class="title"></div>
+	<div class="fileInputContainer">
+			<input class="fileInput" type="file" name="" id="file" autofocus="autofocus" />
+			<div class="image_container">
+    			<img id="preview" style="width:100%;height:100%"/>
+    			<span id="close" style=""></span>
+			</div>
+	</div>
+	<div class="name">
+		<input id="name" name="name" type="text">
+	</div>
+	<div class="buttonSmall male">
+		<div class="List-container">
+			<ul class="maleList">
+				<li class="maleList-item" data-num="1"></li>
+				<li class="maleList-item" data-num="2"></li>
+				<li class="maleList-item" data-num="3"></li>
+				<li class="maleList-item" data-num="4"></li>
+				<li class="maleList-item" data-num="5"></li>
+				<li class="maleList-item" data-num="6"></li>
+			</ul>
+		</div>
+	</div>
+	<div class="buttonSmall female">
+		<div class="feList-container">
+			<ul class="femaleList">
+				<li class="femaleList-item" data-num="1"></li>
+				<li class="femaleList-item" data-num="2"></li>
+				<li class="femaleList-item" data-num="3"></li>
+				<li class="femaleList-item" data-num="4"></li>
+				<li class="femaleList-item" data-num="5"></li>
+				<li class="femaleList-item" data-num="6"></li>
+			</ul>
+		</div>
+	</div>
+	<div class="sub"></div>
+	<form method="post" action="{:U('createimg')}">
+		<input name="fimg" id="fimg" type="hidden">
+		<input name="fname" id="fname" type="hidden">
+		<input name="male" id="male" type="hidden">
+		<input name="female" id="female" type="hidden">
+	</form>
+</body>
+<script src="https://cdn.bootcss.com/jquery/3.0.0/jquery.min.js"></script>
+<script>
+	$("#name").on('click',function(){
+		$(this).css("background","#c9caca")
+	})
+	var dataURL="";
+	$("#file").change(function () {
+        var $file = $(this);
+        var fileObj = $file[0];
+        var windowURL = window.URL || window.webkitURL;
+        var $img = $("#preview");
+        $('.image_container').show()
+		$("#close").click(function(){
+			$('.image_container').hide()
+			dataURL = '';
+		})
+
+        if (fileObj && fileObj.files && fileObj.files[0]) {
+            dataURL = windowURL.createObjectURL(fileObj.files[0]);
+            $img.attr('src', dataURL);
+        } else {
+            dataURL = $file.val();
+            var imgObj = document.getElementById("preview");
+            // 两个坑:
+            // 1、在设置filter属性时，元素必须已经存在在DOM树中，动态创建的Node，也需要在设置属性前加入到DOM中，先设置属性在加入，无效；
+            // 2、src属性需要像下面的方式添加，上面的两种方式添加，无效；
+            imgObj.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale)";
+            imgObj.filters.item("DXImageTransform.Microsoft.AlphaImageLoader").src = dataURL;
+
+        }
+    });
+	
+	
+	//list
+	$(".male").click(function(){
+		$(".maleList").show();
+	})
+	var turn = false;
+	var eleX = "";
+	$(".maleList").on("click",".maleList-item",function(){
+		if(!turn){
+			event.stopPropagation();
+			eleX = $(this).data('num')
+			var ele = eleX-1;
+			var top = -(1.5*ele)+'rem';
+			$('.List-container').height("1.5rem");
+			$(".maleList").css('top',top);
+			turn = true
+		}else{
+			$('.List-container').height("9rem");
+			$(".maleList").css('top',0);
+			turn = false
+		}								
+	})
+	
+	$(".female").click(function(){
+		$(".femaleList").show();
+	})
+	var feturn = false;
+	var feEleX = "";
+	$(".femaleList").on("click",".femaleList-item",function(){
+		if(!feturn){
+			event.stopPropagation();
+			feEleX = $(this).data('num')
+			var feEle = feEleX-1;
+			var top = -(1.5*feEle)+'rem';
+			if(feEle == 3 || feEle == 4){
+				$('.feList-container').height("3rem");
+				$(".femaleList").css('top',"-4.5rem");
+			}else{
+				$('.feList-container').height("1.5rem");
+				$(".femaleList").css('top',top);
+			}
+			feturn = true
+		}else{
+			$('.feList-container').height("9rem");
+			$(".femaleList").css('top',0);
+			feturn = false
+		}								
+	})
+	
+	var maleList = ["hg.png","cwt.png","wsc.png","yy.png","wyf.png","szj.png"]
+	var femaleList = ["fbb.png","Papi.png","xs.png","ab.png","ab.png","zly.png"]
+	var finaleImg = "";
+	
+	$(".sub").click(function(){
+		var name = $("#name").val()
+		if(!eleX){
+			alert("请选择男明星");
+			return
+		}
+		if(!feEleX){
+			alert("请选择女明星")
+			return
+		}
+		if(!name){
+			alert("还没填写名字")
+			return
+		}
+		if(!dataURL){
+			alert("还没上传照片")
+			return
+		}
+		
+		maleURL = "http://od4l62rnq.bkt.clouddn.com/"+maleList[eleX-1]
+		femaleURL = "http://od4l62rnq.bkt.clouddn.com/"+femaleList[feEleX-1]
+		addCanvas(dataURL,maleURL,femaleURL,name)
+	})
+	
+	function addCanvas(dataURL,maleURL,femaleURL,name){
+		var c = $('<canvas id="cas"></canvas>');
+		$("body").append(c);
+		var w = $('body').width();
+		can = document.getElementById('cas')
+		ctx=can.getContext('2d')
+		can.width=640;//canvas的实际宽
+		can.height=1138;
+		$("#cas").height(1138*w/640)
+		
+		//进行图片合并
+		imgbg = new Image();
+		imgbg.crossOrigin = ''; //解决跨域
+		imgbg.src="http://od4l62rnq.bkt.clouddn.com/imgbg3.png";
+		imgbg.onload = function(){
+			ctx.drawImage(imgbg,0,0,640,1138);
+			imgData = new Image();
+			imgData.src = dataURL;
+			imgData.onload = function(){
+				var h = imgData.height;
+				var w = imgData.width;
+				if(h>=w){
+					var newH =190/w*h
+					if(newH>260){
+						newH = 260
+					}
+					ctx.drawImage(imgData,107,215,190,newH);
+					ctx.save()
+				}else{
+					var newW = 200*w/h
+					ctx.drawImage(imgData,107,215,newW,200);
+					ctx.save()
+				}
+				ctx.restore();
+				ctx.drawImage(imgData,20,928,71,71)
+				ctx.save();
+			}
+			
+			imgMale = new Image();
+			imgMale.crossOrigin = ''; //解决跨域
+			imgMale.src = maleURL;
+			imgMale.onload = function(){
+				ctx.restore();
+				ctx.drawImage(imgMale,20,602,71,71);
+				ctx.save();
+			}
+			
+			imgFemale = new Image();
+			imgFemale.crossOrigin = ''; //解决跨域
+			imgFemale.src = femaleURL;
+			imgFemale.onload = function(){
+				ctx.restore();
+				ctx.drawImage(imgFemale,20,764,71,71);
+				ctx.save();
+				var mycanvas = document.getElementById("cas"); 
+				$("#fname").val(name);
+				finalImg = mycanvas.toDataURL("image/png")
+				$("#fimg").val(finalImg);
+				$("#male").val(eleX-1);
+				$("#female").val(feEleX-1);
+				$("form").submit()
+			}	
+		}
+	}
+	
+	
+</script>
+</html>

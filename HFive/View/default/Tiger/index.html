@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+    <title></title>
+	<link href="//cdn.bootcss.com/animate.css/3.5.2/animate.min.css" rel="stylesheet">
+  
+	<style>
+	*{margin:0;padding:0}
+	html,body{width:100%;height:100%;font-size:0}
+	#bg{width:100%;height:134%;overflow:scroll;background:url(http://obmxpqkpi.bkt.clouddn.com/laohujibg.jpg);
+	background-size:100% 100%;position:absolute;margin-top:-5%}
+	#scroll{
+	width:100%;
+	height:100%;
+	font-size:0;
+	}
+	.back{
+	width: 3rem;
+    height: 3rem;
+    background: url(http://obmxpqkpi.bkt.clouddn.com/fanhui.png);
+    background-size: 100% 100%;
+    position: absolute;
+    top: 6%;
+    left: 2%;
+	}
+	.music{
+	width: 3rem;
+    height: 3rem;
+    background: url(http://obmxpqkpi.bkt.clouddn.com/music.png);
+    background-size: 100% 100%;
+    position: absolute;
+    top: 6%;
+    right: 2%;
+	}
+	.title1 {
+	position: absolute;
+	width: 44%;
+	height: 11%;
+	left: 28%;
+	top: 5%;
+	background: url(http://obmxpqkpi.bkt.clouddn.com/title1.png);
+	background-size: 100% 100%;
+	}
+	.title2{
+	position: absolute;
+    width: 63%;
+    height: 8%;
+    left: 20%;
+    top: 14%;
+    background: url(http://obmxpqkpi.bkt.clouddn.com/title2.png);
+    background-size: 100% 100%;
+
+	}
+	.container{
+        width: 96%;
+    height: 16.5%;
+    position: absolute;
+    top: 22.8%;
+    left: 5%;
+	}
+	.slotMachine {
+    width: 31%;
+    height: 100%;
+    overflow: hidden;
+    display: inline-block;
+    text-align: center;
+	}
+	.slot{
+		width:100%;
+	}
+	.slot1{
+		background:url(http://obmxpqkpi.bkt.clouddn.com/1.png);
+		background-size:100% 100%
+	}
+	.slot2{
+		background:url(http://obmxpqkpi.bkt.clouddn.com/2.png);
+		background-size:100% 100%
+	}
+	.slot3{
+		background:url(http://obmxpqkpi.bkt.clouddn.com/3.png);
+		background-size:100% 100%
+	}
+	
+	#button {
+		width: 20%;
+    height: 7%;
+    position: absolute;
+    top: 43%;
+    left: 40%;
+    background: url(http://obmxpqkpi.bkt.clouddn.com/button.png);
+    background-size: 100% 100%;
+	}
+	.zhongjiang{
+	position:fixed;
+	top:0;
+	left:0;
+	width:100%;
+	height:100%;
+	background:url(http://obmxpqkpi.bkt.clouddn.com/mask1.png);
+	background-size:100% 100%;
+	display:none
+	}
+	.share{
+	position:fixed;
+	top:0;
+	left:0;
+	width:100%;
+	height:100%;
+	background:url(http://obmxpqkpi.bkt.clouddn.com/mask2.png);
+	background-size:100% 100%;
+	display:none
+	}
+	.qrcode{
+	width:100%;height:100%;
+			background:url(http://obmxpqkpi.bkt.clouddn.com/bg2.jpg);
+			background-size:100% 100%;
+	position:fixed;top:0;display:none
+	}
+	.hidden{
+		overflow:hidden
+	}
+	</style>
+</head>
+<body>
+<div id="bg">
+		<!--<div class="back"></div>
+		<div class="music"></div>-->
+		<div class="title1 animated"></div>
+		<div class="title2 animated" style=""></div>
+		<div>
+			<ul class="container">
+				<div id="machine1" class="slotMachine">
+					<div class="slot slot2"></div>
+					<div class="slot slot3"></div>
+					<div class="slot slot1"></div>
+				</div>
+				<div id="machine2" class="slotMachine">
+					<div class="slot slot2"></div>
+					<div class="slot slot3"></div>
+					<div class="slot slot1"></div>
+				</div>
+				<div id="machine3" class="slotMachine">
+					<div class="slot slot2"></div>
+					<div class="slot slot3"></div>
+					<div class="slot slot1"></div>
+				</div>
+			<ul>
+		</div>
+		<div id="button">
+		</div>
+</div>
+<div class="zhongjiang">
+</div>
+<div class="share">
+</div>
+<div class="qrcode">
+	<div style="width:70%;position:absolute;top:31%;left:15%">
+		<img src="https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=gQGq8ToAAAAAAAAAASxodHRwOi8vd2VpeGluLnFxLmNvbS9xL21VT05MdURsX05lQjRfUXdRbS1lAAIEhIixVwMEAAAAAA%3D%3D" style="width:100%">
+	</div>
+</div>
+<div style="display:none">
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1260138002'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s4.cnzz.com/z_stat.php%3Fid%3D1260138002' type='text/javascript'%3E%3C/script%3E"));</script>
+</div>
+<!--<volist  name="OptionList" id="OptionData">
+    {$OptionData.name}<br/>
+</volist>-->
+<!--<input type="button" id="sub" value="点击抽奖">-->
+<script src="http://ob26aihye.bkt.clouddn.com/scrollFix.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.1.0/jquery.min.js"></script>
+<script src="http://obmxpqkpi.bkt.clouddn.com/jquery.slotmachine.js"></script>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script>
+if({$count} == 1){
+	$(".zhongjiang").fadeIn("fast")
+	$("#bg").addClass("hidden")
+	$(".zhongjiang").click(function(){
+		$(this).fadeOut("fast");
+		$(".share").fadeIn("fast");
+	})
+}
+$(".slot").height($(".slotMachine").height())
+setInterval(function(){
+	$(".title2").addClass("tada");
+	setTimeout(function(){
+		$(".title2").removeClass("tada");
+	},2000)
+},5000)
+var scrollable = document.getElementById("imgbg");
+new ScrollFix(scrollable);
+
+	var machine1 = $("#machine1").slotMachine({
+		active	: 0,
+		delay	: 500
+	});
+	
+	var machine2 = $("#machine2").slotMachine({
+		active	: 1,
+		delay	: 500
+	});
+	
+	var machine3 = $("#machine3").slotMachine({
+		active	: 2,
+		delay	: 500
+	});
+	
+	function onComplete($el, active){
+		switch($el[0].id){
+			case 'machine1':
+				$("#machine1").slotMachine({
+		active	: 0,
+		delay	: 500
+	});
+				break;
+			case 'machine2':
+				$("#machine2").slotMachine({
+		active	: 0,
+		delay	: 500
+	});
+				break;
+			case 'machine3':
+				$("#machine3").slotMachine({
+					active	: 0,
+					delay	: 500
+				});
+				setTimeout(function(){
+					$('.zhongjiang').fadeIn("fast");
+					$("body").css("overflow","hidden")
+					$(".zhongjiang").click(function(){
+						$(this).fadeOut("fast");
+						$(".share").fadeIn("fast");
+					})
+				},1000)
+				break;
+		}
+	}
+	
+	$("#button").click(function(){
+		if('{$count}' == 0){
+			$.ajax({
+				type:"post",
+				url:"{:U('index')}",
+				success:function(data){
+				}
+			})
+		}
+		machine1.shuffle(3, onComplete);
+		setTimeout(function(){
+			machine2.shuffle(3, onComplete);
+		}, 500);
+		setTimeout(function(){
+			machine3.shuffle(3, onComplete);
+		}, 1000);
+	})
+	
+	//wx share
+
+    wx.config({
+        debug: false,
+        appId: '{$signPackage["appId"]}',
+        timestamp: '{$signPackage["timestamp"]}',
+        nonceStr: '{$signPackage["nonceStr"]}',
+        signature: '{$signPackage["signature"]}',
+        jsApiList: [
+            'onMenuShareTimeline','onMenuShareAppMessage'
+        ]
+    });
+
+    wx.ready(function () {
+        //分享给朋友圈
+        wx.onMenuShareTimeline({
+            title: '广州百事通会员嘉年华，万元豪礼任性送送送', // 分享标题
+            link: "{:U('index')}",// 分享链接
+            imgUrl: 'http://obmxpqkpi.bkt.clouddn.com/hongbao.jpg', // 分享图标
+            success: function () {
+				$("body").css("overflow","hidden")
+				$(".share").fadeOut("fast");
+				$(".qrcode").fadeIn("fast")
+            },
+            cancel: function () {
+
+                // 用户取消分享后执行的回调函数
+            }
+        });
+        //分享给朋友
+        wx.onMenuShareAppMessage({
+            title: '广州百事通会员嘉年华，万元豪礼任性送送送', // 分享标题
+            desc: '{$nickname}已经抽中百事通的大红包，只差你了', // 分享描述
+            link: "{:U('index')}",// 分享链接
+            imgUrl: 'http://obmxpqkpi.bkt.clouddn.com/hongbao.jpg', // 分享图标
+            type: '', // 分享类型,music、video或link，不填默认为link
+            dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+            success: function () {
+			alert("要分享到朋友圈才有红包噢！")
+//                    $.ajax({
+//                        type: "post",
+//                        url: "{:U('sharenews')}",
+//                        data: {
+//                            newsid:'{$NewsList.id}',
+//                            openid:'{$openid}',
+//                            method:'sd'
+//                        },
+//                        success: function (data) {
+//
+//                        }
+//                    })
+                // 用户确认分享后执行的回调函数
+            },
+            cancel: function () {
+                // 用户取消分享后执行的回调函数
+            }
+        });
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,96 @@
+body{
+	position:absolute;width:100%;height:100%;overflow-x:hidden;
+	background:url('http://7xkg1m.com2.z0.glb.qiniucdn.com/prizeBg.jpg') no-repeat center;background-size: 100% 100%;
+}
+
+#reserve{
+	position:absolute;clear:both;width:100%;height:30px;top:19%;padding:0px;line-height:30px;
+}
+#times{
+	width:80px;height:30px;margin:0 auto;
+	background:#0090DB;border-radius:5px;
+	line-height:30px;color:#C0EBFF;font-size:1.5em;font-weight:bolder;text-align:center;
+	display:block;	
+}
+.content{
+	position:absolute;clear:both;width:200px;height:100px;top:28%;left:50%;margin-left:-100px;
+	background:#78DAFF;border-radius:5px;text-align:center;
+}
+#slotBox{
+	position:relative;clear:both;top:5px;left:0px;
+}
+
+.view{
+	width:100%;margin:0;
+}
+.view .cover{
+	position:fixed;width:100%;top:0;left:0;
+	background:rgba(0,0,0,0.8);
+}
+.view .cover img{
+	width:98%;margin:1%;
+}
+#slotMachineButton1{
+	position:absolute;clear:both;width:21%;height:15%;left:39%;top:49%;
+	background:url('http://7xkg1m.com2.z0.glb.qiniucdn.com/prizeBtn.png') no-repeat center;background-size:93% 73%;
+}
+
+/*--提交资料--*/
+#form-box {
+	width:100%;height:100%;
+	display:none;
+}
+#desc{
+	width:200px;height:140px;margin:20px auto 10px;padding:0 5%;
+	border:5px dashed #fff;border-radius:15px;
+	color:#A48E4E;font-size:1em;font-weight:bold;
+	display:none;
+}
+form{
+	text-align:center;
+	display:none;
+}
+.nameInput{
+	position:absolute;width:70px;height:35px;left:19%;top:47%;
+}
+.phoneInput{
+	position:absolute;width:70px;height:35px;left:20%;top:62%;
+}
+#submit{
+	position:absolute;clear:both;width:21%;height:15%;left:39%;top:83%;
+	background-color:transparent;border:none;outline:none;
+	background:url('http://7xkg1m.com2.z0.glb.qiniucdn.com/submitBtn.png') no-repeat center;background-size:93% 73%;
+	display:block;
+}
+#name{
+	position:absolute;width:60%;height:6%;left:20%;top:53%;
+	border:2px solid #7B1D51;border-radius:5px; background-color:#fff;
+	display:block;
+}
+#phone{
+	position:absolute;width:60%;height:6%;left:20%;top:68%;
+	border:2px solid #7B1D51;border-radius:5px;background-color:#fff;
+	display:block;
+}
+
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    color: #fff;
+	text-align:left;
+}
+
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+    color: #fff;
+	text-align:left;
+}
+
+input:-ms-input-placeholder,
+textarea:-ms-input-placeholder {
+    color: #fff;
+	text-align:left;
+}
+
+input::-webkit-input-placeholder,
+textarea::-webkit-input-placeholder {
+    color: #fff;
+	text-align:left;
+}

@@ -1,0 +1,23 @@
+CACHE MANIFEST
+#version2
+CACHE:
+http://cdn.gbtags.com/EaselJS/0.7.1/easeljs.min.js
+http://cdn.gbtags.com/tweenjs/0.5.1/tweenjs.min.js
+http://cdn.gbtags.com/PreloadJS/0.4.1/preloadjs.min.js
+http://cdn.gbtags.com/SoundJS/0.5.2/soundjs.min.js
+http://res.wx.qq.com/open/js/jweixin-1.0.0.js
+game.js?v=1
+img/bg.jpg
+img/bg-button.png
+img/gamebg.jpg
+img/score.png
+img/bar.png
+img/clock.png
+img/man5.png
+img/man2.png
+img/man1.png
+sea.mp3
+win.mp3
+lose.mp3
+NETWORK:
+app.php

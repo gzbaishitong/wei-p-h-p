@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>YT公寓</title>
+	<meta name='viewport' content="width=device-width,initial-scale=1,maximum-scale=1">
+	<style>
+		*{margin:0;padding:0}
+		html,body{width:100%;height:100%;font-size:0;overflow:hidden}
+		#cas{width:100%;height:100%}
+		#loading{width:100%;height:100%;background-color:black;background-size:100% 100%}
+	</style>
+</head>
+<body onload="init()">
+	<div id="loading"style=""></div>
+	<canvas id="cas"></canvas>
+	<script src="http://cdn.gbtags.com/EaselJS/0.7.1/easeljs.min.js"></script>
+	<script src="http://cdn.gbtags.com/tweenjs/0.5.1/tweenjs.min.js"></script>
+	<script src="http://cdn.gbtags.com/PreloadJS/0.4.1/preloadjs.min.js"></script>
+	<script>
+		var stage,canvas;
+		var c = createjs;
+		var loadingContainer,loadingBar,loadingText,loadingPecent;
+		var loadingTurn = true;
+		var scaleX,scaleY;
+		var beginContainer;
+		var beginTurn = false;
+		function init(){
+			canvas = document.getElementById('cas');
+			canvas.height = document.body.clientHeight*2;
+			canvas.width = document.body.clientWidth*2;
+			C_H = canvas.height;
+			C_W = canvas.width;
+			c_w = document.body.clientWidth;
+			stage = new c.Stage('cas');
+			createjs.Touch.enable(stage);
+			startGame();
+			drawLoading();
+			var manifest = [
+				{src:"img/bg.jpg",id:"beginBg"},
+				{src:"img/bg-button.png",id:"beginButton"},
+				{src:"img/gamebg.jpg",id:"gameBg"},
+				{src:"img/score.png",id:"score"},
+				{src:"img/bar.png",id:"bar"},
+				{src:"img/clock.png",id:"clock"},
+				{src:"img/man5.png",id:"man5"},
+				{src:"img/man2.png",id:"man2"},
+				{src:"img/man1.png",id:"man1"},
+			];
+
+			loader = new c.LoadQueue(false,null,true);
+			loader.addEventListener('complete', handleComplete);
+			loader.on("progress", handleFileProgress);
+			loader.loadManifest(manifest);
+		}
+
+		function drawLoading(){
+			loadingContainer = new c.Container();
+			var loadingBg = new c.Shape();
+			loadingBg.graphics.beginFill('black').drawRect(0,0,C_W,C_H);
+			loadingBar = new c.Shape();
+			loadingText = new c.Text('0'+"%",'30px Arial','white');
+			loadingContainer.addChild(loadingBg,loadingBar,loadingText);
+			stage.addChild(loadingContainer)
+		}
+
+		function startGame(){
+			//c.Ticker.setFPS(5);
+			createjs.Ticker.timingMode = createjs.Ticker.RAF
+			c.Ticker.addEventListener('tick', function(e){
+				if(loadingTurn){
+					loadingContainer.removeChild(loadingBar,loadingText);
+					loadingP = C_W*0.8*loader.progress;
+					loadingBar = new c.Shape();
+					loadingBar.graphics.beginStroke('white').setStrokeStyle(2).drawRect(0,0,C_W*0.8,20);
+					loadingBar.graphics.beginFill('white').drawRect(0,0,loadingP,20);
+					loadingBar.x = C_W*0.1;
+					loadingBar.y = C_H*0.45;
+					loadingText = new c.Text(loader.progress*100+"%",'30px Arial','white');
+					loadingText.regX = loadingText.getBounds().width/2;
+					loadingText.x = C_W*0.5;
+					loadingText.y = C_H*0.45+30
+					loadingContainer.addChild(loadingBar,loadingText);
+					stage.update()
+				}
+				if(!loadingTurn){
+					runGame();
+					stage.update()
+				}
+			})
+		}
+
+		function handleComplete(){
+			setTimeout(function(){
+				loadingTurn = false
+			},1000);
+			document.getElementById('loading').style.display="none";
+			setBeginScene()
+			c.Tween.get(loadingContainer).to({alpha:0},500).call(function(){
+					stage.removeChild(this);
+			});
+		}
+
+		function handleFileProgress(){
+		}
+
+		function loadingPercentUpdate(){};
+
+		function runGame(){
+			if(beginTurn){
+				stage.addEventListener('pressmove', function(evt){
+					for(i=0;i<liveList.length;i++){
+						if(evt.stageX >= liveList[i].x-10 && evt.stageX <= liveList[i].x + 10){
+							c.Tween.get(liveList[i]).to({rotation:360},500).call(function(){
+								gameContainer.removeChild(liveList[i])
+							})
+						}
+					}
+				})
+			}
+		};
+
+		function setBeginScene(){
+			beginContainer = new c.Container();
+			var beginBg = new c.Bitmap(loader.getResult('beginBg'));
+			scaleX = C_W/beginBg.image.width;
+			scaleY = C_H/beginBg.image.height;
+			beginBg.scaleX = scaleX;
+			beginBg.scaleY = scaleY;
+			beginContainer.alpha=1;
+			stage.addChild(beginContainer)
+			var beginButton = new c.Bitmap(loader.getResult('beginButton'));
+			beginContainer.addChild(beginBg,beginButton)
+			beginButton.regX = beginButton.getBounds().width/2;
+			beginButton.scaleX = scaleX;
+			beginButton.scaleY = scaleY;
+			beginButton.x = C_W*0.5
+			beginButton.y = C_H*0.86
+			//c.Tween.get(beginContainer).to({alpha:1},500)
+			beginButton.on("mousedown", function(evt){
+				evt.preventDefault();
+				setGame()
+				c.Tween.get(beginContainer).to({alpha:0},500).call(function(){
+					stage.removeChild(beginContainer)
+				})
+			}); 
+		}
+		
+		function setGame(){
+			gameContainer = new c.Container();
+			stage.addChild(gameContainer);
+			gameBg = new c.Bitmap(loader.getResult('gameBg'));
+			gameBg.scaleX = scaleX;
+			gameBg.scaleY = scaleY;
+			gameBg2 = gameBg.clone(true);
+			var blur = new createjs.BlurFilter(10,10,2);
+			var w = gameBg2.image.width;
+			var h = gameBg2.image.height;
+			gameBg2.filters = [blur];
+			gameBg2.cache(0,0,w,h);
+			score = new c.Bitmap(loader.getResult('score'));
+			score.scaleX = scaleX;
+			score.sclaeY = scaleY;
+			score.x = C_W*0.68;
+			score.y = C_H*0.05;
+			bar = new c.Bitmap(loader.getResult('bar'));
+			bar.scaleX = scaleX;bar.scaleY = scaleY;
+			bar.x = C_W*0.58;bar.y = C_H*0.02;
+			clock = new c.Bitmap(loader.getResult('clock'));
+			clock.scaleX = scaleX;clock.scaleY = scaleY;clock.regX = clock.getBounds().width/2;clock.regY = clock.getBounds().height/2;
+			clock.x = C_W*0.58;clock.y = C_H*0.03;
+			gameContainer.addChild(gameBg,score,bar,clock,gameBg2)
+			var count = new c.Text("3","100px Arial","black");
+			countX = C_W/2-50;
+			countY = C_H/2-50;
+			count.x = countX;
+			count.y = countY;
+			stage.addChild(count)
+			setTimeout(function(){
+				stage.removeChild(count);
+				var count1 = new c.Text("2","100px Arial","black");
+				count1.x = countX;
+				count1.y = countY;
+				stage.addChild(count1)
+				setTimeout(function(){
+					stage.removeChild(count1);
+					var count2 = new c.Text("1","100px Arial","black");
+					count2.x = countX;
+					count2.y = countY;
+					stage.addChild(count2);
+					setTimeout(function(){
+						stage.removeChild(count2);
+						beginTurn = true;
+						c.Tween.get(gameBg2).to({alpha:0},500).call(function(){
+							gameContainer.removeChild(gameBg2);
+							setCountDown();
+							setScore();
+							setItems();
+						})
+					},1000)
+				},1000)
+			},1000)
+		}
+		
+		function setItems(){
+			man5 = new c.Bitmap(loader.getResult('man5'));
+			man2 = new c.Bitmap(loader.getResult('man2'));
+			man1 = new c.Bitmap(loader.getResult('man1'));
+			itemList = [man5,man2,man1];
+			for(i=0;i<itemList.length;i++){
+				itemList[i].scaleX = scaleX/1.5;
+				itemList[i].scaleY = scaleY/1.5;
+				itemList[i].regX = itemList[i].getBounds().width/2;
+				itemList[i].regY = itemList[i].getBounds().height;
+			}
+			positionList = [{x:C_W*0.26,y:C_H*0.15},{x:C_W*0.58,y:C_H*0.27},{x:C_W*0.8,y:C_H*0.34},{x:C_W*0.26,y:C_H*0.38},{x:C_W*0.49,y:C_H*0.48},
+			{x:C_W*0.8,y:C_H*0.58},{x:C_W*0.24,y:C_H*0.61},{x:C_W*0.48,y:C_H*0.72},{x:C_W*0.8,y:C_H*0.9}
+			]
+			man2.x = positionList[8].x;man2.y = positionList[8].y
+			
+			liveList = [];
+			beginTurn = true;
+			setInterval(function(){
+				var newI = Math.floor(Math.random()*itemList.length)
+				var newP = Math.floor(Math.random()*positionList.length)
+				var newItem = itemList[newI];
+				itemList.splice(newI,1);
+				liveList.push(newItem);
+				newItem.x = positionList[newP].x;newItem.y = positionList[newP].y;
+				c.Tween.get(newItem).to({rotation:30},30).to({rotation:-30},30).to({rotation:0},30)
+				gameContainer.addChild(newItem)
+			}, 2000)
+			setTimeout(function(){
+				setInterval(function(){
+					gameContainer.removeChild(liveList[0]);
+					itemList.push(liveList[0]);
+					liveList.splice(0,1)
+				}, 2000)
+			}, 2000)
+		}
+
+		function setCountDown(){
+			var length = bar.getBounds().width;
+			c.Tween.get(clock,{loop:true}).to({rotation:10},30).to({rotation:-20},60).to({rotation:0},30)
+			c.Tween.get(clock).to({x:clock.x+length},60000).call(function(){
+				gameOver();
+			})
+		}
+
+		function gameOver(){
+			alert("gameover")
+		}
+
+		function setScore(){
+
+		}
+	
+	</script>
+</body>
+</html>

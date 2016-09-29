@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/zepto/1.1.6/zepto.min.js"></script>
+    <script>
+        $(function(){
+            $('#sub').click(function(){
+                var telphone=$('#telphone').val();
+                $.ajax({
+                    type:"post",
+                    url:"{:U('saveinfo')}",
+                    data:{
+                        telphone:telphone,
+                        name:'h1'
+                    },
+                    success:function(data)
+                    {
+                        alert(data.info);
+                        if(data.status==1)
+                        {
+                            location.href=data.url;
+                        }
+                    }
+                })
+            })
+        })
+    </script>
+</head>
+<body>
+手机:<input type="text" id="telphone">
+<input type="button" id="sub" value="提交">
+</body>
+</html>

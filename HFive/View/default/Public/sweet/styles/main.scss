@@ -1,0 +1,216 @@
+
+
+//main css
+*{margin:0;padding:0;}
+
+html,body{
+  width:100%;height:100%;font-size: 12px
+}
+
+// loading
+#loading{
+  width:100%;height: 100%;display: block;
+  img{width:100%;height:100%;}
+}
+
+//page1
+#page1{
+  width:100%;height: 100%;position: absolute;z-index: 200;
+  img{width:100%;height:100%;position: absolute;}
+}
+
+#begin{width:80%;height:15%;position: absolute;top:80%;left:10%;
+    img{width:100%;height: 100%;}
+  }
+
+@media screen and (max-height: 480px) {
+    #begin {
+      width:70%;top:80%;left:15%;
+    }
+  }
+
+//page2
+#page2{
+  width:100%;height: 100%;position: absolute;overflow: hidden;z-index: 100;
+  img{width:100%;height:100%;position: absolute;}
+}
+
+// swiper
+.swiper-container {
+  height:32%;
+  width:90%;
+  overflow: visible;
+  top: 8%;
+}
+
+.swiper-slide-prev,.swiper-slide-next{
+  opacity: 0.5;
+  -webkit-transform:scale(0.8) translateY(-30%)}
+
+.swiper-button-prev {
+  background-image: url('../images/prev.png');
+  background-size: cover;
+  top: 118%;
+  left: -30px;
+  right: auto;
+  width:30%;
+}
+
+.swiper-button-next {
+  background-image: url('../images/next.png');
+  background-size: cover;
+  top: 118%;
+  right: -30px;
+  left: auto;
+  width:30%;
+}
+
+// mingxingpian
+.mingxingpian{
+  position: relative;
+  width:90%;
+  height:32%;
+  left:5%;
+  top:20%;
+  img{width:100%}
+  #default{
+    height:114%;
+  }
+}
+
+//input
+#mywords{
+  position: absolute;
+  z-index: 100;
+  top: 34%;
+  left: 4%;
+  width: 50%;
+  height: 55%;
+  background-color: transparent;
+  font-size: 1.4em;
+  color:red;
+  font-weight: bold;
+  display: none;
+  border-color: #ffffff; 
+}
+
+@media screen and (min-height: 481px) and (max-height: 568px){
+  #mywords{font-size: 1.2em}
+}
+
+@media screen and (max-height: 480px){
+  #mywords{font-size: 1em}
+}
+
+// submit
+#submit{
+  width: 30%;
+  height:8%;
+  bottom:2%;
+  left:35%;
+  position:absolute;
+  img{height:100%}
+}
+
+.popUp{
+  z-index:200;
+  position: absolute;
+  width:100%;height:100%;
+  background-color: rgba(0,0,0,0.5);
+  bottom: 0;display: none;
+
+  .logo{
+    position: absolute;
+    width:50%;height: 30%;
+    top:10%;left:5%;
+      img{width:100%}
+  }
+
+  #words{
+    position: absolute;
+    top:32%;left:10%;
+    width:80%;
+    height:40%;
+    font-size: 16px;
+    -webkit-border-radius:16px;
+    padding: 18px 5px 0 ;
+  }
+
+  .finish{
+    width:40%;height:10%;
+    position: absolute;
+    bottom: 5%;left:30%;
+    img{width:100%}
+  }
+}
+
+// page3
+#page3{
+  width:100%;height: 100%;position: absolute;overflow: hidden;
+  img{width:100%;height:100%;position: absolute;}
+  
+  .content{
+    position: absolute;
+    width:95%;
+    height:35%;
+    top:5%;
+    left: 2.5%;
+  }
+
+  .change{
+    position: absolute;
+    width:10%;
+    top:42%;
+    left:45%;
+    height:10%
+  }
+
+  #contentWord{
+    position: absolute;
+  font-size: 1.4em;
+  width: 52%;
+  height: 47%;
+  top: 33%;
+  left: 5%;
+  font-weight: bold;
+  color:red;
+  }
+
+  .core{
+    position: absolute;
+    width:80%;
+    height:20%;
+    top:55%;
+    left: 10%;
+    
+    .question,.answer{
+      height:50%;width:100%;
+
+      img{width:28%;height:18%}
+      input{
+          width: 100%;
+          position: relative;
+          top: 44%;
+          height: 42%;
+          border: 1px solid #007cb2;
+          -webkit-border-radius: 10px;
+          padding-left: 2px;
+      }
+    }
+  }
+
+  #xiugai{
+    position: absolute;
+    width:40%;height: 8%;
+    bottom:12%;left:30%;
+  }
+
+  #send{
+    position: absolute;
+    width:40%;height: 8%;
+    bottom:2%;left:30%;
+  }
+}
+
+
+

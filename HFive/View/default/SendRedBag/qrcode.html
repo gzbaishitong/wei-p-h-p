@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
+    <title></title>
+	<style>
+	*{margin:0;padding:0}
+	html,body{
+		width:100%;
+		height:100%;
+		background:url(http://7xt9sy.com1.z0.glb.clouddn.com/qcode.jpg) no-repeat;
+		background-size:100% 100%;
+	}
+	#img{
+            width:50%;
+            position:absolute;
+            top:61%;
+            left:25%
+    }
+	.hongbaolist{
+		width: 90%;
+		height: 13.5%;
+		top: 45%;
+		left: 24%;
+		position: absolute;
+	}
+	.hongbao{
+		list-style:none;
+		width:20%;
+		height:100%;
+		background:url(http://oboo4n5lb.bkt.clouddn.com/hongbao.png) no-repeat;
+		background-size:100% 100%;
+		float:left
+	}
+	</style>
+</head>
+<body>
+<div>
+	<ul class="hongbaolist">
+		<li class="hongbao" id="h1"></li>
+		<li class="hongbao" id="h2"></li>
+		<li class="hongbao" id="h3"></li>
+		<li class="hongbao" id="h4"></li>
+	</ul>
+</div>
+<!--<a href="{$url}">点击领取下个任务</a>-->
+<div id="img">
+        <img src="{$qrcode}" style="width:100%" >
+</div>
+<script>
+var limit = {$limit};
+if(limit == 1){
+	document.getElementById("h1").style.display="none"
+	document.getElementById("h2").style.display="none"
+	document.getElementById("h3").style.display="none"
+	document.getElementById("h4").style.display="none"
+}else if(limit == 2){
+	document.getElementById("h2").style.display="none"
+	document.getElementById("h3").style.display="none"
+	document.getElementById("h4").style.display="none"
+}else if(limit == 3){
+	document.getElementById("h3").style.display="none"
+	document.getElementById("h4").style.display="none"
+}else{
+	document.getElementById("h4").style.display="none"
+}
+</script>
+</body>
+</html>

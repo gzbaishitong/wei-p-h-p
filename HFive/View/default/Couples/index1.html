@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+    <style>
+        *{
+            margin:0;padding:0
+        }
+        html,body{
+            width:100%;height:100%;font-size:0
+        }
+    </style>
+</head>
+<body>
+<img src="http://obfdokfav.bkt.clouddn.com/2.jpg" style="width: 100%;height: 100%">
+<script src="//cdn.bootcss.com/jquery/3.1.0/jquery.min.js"></script>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script>
+    wx.config({
+        debug: false,
+        appId: '{$signPackage["appId"]}',
+        timestamp: '{$signPackage["timestamp"]}',
+        nonceStr: '{$signPackage["nonceStr"]}',
+        signature: '{$signPackage["signature"]}',
+        jsApiList: [
+            'onMenuShareTimeline','onMenuShareAppMessage'
+        ]
+    });
+
+    wx.ready(function () {
+//分享给朋友圈
+        wx.onMenuShareTimeline({
+            title: '免费送！！房教授请你吃麦辣鸡腿堡', // 分享标题
+            link: "{:U('index1')}",// 分享链接
+            imgUrl: 'http://obfdokfav.bkt.clouddn.com/3.jpg', // 分享图标
+            success: function () {
+                location.href="{:U('index2')}";
+            },
+            cancel: function () {
+
+// 用户取消分享后执行的回调函数
+            }
+        });
+//分享给朋友
+        wx.onMenuShareAppMessage({
+            title: '免费送！！房教授请你吃麦辣鸡腿堡', // 分享标题
+            desc: '', // 分享描述
+            link: "{:U('index1')}",// 分享链接
+            imgUrl: 'http://obfdokfav.bkt.clouddn.com/3.jpg', // 分享图标
+            type: '', // 分享类型,music、video或link，不填默认为link
+            dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+            success: function () {
+                alert('要分享到朋友圈才有效哦');
+
+            },
+            cancel: function () {
+// 用户取消分享后执行的回调函数
+            }
+        });
+    })
+</script>
+</body>
+</html>

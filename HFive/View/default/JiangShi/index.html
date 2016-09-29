@@ -1,0 +1,138 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+	<meta name="format-detection" content="telephone=no">
+	<meta http-equiv="pragma" content="no-cache">
+	<meta http-equiv="cache-control" content="no-cache">
+	<meta http-equiv="expires" content="0">
+	<intercept-url pattern="/favicon.ico" access="ROLE_ANONYMOUS" />
+	<title>百事通</title>
+	<link rel="stylesheet" href="{:ADDON_PUBLIC_PATH}/jiangshi/css/main.css">
+    <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+</head>
+<body>
+	<!-- loading页面 -->
+	<div id="loading">
+		<div id="spinner">
+		  <div id="bounce1"></div>
+		  <div id="bounce2"></div>
+		  <div id="bounce3"></div>
+		</div>
+	</div>
+	<!-- 开始页面 -->
+	<section id="index">
+		<!--音量开关-->
+		<div id="volume">
+		</div>
+		<div id="btn-play">
+		</div>
+		<div id="btn-score">
+		</div>
+		<div id="btn-rule">
+		</div>
+		<div id="btn-rank">
+		</div>
+	</section>
+	<section id="scoreTip">
+		<div id="btn-scoreTip-close"></div>
+		<div id="my-score-text">
+			<p>最佳纪录:<span></span>分</p>
+		</div>
+	</section>
+	<!-- 游戏主页面 -->
+	<section id="box">
+		<!-- <div class="way" id="wayOne"></div>
+		<div class="way" id="wayTwo"></div>
+		<div class="way" id="wayThree"></div>
+		<!-- <div id="move" data-type = "a"></div> -->
+		<canvas id='cas'></canvas>
+		<div id="scoreNum">
+			<p class="scoreNum">0</p>
+		</div>
+	</section>
+	<section id="rank">
+		<div id="btn-rank-close"></div>
+		<div id="rank-wrapper"></div>
+	</section>
+	<section id="rule">
+		<div id="btn-rule-close"></div>
+	</section>
+
+	<!-- lvTip -->
+	<section id="lvTip">
+		<div id="btn-lvTip-close"></div>
+	</section>
+	<!-- gameover -->
+	<section id="gameover">
+		<div id="final-score"></div>
+		<div id="input-phone">
+			<input id="phone-num" placeholder="请输入电话号码" />
+		</div>
+		<div id="btn-submit">
+		</div>
+		<div id="btn-again">
+		</div>
+		<!--<div id="btn-scoreRank">
+		</div>-->
+	</section>
+	<audio id="bgmp3" src="{:ADDON_PUBLIC_PATH}/jiangshi/audio/bg.mp3" autoplay="autoplay" loop="loop"></audio>
+	<audio id="kidmp3" src="{:ADDON_PUBLIC_PATH}/jiangshi/audio/kid.mp3"></audio>
+	<audio id="zombiemp3" src="{:ADDON_PUBLIC_PATH}/jiangshi/audio/zombie.mp3"></audio>
+	<audio id="losemp3" src="{:ADDON_PUBLIC_PATH}/jiangshi/audio/lose.mp3"></audio>
+
+	<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+	<script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+	<script>
+        var openid='{$openid}';
+		var isplayed = 0;
+		var myscore = 0;
+        wx.config({
+            debug: false,
+            appId: '{$signPackage["appId"]}',
+            timestamp: '{$signPackage["timestamp"]}',
+            nonceStr: '{$signPackage["nonceStr"]}',
+            signature: '{$signPackage["signature"]}',
+            jsApiList: [
+                'onMenuShareTimeline','onMenuShareAppMessage'
+            ]
+        });
+
+        wx.ready(function () {
+            //分享给朋友圈
+            wx.onMenuShareTimeline({
+                title: '百事通打僵尸', // 分享标题
+                link: "http://addon.gzbaishitong.com/weiphp/index.php?s=/addon/HFive/JiangShi/index",// 分享链接
+                imgUrl: 'http://o9z6un8mv.bkt.clouddn.com/share1.jpg', // 分享图标
+                success: function () {
+
+                },
+                cancel: function () {
+
+                    // 用户取消分享后执行的回调函数
+                }
+            });
+            //分享给朋友
+            wx.onMenuShareAppMessage({
+                title: '百事通打僵尸', // 分享标题
+                desc: '百事通打僵尸', // 分享描述
+                link: "http://addon.gzbaishitong.com/weiphp/index.php?s=/addon/HFive/JiangShi/index",// 分享链接
+                imgUrl: 'http://o9z6un8mv.bkt.clouddn.com/share1.jpg', // 分享图标
+                type: '', // 分享类型,music、video或link，不填默认为link
+                dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+                success: function () {
+                    // 用户确认分享后执行的回调函数
+                },
+                cancel: function () {
+                    // 用户取消分享后执行的回调函数
+                }
+            });
+        })
+	</script>
+	<script src="{:ADDON_PUBLIC_PATH}/jiangshi/js/fastclick.min.js"></script>
+	<script src="{:ADDON_PUBLIC_PATH}/jiangshi/js/game.js?v=1"></script>
+	<script src="{:ADDON_PUBLIC_PATH}/jiangshi/js/app.js?v=1"></script>
+</body>
+</html>

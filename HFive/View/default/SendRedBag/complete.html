@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
+    <title></title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/zepto/1.1.6/zepto.min.js"></script>
+    <script>
+        $(function(){
+            $('#withdrawal').on('click', function() {
+				$("#container5").show();
+                var openid='{$userinfo.openid1}';
+                var userid='{$userinfo.id}';
+                var money=$('#money').val();
+                if(money=='')
+                {
+                    alert('提现金额不能为空');
+                    return;
+                }
+                $.ajax({
+                    type: "post",
+                    url: "{:U('withdrawal')}",
+                    data: {
+                        openid: openid,
+                        userid: userid,
+                        money:money
+                    },
+                    success: function (data) {
+                        if (data.status == 1) {
+                            var info = decodeURIComponent(data.info);//返回红包接口信
+                            var result_code = stringreplace($(info).find('result_code').html());//返回状态码
+                            var return_msg = stringreplace($(info).find('return_msg').html());//返回信息
+                            var re_openid = stringreplace($(info).find('re_openid').html());//用户openid
+                            var total_amount = stringreplace($(info).find('total_amount').html());//红包金额
+                            var mch_billno = stringreplace($(info).find('mch_billno').html());//商户订单号
+                            var mch_id = stringreplace($(info).find('mch_id').html());//商户号
+                            if (result_code == 'SUCCESS') {
+                                var send_listid = stringreplace($(info).find('send_listid').html());//红包订单微信单号
+                                $.post("{:U('addredpack')}", {
+                                    method: '关注5个公众号送红包',
+                                    re_openid: re_openid,
+                                    mch_billno: mch_billno,
+                                    mch_id: mch_id,
+                                    total_amount: total_amount,
+                                    send_listid: send_listid
+                                }, function (data) {
+									$("#container5").hide();
+                                    alert('提现成功');
+                                    $("#container2").hide()
+                                    $("#container4").css("display","block")
+                                })
+                            }
+
+                        }
+                        else
+                        {
+                            alert(data.info);
+							$("#container5").hide();
+                        }
+                    }
+                })
+            });
+        })
+        function stringreplace($string)//字符串替换
+        {
+            obj=$string.replace('<!--[CDATA[','');
+            obj=obj.replace(']]-->','');
+            return obj;
+        }
+    </script>
+    <style>
+        *{margin:0;padding:0}
+        html,body{
+            width:100%;
+            height:100%;
+            background:url(http://oboo4n5lb.bkt.clouddn.com/completebg.jpg) no-repeat;
+            background-size:100%;
+        }
+        #container2{
+            display:none
+        }
+        .tixian{
+            width:40%;
+            height:15%;
+            position:absolute;
+            background:url(http://oboo4n5lb.bkt.clouddn.com/tixian.png) no-repeat;
+            background-size:100%;
+            top:55%;
+            left:5%;
+        }
+        .share{
+            width:40%;
+            height:15%;
+            position:absolute;
+            background:url(http://oboo4n5lb.bkt.clouddn.com/share.png) no-repeat;
+            background-size:100%;
+            top:55%;
+            right:5%;
+        }
+        #container3{
+            height:100%;
+            width:100%;
+            position:absolute;
+            top:0;
+            left:0;
+            background:url(http://oboo4n5lb.bkt.clouddn.com/mask7.jpg) no-repeat;
+            background-size:100% 100%;
+            display:none
+        }
+        #container2{
+            height:100%;
+            width:100%;
+            position:absolute;
+            top:0;
+            left:0;
+            background:url(http://oboo4n5lb.bkt.clouddn.com/newmask4.png) no-repeat;
+            background-size:100% 100%;
+            display:none
+        }
+        .img{
+            position: absolute;
+            width: 84%;
+            left: 8%;
+        }
+        #money{
+            -webkit-appearance: none;
+            outline:none;
+            width:60%;
+            height:2rem;
+            left:15%;
+            top:43%;
+            position:absolute;
+            border:0px solid black;
+            font-size:1.5rem;
+            padding-left:5%
+        }
+        #withdrawal{
+            -webkit-appearance: none;
+            outline: none;
+            width: 50%;
+            height: 10%;
+            left: 25%;
+            top: 59%;
+            position: absolute;
+            border: 0px solid black;
+            font-size: 1.5rem;
+            padding-left: 5%;
+            background: url(http://oboo4n5lb.bkt.clouddn.com/submit.png) no-repeat;
+            background-size: 100% 100%;
+        }
+        #close{
+            background:transparent;
+            width: 3rem;
+            height: 3rem;
+            position: absolute;
+            top: 22%;
+            right: 5%;
+        }
+        .close2{
+            background:transparent;
+            width: 3rem;
+            height: 3rem;
+            position: absolute;
+            top: 22%;
+            right: 5%;
+        }
+        #container4{
+            height:100%;
+            width:100%;
+            position:absolute;
+            top:0;
+            left:0;
+            background:url(http://oboo4n5lb.bkt.clouddn.com/mask6.png) no-repeat;
+            background-size:100% 100%;
+            display:none
+        }
+        .sure{
+            background:url(http://oboo4n5lb.bkt.clouddn.com/sure.png) no-repeat;
+            background-size:100% 100%;
+            width:40%;
+            height:10%;
+            position:absolute;
+            top:62%;
+            left:30%
+        }
+        #cas{
+            position:absolute;
+            top:10%;
+            left:15%;
+            z-index:200;
+            display:none
+        }
+		#container5{
+			width:100%;height:100%;
+			z-index:200;
+			background:rgba(0,0,0,0.4);
+			position:absolute;
+			display:none
+		}
+    </style>
+</head>
+<body>
+<div class="tixian"></div>
+<div class="share"></div>
+<section id="container2">
+    <input type="text" id="money" value="{$money}"><br/>
+    <input type="button" id="withdrawal" value="">
+    <div id="close"></div>
+</section>
+<section id="container3">
+    <div class="img">
+        <img src="{$userinfo.qrcode}" style="width:100%" id="qimg">
+    </div>
+</section>
+<section id="container4">
+    <div class="close2"></div>
+    <div class="sure"></div>
+</section>
+<section id="container5">
+	<div style="color:#fedd30;text-align:center;position:absolute;top:30%;width:100%;">正在为你处理，请稍后</div>
+</section>
+<script>
+var type={$type};
+if(type == 1){
+	$("#container2").show();
+}else if(type == 2){
+	$("#container3").show();
+}
+    $('#money').val()
+    $(".share").click(function(){
+        $("#container3").css("display","block")
+    })
+    $(".tixian").click(function(){
+        $("#container2").css("display","block")
+    })
+    $("#close").click(function(){
+        $("#container2").css("display","none")
+    })
+    $(".close2").click(function(){
+        $("#container4").css("display","none")
+    })
+    $(".sure").click(function(){
+        $("#container4").css("display","none")
+        $("#container3").css("display","block")
+    })
+
+    var qcode="{$userinfo.qrcode}";
+    function addCanvas(){
+        var c = $('<canvas id="cas"></canvas>');
+        $("body").append(c);
+        var w = $('body').width();
+        can = document.getElementById('cas')
+        ctx=can.getContext('2d')
+        can.width=320;//canvas的实际宽
+        can.height=525;
+        $("#cas").width(w*0.9)
+        $("#cas").width(w*0.85)
+
+        //进行图片合并
+        imgbg = new Image();
+        imgbg.crossOrigin = ''; //解决跨域
+        imgbg.src="http://oboo4n5lb.bkt.clouddn.com/qbg.png";
+		imgData = new Image();
+		imgData.crossOrigin = ''; //解决跨域
+		imgData.src = qcode;
+        imgbg.onload = function(){
+            ctx.drawImage(imgbg,0,0,320,525);
+            ctx.save();
+            imgData.onload = function(){
+                ctx.restore();
+                ctx.drawImage(imgData,76,296,162,162);
+                var mycanvas = document.getElementById("cas");
+                finalImg = mycanvas.toDataURL("image/png");
+                $("#qimg").attr("src",finalImg)
+            }
+        }
+    }
+    addCanvas()
+</script>
+</body>
+</html>
