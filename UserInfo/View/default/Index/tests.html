@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/zepto/1.1.6/zepto.min.js"></script>
+    <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <script>
+        wx.config({
+            debug: false,
+            appId: '{$signPackage["appId"]}',
+            timestamp: '{$signPackage["timestamp"]}',
+            nonceStr: '{$signPackage["nonceStr"]}',
+            signature: '{$signPackage["signature"]}',
+            jsApiList: [
+                'onMenuShareTimeline','onMenuShareAppMessage'
+            ]
+        });
+        $(function(){
+            wx.ready(function () {
+                wx.checkJsApi({
+                    jsApiList: ['onMenuShareAppMessage'], // 需要检测的JS接口列表，所有JS接口列表见附录2,
+                    success: function(res) {
+                        alert(res.errMsg);
+                        // 以键值对的形式返回，可用的api值true，不可用为false
+                        // 如：{"checkResult":{"chooseImage":true},"errMsg":"checkJsApi:ok"}
+                    }
+                });
+                //分享给朋友圈
+                wx.onMenuShareTimeline({
+                    title: '友谊小船上的朋友，我的免费巴厘岛之旅就差你的一票啦，求票求票呀', // 分享标题
+                    desc: '友谊小船上的朋友，我的免费巴厘岛之旅就差你的一票啦，求票求票呀。', // 分享描述
+                    link: "https://open.weixin.qq.com/connect/oauth2/authorize?appid={$appid}&redirect_uri={:U('tests')}&response_type=code&scope=snsapi_userinfo&state="+123+"#wechat_redirect",// 分享链接
+                    imgUrl: 'http://o9z6un8mv.bkt.clouddn.com/share1.jpg', // 分享图标
+                    success: function () {
+//                    $.ajax({
+//                        type: "post",
+//                        url: "{:U('sharenews')}",
+//                        data: {
+//                            newsid:'{$NewsList.id}',
+//                            openid:'{$openid}',
+//                            method:'sf'
+//                        },
+//                        success: function (data) {
+//
+//                        }
+//                    })
+                    },
+                    cancel: function () {
+
+                        // 用户取消分享后执行的回调函数
+                    }
+                });
+                //分享给朋友
+                wx.onMenuShareAppMessage({
+                    title: '带着小V去旅行第二季，免费巴厘岛人气争夺！', // 分享标题
+                    desc: '友谊小船上的朋友，我的免费巴厘岛之旅就差你的一票啦，求票求票呀。', // 分享描述
+                    link: "https://open.weixin.qq.com/connect/oauth2/authorize?appid={$appid}&redirect_uri={:U('tests')}&response_type=code&scope=snsapi_userinfo&state="+123+"#wechat_redirect",// 分享链接
+                    imgUrl: 'http://o9z6un8mv.bkt.clouddn.com/share1.jpg', // 分享图标
+                    type: '', // 分享类型,music、video或link，不填默认为link
+                    dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+                    success: function () {
+//                    $.ajax({
+//                        type: "post",
+//                        url: "{:U('sharenews')}",
+//                        data: {
+//                            newsid:'{$NewsList.id}',
+//                            openid:'{$openid}',
+//                            method:'sd'
+//                        },
+//                        success: function (data) {
+//
+//                        }
+//                    })
+                        // 用户确认分享后执行的回调函数
+                    },
+                    cancel: function () {
+                        // 用户取消分享后执行的回调函数
+                    }
+                });
+            })
+
+
+        })
+    </script>
+</head>
+<body>
+
+</body>
+</html>

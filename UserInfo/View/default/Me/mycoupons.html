@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+    <meta name="format-detection" content="telephone=no" />
+    <link href="http://o817bctef.bkt.clouddn.com/style.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" href="{:ADDON_PUBLIC_PATH}/style/main.css">
+    <title></title>
+	<style>
+	ul{
+		margin-top:1rem;
+		margin-bottom:1rem;
+		width:70%;
+		margin-left:15%;
+	}
+	.list{list-style:none;
+		width:100%;
+		height:3rem;
+		margin-bottom:0.5rem;
+		background:url(http://7xt9sy.com1.z0.glb.clouddn.com/bannerbg.jpg) no-repeat;
+		background-size:100% 100%;
+		line-height:3rem;
+		text-align:center;
+		color:#fedd30;
+		font-weight:bold
+	}
+	</style>
+</head>
+<body>
+<header>
+	<img src="http://7xt9sy.com1.z0.glb.clouddn.com/banner%E4%BC%98%E6%83%A0.jpg" style="width:100%">
+</header>
+<ul>
+<volist name="CouPonList" id="data">
+	<li class="list">
+    {$data.score}积分优惠券
+	</li>
+</volist>
+</ul>
+<footer class="menu">
+    <img src="http://o817bctef.bkt.clouddn.com/menu3.jpg" style="width:100%">
+	<div style="position:absolute;top:0;width:100%;height:100%">
+	<!--<span class="menuItem"></span>
+	<span class="menuItem" id="mall"><a href="{:addons_url('Shop://Index/index')}" style="display:inline-block;width:100%;height:100%"></a></span>
+	<a href=""><span class="menuItem"></span></a>
+	</a>-->
+	<a class="menuItem" href="{:addons_url('UserInfo://Index/index')}"></a>
+	<a class="menuItem" href="{:addons_url('Shop://Index/index')}"></a>
+	<a class="menuItem" href="{:addons_url('UserInfo://Me/index')}"></a>
+	</div>
+</footer>
+</body>
+</html>

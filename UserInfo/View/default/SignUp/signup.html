@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+    <meta name="format-detection" content="telephone=no" />
+    <link rel="stylesheet" href="{:ADDON_PUBLIC_PATH}/sass/css/signup.css">
+    <title></title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/zepto/1.1.6/zepto.min.js"></script>
+    <script>
+			
+			$(function(){	
+				$('#sub').on('click', function() {
+					var username=$('#name').val();
+					var telphone=$('#telphone').val();
+					var sex=$('#sex').val();
+					var id='{$info.id}';
+					if(username=='')
+					{
+						alert('姓名不能为空');
+						return;
+					}
+					if(telphone=='')
+					{
+						alert('手机号码不能为空');
+						return;
+					}else{
+						var myreg = /^1[3458]\d{9}$/;
+						if (!myreg.exec(telphone)){
+							alert('请输入正确的手机号')
+						}else{
+							$.ajax({
+								url:"{:addons_url('UserInfo://SignUp/neworder')}",
+								type:"post",
+								data:{
+									id:'{$info.id}',
+									telphone:telphone,
+									name:username,
+									sex:sex
+								},
+								success:function(re){
+									if(re.status!= false){
+										var url = 'index.php?s=addon/UserInfo/SignUp/payorder.html'+'&id='+re.msg;
+										location.href=url;
+									}else{
+										alert(re.msg);
+										// alert('生成订单失败，请填写收货信息')
+									}
+								},
+								error:function(){
+									alert('操作失败');
+								}
+							})
+						}
+					}
+
+				});
+				if($("#sex option").val() == "女"){
+					$("#sex option").remove();
+					$("#sex").append("<option value='女'>女</option><option value='男'>男</option>"); 
+				}else{
+					$("#sex option").remove();
+					$("#sex").append("<option value='男'>男</option><option value='女'>女</option>"); 
+				}
+			})
+    </script>
+</head>
+<body>
+<section class="banner" style="background-image:url({$info.banner|get_cover_url})">
+</section>
+<section class="list2">
+    <div class="list2-item">
+        <p class="fl">姓  名:</p>
+        <p class="fr">
+		<if condition="$recordinfo neq ''">
+		<input type="text" id="name" placeholder="请输入姓名" value="{$recordinfo.name}"></p>
+		<else/>
+		<input type="text" id="name" placeholder="请输入姓名" value=""></p>
+		</if>
+    </div>
+    <div class="list2-item">
+        <p class="fl">性  别:</p>
+        <p class="fr">
+		<if condition="$recordinfo neq ''">
+		<select id="sex">
+                <option value="{$recordinfo.sex}">{$recordinfo.sex}</option>
+                <option value="男">男</option>
+        </select>
+		<else/>
+            <select id="sex">
+                <option value="男">男</option>
+                <option value="女">女</option>
+            </select>
+		</if>
+        </p>
+    </div>
+    <div class="list2-item">
+        <p class="fl">电话号码:</p>
+        <p class="fr">
+		<if condition="$recordinfo neq ''">
+		<input type="text" id="telphone" placeholder="请输入电话号码" value="{$recordinfo.telphone}"></p>
+		<else/>
+		<input type="text" id="telphone" placeholder="请输入电话号码" value=""></p>
+		</if>
+    </div>
+</section>
+<section class="desc">
+    <p class="smallGrey">请填写正确资料，如因资料不正确，而无法联系本人，视为本人自动放弃活动参与资格.</p>
+</section>
+<input type="button" id="sub" value="确认并支付" class="buttonCenter">
+</body>
+</html>

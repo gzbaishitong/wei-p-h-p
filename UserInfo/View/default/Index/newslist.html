@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+    <meta name="format-detection" content="telephone=no" />
+    <title>文章列表</title>
+	<link rel="stylesheet" href="{:ADDON_PUBLIC_PATH}/style/common.css">
+	<style>
+		<style>
+	body{background:url(http://ob26aihye.bkt.clouddn.com/bgwhite2.jpg);background-size:100% 100%}
+		.goodlist{
+			width:100%;
+			border-bottom:1px solid #c9caca;height:7rem;list-style:none;
+			position:relative;
+		}
+		.goodpic{
+	    width: 30%;
+    height: 5rem;
+    position: absolute;
+    top: 1rem;
+    left: 5%;
+    border: 1px solid #c9caca;
+	background-position:center center;
+	background-size:contain;
+	background-repeat:no-repeat;
+		}
+		.goodtitle{
+			position:absolute;
+			font-size:1rem;
+			left:40%;
+			top:1rem;
+			color:#777791
+		}
+		.goodClick{
+			width:5rem;
+			height:1.2rem;
+			background:#fedd30;
+			color:black;
+			position:absolute;
+			left:40%;
+			bottom:0.9rem;
+			text-align:center;
+			font-size:0.8rem;
+			line-height:1.2rem
+		}
+		.goodTip{
+			width:5rem;
+			height:1.2rem;
+			position:absolute;
+			right:5%;
+			bottom:0.9rem;
+		}
+	</style>
+	</style>
+	<script src="//cdn.bootcss.com/zepto/1.0rc1/zepto.min.js"></script>
+	<!--<script src="{:ADDON_PUBLIC_PATH}/js/adapt.js"></script>-->
+	<!--<script>
+		wx.config({
+        debug: false,
+        appId: '{$signPackage["appId"]}',
+        timestamp: '{$signPackage["timestamp"]}',
+        nonceStr: '{$signPackage["nonceStr"]}',
+        signature: '{$signPackage["signature"]}',
+        jsApiList: [
+            'onMenuShareTimeline','onMenuShareAppMessage'
+        ]
+    });
+    (function(){
+        wx.ready(function () {
+		wx.hideOptionMenu();
+		})
+    })()
+	</script>-->
+<body>
+<section class="zhuanfa">
+    <ul>
+<volist name="NewsList" id="NewsData">
+   <a href="{:U('newscontent',array('id'=>$NewsData['id']))}">
+		<li class="youhuiitem">
+			<div style=" padding:1rem 6% 0.5rem;">
+				<div class="youhuiitem-img">
+					<img src="{$NewsData.img|get_cover_url}" style="max-width:100%;max-height:100%">
+					<span id="sharescore">转发此贴+{$NewsData.sharescore}积分</span>
+				</div>
+				<p class="youhui-title">{$NewsData.title}</p>
+				<p class="youhui-abstract">{$NewsData.abstract}</p>
+			</div>
+		</li>
+   </a>
+</volist>
+	</ul>
+</section>
+<footer class="menuSecond">
+    <div style="position:absolute;top:0;width:100%;height:100%">
+        <!--<span class="menuItem"></span>
+        <span class="menuItem" id="mall"><a href="{:addons_url('Shop://Index/index')}" style="display:inline-block;width:100%;height:100%"></a></span>
+        <a href=""><span class="menuItem"></span></a>
+        </a>-->
+        <a class="menuItem" href="{:addons_url('UserInfo://Index/index')}">
+			<div id="menu1" style="z-index:100"></div>
+		</a>
+        <a class="menuItem" href="{:addons_url('UserInfo://Index/howtogetscore')}">
+			<span class="menu-after"></span>
+			<div id="menu2" style=""></div>
+		</a>
+        <a class="menuItem" href="{:addons_url('Shop://Index/index')}">
+			<div  id="menu3" style=""></div>
+		</a>
+    </div>
+</footer>
+<script>
+	//$(".youhuiitem-img").adjust();
+</script>
+</body>
+</html>

@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+    <meta name="format-detection" content="telephone=no" />
+    <link rel="stylesheet" href="{:ADDON_PUBLIC_PATH}/style/common/index.css">
+    <title></title>
+    <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <script>
+        (function(){
+            wx.config({
+                debug: false,
+                appId: '{$signPackage["appId"]}',
+                timestamp: '{$signPackage["timestamp"]}',
+                nonceStr: '{$signPackage["nonceStr"]}',
+                signature: '{$signPackage["signature"]}',
+                jsApiList: [
+                    'onMenuShareTimeline','onMenuShareAppMessage'
+                ]
+            });
+
+            wx.ready(function () {
+
+                //分享给朋友圈
+                //var sf= '{$NewsList.id}|{$openid}|sf';//分享到朋友圈参数
+                wx.onMenuShareTimeline({
+                    title: '你有一个奖品等待领取，赶紧行动吧！', // 分享标题
+                    link: "{:U('tosubscribe')}",// 分享链接
+                    imgUrl: 'http://ob26aihye.bkt.clouddn.com/erweima.jpg', // 分享图标
+                    success: function () {
+//                    $.ajax({
+//                        type: "post",
+//                        url: "{:U('sharenews')}",
+//                        data: {
+//                            newsid:'{$NewsList.id}',
+//                            openid:'{$openid}',
+//                            method:'sf'
+//                        },
+//                        success: function (data) {
+//
+//                        }
+//                    })
+                    },
+                    cancel: function () {
+
+                        // 用户取消分享后执行的回调函数
+                    }
+                });
+                //分享给朋友
+                var sd= '{$NewsList.id}|{$openid}|sd';//分享给朋友参数
+                wx.onMenuShareAppMessage({
+                    title: '你有一个奖品等待领取，赶紧行动吧！', // 分享标题
+                    desc: '更多优惠等你来拿！', // 分享描述
+                    link: "{:U('tosubscribe')}",// 分享链接
+                    imgUrl: 'http://ob26aihye.bkt.clouddn.com/erweima.jpg', // 分享图标
+                    type: '', // 分享类型,music、video或link，不填默认为link
+                    dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+                    success: function () {
+//                    $.ajax({
+//                        type: "post",
+//                        url: "{:U('sharenews')}",
+//                        data: {
+//                            newsid:'{$NewsList.id}',
+//                            openid:'{$openid}',
+//                            method:'sd'
+//                        },
+//                        success: function (data) {
+//
+//                        }
+//                    })
+                        // 用户确认分享后执行的回调函数
+                    },
+                    cancel: function () {
+                        // 用户取消分享后执行的回调函数
+                    }
+                });
+            })
+
+
+        })()
+    </script>
+</head>
+<body>
+<!--红包活动-->
+
+<!--<section id="maskhongbao" style="" data-area="{$area}" data-nickname="{$info.nickname}" data-send="{:U('sendredpacks')}" data-add="{:U('addredpack')}">
+    <div class="style1" style="">
+        <div class="portrait ab style2" style="">
+            <img src="{$info.headimgurl}" style="width:100%">
+        </div>
+        <div class="name ab style3">{$info.nickname}</div>
+        <div class="line style4 hongbaoline"></div>
+        <div id="maskhongbao-text" class="style5">
+        </div>
+    </div>
+    <div id="cancel4" style="" class="submit-btn">关 闭</div>
+</section>
+<section id="hongbaogonglve" style="width:100%;position:fixed;z-index:300;top:0;overflow:scroll;height:100%;-webkit-overflow-scrolling:touch;display:none">
+	<img src="http://obmxpqkpi.bkt.clouddn.com/3.jpg" style="width:100%">
+</section>
+<div id="hongbaogonglve-close" style="position:fixed;top:5%;right:5%;z-index:300;display:none">关闭</div>
+<section id="success"></section>
+<section id="load">
+	<div style="position:absolute;width:12%;height:9%;top:30%;left:44%;background:url(http://obmxpqkpi.bkt.clouddn.com/%E7%BA%A2%E5%8C%85%E4%BA%BA%283%29.gif);background-size:100% 100%">
+	</div>
+	<div style="color:white;width:100%;text-align:center;top:40%;position:absolute">
+	别心急，百事通正在为你处理。。。
+	</div>
+</section>
+<section style="width:100%;height:15%;background:#fce989;position:relative">
+    <if condition="$isgetredbagscore eq 1">
+        <div id="getredbag" style="
+	        width: 22%;
+    height: 62%;
+    position: absolute;
+    background: url(http://obmxpqkpi.bkt.clouddn.com/%E7%AB%8B%E5%8D%B3%E9%A2%86%E5%8F%961.png);
+    background-size: 100% 100%;
+    bottom: 2%;
+    left: 39%;
+">
+            <else/>
+            <div id="getgreenbag" style="
+	        width: 22%;
+    height: 62%;
+    position: absolute;
+    background: url(http://obmxpqkpi.bkt.clouddn.com/%E7%AB%8B%E5%8D%B3%E9%A2%86%E5%8F%961.png);
+    background-size: 100% 100%;
+    bottom: 2%;
+    left: 39%;
+">
+    </if>
+    </div>
+    <div  style="    width: 13%;
+    height: 56%;
+    position: absolute;
+    background: url(http://obmxpqkpi.bkt.clouddn.com/%E7%BA%A2%E5%8C%85%E4%BA%BA%283%29.gif);
+    background-size: 100% 100%;
+    right: 0;
+    bottom: 0;">
+    </div>
+    <!--<div style="
+width: 30%;
+    height: 50%;
+    position: absolute;
+    background: url(http://obmxpqkpi.bkt.clouddn.com/flag2.png);
+    background-size: 100% 100%;
+    right: 8%;
+    bottom: 39%;">
+    </div>
+   <div class="box">
+        <ul>
+            <volist name="fakelist" id="fakeData">
+                <li>{$fakeData.nickname}已经领取红包<span style="color:red">{$fakeData.money}元</span></li>
+            </volist>
+        </ul>
+    </div>
+	<div id="gonglve" style="width:20%;height:1.4rem;text-align:center;background:red;line-height:1.4rem;
+	color:white;position:absolute;bottom:8%;right:15%;font-size:0.8rem
+	">红包攻略</div>
+</section>-->
+<!-- <style>
+     li{list-style:none;}
+     .box{    /* margin: 20px; */
+         width: 37%;
+         height: 90%;
+         /* border: 1px solid #ddd; */
+         /* padding: 10px; */
+         overflow: hidden;
+         position: absolute;
+         top: 5%;
+         left: 2%;}
+     .box ul li{    line-height: 15px;
+         /* height: 2rem; */
+         font-size: 10px;
+         margin-bottom:1rem}
+     #success{
+         position:fixed;
+         top:0;
+         width:100%;
+         height:100%;
+         background:url(http://obmxpqkpi.bkt.clouddn.com/share2.png);
+         background-size:100% 100%;
+         z-index:300;
+         display:none;
+     }
+     #load{
+     position:fixed;
+     width:100%;height:100%;
+     background:rgba(0,0,0,0.6);
+     top:0;
+     z-index:300;
+     display:none
+     }
+     .move{
+         background:url(http://obmxpqkpi.bkt.clouddn.com/%E7%AB%8B%E5%8D%B3%E9%A2%86%E5%8F%96.gif)
+     }
+ </style>-->
+<!--------->
+<section id="scroll" style="-webkit-overflow-scrolling:touch;margin-bottom:5rem"">
+<div class="header">
+    <p class="header-title yahei">会员资料</p>
+    <div class="header-content">
+        <div class="portrait ab in">
+            <img class="lazy" src="{$info.headimgurl}" style="width:100%">
+        </div>
+        <div class="name ab in yahei">{$info.nickname}<!--<span class="card-num">{$info.userid}</span>--></div>
+        <div class="level ab in yahei">{$info.membergrade}会员</div>
+    </div>
+    <!--<img src = "http://o817bctef.bkt.clouddn.com/huiyuanka.jpg" style="width:100%">
+    <span class="userid">{$info.nickname}</span>-->
+</div>
+<section class="info-container">
+    <div class="container">
+        <div class="card-container-li">
+            <span class="userid">{$info.userid}</span>
+        </div>
+        <div class="card-container-li2">
+            <div class="icon"></div>
+            <div class="jifen">会员积分</div>
+            <div class="score">{$info.score}</div>
+            <div class="button">如何赚取积分</div>
+        </div>
+    </div>
+</section>
+<section class="gap">
+</section>
+<section class="jifen-container">
+    <div class="title"><span class="jifen3" style=""></span>我的特权</div>
+    <a href="#"><div class="view">查看我的特权</div></a>
+    <div class="view2">></div>
+    <ul class="jifen-ul"style="">
+        {$memgradeinfo.desc}
+    </ul>
+</section>
+<section class="gap">
+</section>
+<section class="jiangpin-container">
+    <div class="title"><span class="style1" style=""></span>我的奖品</div>
+    <a href="{:U('mygoods')}"><div class="view">查看我的奖品 </div></a>
+    <div class="view2">></div>
+    <ul class="jiangpin-list">
+        <volist name="GoodsList" id="data">
+            <a href="{:addons_url('Shop://Index/productinfos',array('orderid'=>$data['id']))}">
+                <li class="jiangpin-list-li" style="background-image:url({$data.head_img|get_cover_url});background-size:100% 100%">
+                    <p class="titleWhite">{$data.title}</p>
+
+                    <if condition="$data.isuse eq 0 && $data.endtime gt $localtime"><div class="style2" style="background:red">未换领</div>
+                        <elseif condition="$data.endtime lt $localtime"/>
+                        <div class="style3" style="background:grey">已过期</div>
+                        <else/>
+                        <div class="style3" style="background:grey">已换领</div>
+                    </if>
+                    </div>
+                    <div class="style4" style="">{$data.total_price}{$data.payType}</div>
+                </li>
+            </a>
+        </volist>
+    </ul>
+</section>
+<section class="gap">
+</section>
+<section class="jifen-container">
+    <div class="title"><span class="jifen1" style=""></span>积分明细</div>
+    <a href="{:U('myscorerecord')}"><div class="view">查看我的明细</div></a>
+    <div class="view2">></div>
+    <ul class="jifen-ul"style="">
+        <if condition="$recordlist[0] neq ''">
+            <li  class="jifen-li" style="">
+                <div class="jifen-li-left" style=""><php>echo date('Y-m-d',$recordlist[0]['addtime'])</php></div>
+                <div class="jifen-li-right" style=""><if condition="$recordlist[0]['actype'] gt 0">-<else/>+</if> {$recordlist[0]['score']}</div>
+            </li>
+        </if>
+        <if condition="$recordlist[1] neq ''">
+            <li class="jifen-li" style="">
+                <div class="jifen-li-left" style=""><php>echo date('Y-m-d',$recordlist[1]['addtime'])</php></div>
+                <div class="jifen-li-right" style=""><if condition="$recordlist[1]['actype'] gt 0">-<else/>+</if> {$recordlist[1]['score']}</div>
+            </li>
+        </if>
+        <if condition="$recordlist[2] neq ''">
+            <li class="jifen-li" style="">
+                <div class="jifen-li-left" style=""><php>echo date('Y-m-d',$recordlist[2]['addtime'])</php></div>
+                <div class="jifen-li-right" style=""><if condition="$recordlist[2]['actype'] gt 0">-<else/>+</if> {$recordlist[2]['score']}</div>
+            </li>
+        </if>
+
+    </ul>
+</section>
+<section class="gap">
+</section>
+<section class="jifen-container">
+    <div class="title"><span class="jifen2" style=""></span>最近活动</div>
+    <a href="{:addons_url('UserInfo://SignUp/aclist')}"><div class="view">查看最近活动</div></a>
+    <div class="view2">></div>
+    <ul class="jifen-ul"style="">
+        <volist name="SignUpList" id="signUpData">
+            <a href="{:addons_url('UserInfo://SignUp/accontent',array('id'=>$signUpData['id']))}">
+                <li  class="jifen-li" style="">
+                    <div class="jifen-li-left" style=""><php>echo date('Y-m-d',$signUpData['acbegintime'])</php>-<php>echo date('Y-m-d',$signUpData['acendtime'])</php></div>
+                    <div class="jifen-li-right" style="">{$signUpData.name}</div>
+                </li>
+            </a>
+        </volist>
+    </ul>
+</section>
+</section>
+
+<footer class="menu">
+    <div class="menu-container">
+        <!--<span class="menuItem"></span>
+        <span class="menuItem" id="mall"><a href="{:addons_url('Shop://Index/index')}" style="display:inline-block;width:100%;height:100%"></a></span>
+        <a href=""><span class="menuItem"></span></a>
+        </a>-->
+        <a class="menuItem" href="{:addons_url('UserInfo://Index/index')}">
+            <span class="menu-after"></span>
+            <div id="menu1" style="z-index:100"></div>
+        </a>
+        <a class="menuItem" href="{:addons_url('UserInfo://Index/howtogetscore')}">
+            <div id="menu2" style=""></div>
+        </a>
+        <a class="menuItem" href="{:addons_url('Shop://Index/index')}">
+            <div  id="menu3" style=""></div>
+        </a>
+    </div>
+</footer>
+
+
+<section style="display:none">
+    <img class="lazy"  src="{$info.headimgurl}" id="globalimg"></img>
+    <div id="globalname">{$info.nickname}</div>
+    <div id="globalguize">
+        积分规则：</br>
+        </br>
+        1.每日签到</br>
+        每日可签到1次，获得1积分，连续签到5天后，第6天起每天2积分，如果期间中断，则重新计算。</br>
+        </br>
+        2.完善资料</br>
+        完善您的个人资料即可获得10积分</br>
+        </br>
+        <!--3.推荐好友</br>
+        将推荐好友页面截图分享给朋友或分享到朋友圈，每有1位朋友通过您的二维码关注暴走广州，则您可获得5积分，每天推荐好友上限为5位。超过5位仍可继续推荐，但不增加积分。</br>
+        </br>
+        4.转发文章</br>
+        进入文章详情页面将此页面分享到朋友圈则可获得1积分，每天上限10篇；转发文章被朋友阅读，每有1位阅读，则有1积分，每天阅读上限100积分。</br>
+        </br>
+        后续还会有更多赚积分的途径，敬请留意~</br>-->
+    </div>
+    <div id="globaldengji">
+        会员等级：</br>
+        <table class="gridtable">
+            <th>会员等级</th>	<th>积分值</th>
+            <tr><td>VIP1</td>	<td>0-500</td></tr>
+            <tr><td>VIP2</td>	<td>501-1000</td></tr>
+            <tr><td>VIP3</td>	<td>1001-1500</td></tr>
+            <tr><td>VIP4</td>	<td>1501-5000</td></tr>
+            <tr><td>VIP5</td>	<td>5001-10000</td></tr>
+            <tr><td>VIP6</td>	<td>10001-20000</td></tr>
+            <tr><td>VIP7</td>	<td>20001以上</td></tr>
+        </table>
+        </br>
+        注：每个会员等级后续会有不同的福利优先待遇权，敬请期待！</br>
+    </div>
+</section>
+<if condition="$DutyList.name neq ''">
+<section id="task">
+	<div class="taskContainer">
+		<div class="img" style="background:url({$DutyList.img|get_cover_url});background-size:100% 100%;"></div>
+		<div class="name">{$DutyList.name}</div>
+		<div class="time-container">任务时间:<span class="time"><php>echo date('Y-m-d',$DutyList['begintime'])</php>/<php>echo date('Y-m-d',$DutyList['endtime'])</php></span></div>
+		<div class="desc">{$DutyList.desc}</div>
+		<a href="{:addons_url('UserInfo://Index/dutycontent',array('id'=>$DutyList['id']))}"><div class="button">立即领取任务</div></a>
+		<div class="close"></div>
+	</div>
+</section>
+</if>
+<script src="https://cdn.bootcss.com/require.js/2.2.0/require.min.js" data-main="{:ADDON_PUBLIC_PATH}/js/index"></script>
+<script>
+</script>
+<!--<div style="display:none">
+	<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1260138098'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s11.cnzz.com/z_stat.php%3Fid%3D1260138098' type='text/javascript'%3E%3C/script%3E"));</script>
+</div>-->
+</body>
+</html>

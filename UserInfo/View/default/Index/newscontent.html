@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <!--<div id='wx_pic' style='margin:0 auto;display:none;'>
+        <img src='{$NewsList.img|get_cover_url}' />
+    </div>-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+    <meta name="format-detection" content="telephone=no" />
+    <title>{$NewsList.title}</title>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/zepto/1.1.6/zepto.min.js"></script>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script>
+    wx.config({
+        debug: false,
+        appId: '{$signPackage["appId"]}',
+        timestamp: '{$signPackage["timestamp"]}',
+        nonceStr: '{$signPackage["nonceStr"]}',
+        signature: '{$signPackage["signature"]}',
+        jsApiList: [
+            'onMenuShareTimeline','onMenuShareAppMessage'
+        ]
+    });
+    $(function(){
+        wx.ready(function () {
+		
+            //分享给朋友圈
+            var sf= '{$NewsList.id}|{$openid}|sf';//分享到朋友圈参数
+            wx.onMenuShareTimeline({
+                title: '{$NewsList.title}', // 分享标题
+                link: "https://open.weixin.qq.com/connect/oauth2/authorize?appid={$appid}&redirect_uri={:U('newscontent')}&response_type=code&scope=snsapi_userinfo&state="+sf+"#wechat_redirect",// 分享链接
+                imgUrl: '{$NewsList.img|get_cover_url}', // 分享图标
+                success: function () {
+					$("#maskguize").css("display","block");
+					$("#text").html("您有好友打开分享的文章，就能帮您增加{$NewsList.sharescore}积分噢！")
+					$("#cancel").click(function(){
+						$("#maskguize").css("display","none");
+					})
+//                    $.ajax({
+//                        type: "post",
+//                        url: "{:U('sharenews')}",
+//                        data: {
+//                            newsid:'{$NewsList.id}',
+//                            openid:'{$openid}',
+//                            method:'sf'
+//                        },
+//                        success: function (data) {
+//
+//                        }
+//                    })
+                },
+                cancel: function () {
+
+                    // 用户取消分享后执行的回调函数
+                }
+            });
+            //分享给朋友
+            var sd= '{$NewsList.id}|{$openid}|sd';//分享给朋友参数
+            wx.onMenuShareAppMessage({
+                title: '{$NewsList.title}', // 分享标题
+                desc: '{$NewsList.abstract}', // 分享描述
+                link: "https://open.weixin.qq.com/connect/oauth2/authorize?appid={$appid}&redirect_uri={:U('newscontent')}&response_type=code&scope=snsapi_userinfo&state="+sd+"#wechat_redirect",// 分享链接
+                imgUrl: '{$NewsList.img|get_cover_url}', // 分享图标
+                type: '', // 分享类型,music、video或link，不填默认为link
+                dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+                success: function () {
+					$("#maskguize").css("display","block");
+					$("#text").html("要分享朋友圈才能加积分噢！")
+					$("#cancel").click(function(){
+						$("#maskguize").css("display","none");
+					})
+//                    $.ajax({
+//                        type: "post",
+//                        url: "{:U('sharenews')}",
+//                        data: {
+//                            newsid:'{$NewsList.id}',
+//                            openid:'{$openid}',
+//                            method:'sd'
+//                        },
+//                        success: function (data) {
+//
+//                        }
+//                    })
+                    // 用户确认分享后执行的回调函数
+                },
+                cancel: function () {
+                    // 用户取消分享后执行的回调函数
+                }
+            });
+        })
+
+
+    })
+</script>
+    <link rel="stylesheet" href="{:ADDON_PUBLIC_PATH}/style/common.css">
+    <style>
+	body{
+	background:url(http://ob26aihye.bkt.clouddn.com/ditu.jpg);
+	background-size:100% 100%
+	}
+        #sharepic{
+		width:40%;height:5rem;position:absolute;left:5%;top:1.5rem;background:#dbdcdc;border:1px solid #ebebeb;background-size:100% 100%;background-position:center center;
+		background-repeat:no-repeat;
+	}
+	#sharetitle{
+		width:45%;position:absolute;right:5%;top:0.5rem;font-size:0.8rem
+	}
+	#sharelink{
+		text-align:center;background:white;width:26%;height:1rem;line-height:1rem;font-size:0.8rem;border-radius:.4rem;color:#b5b5b6;border:1px solid #b5b5b6;position:absolute;bottom:0.5rem;right:4%
+	}
+	#closebtn{
+		background:url(http://ob26aihye.bkt.clouddn.com/closebtn.png);background-size:100% 100%;width:1.5rem;height:1.5rem;position:absolute;top:-0.7rem;right:-3%
+	}
+    </style>
+</head>
+<body>
+<div id="mask" style="width:100%;height:100%;background:rgba(0,0,0,0.5);position:fixed;top:0;">
+	<div style="
+	position: absolute;
+    width: 100%;
+    height: 38%;
+    left: 0%;
+    top: 2%;
+    background: url(http://ob26aihye.bkt.clouddn.com/fenxiangtitile2.png);
+    background-size: 100% 100%;
+	">
+		<div id="sharefen" style="
+		    width: 20%;
+    height: 6rem;
+    line-height: 6rem;
+    font-size: 4rem;
+    position: absolute;
+    color: #ea8681;
+    bottom: -2%;
+    right: 44%;
+    text-align: center;
+		">{$NewsList.sharescore}</div>
+	</div>
+	<div style="width:66%;height:8rem;left:17%;position:absolute;top:43%;background:#dbdcdc;border-radius:1rem">
+		<div id="sharepic" style="background-image:url({$NewsList.img|get_cover_url})"></div>
+		<div id="sharetitle" style="">{$NewsList.title}</div>
+		<a href="{$NewsList.url}"><div id="sharelink" style="">阅读原文</div></a>
+		<a href="{:addons_url('UserInfo://Index/forwardnews')}"><div id="closebtn" style=""></div></a>
+	</div>
+</div>
+<footer class="menuSecond">
+    <div style="position:absolute;top:0;width:100%;height:100%">
+        <!--<span class="menuItem"></span>
+        <span class="menuItem" id="mall"><a href="{:addons_url('Shop://Index/index')}" style="display:inline-block;width:100%;height:100%"></a></span>
+        <a href=""><span class="menuItem"></span></a>
+        </a>-->
+        <a class="menuItem" href="{:addons_url('UserInfo://Index/index')}">
+			<div id="menu1" style="z-index:100"></div>
+		</a>
+        <a class="menuItem" href="{:addons_url('UserInfo://Index/howtogetscore')}">
+			<span class="menu-after"></span>
+			<div id="menu2" style=""></div>
+		</a>
+        <a class="menuItem" href="{:addons_url('Shop://Index/index')}">
+			<div  id="menu3" style=""></div>
+		</a>
+    </div>
+</footer>
+<section id="maskguize" style="">
+    <div class="style1" style="">
+        <div class="portrait ab style2" style="">
+            <img src="http://oboo4n5lb.bkt.clouddn.com/Cgo8PFTUXb-AXhpTAAEipxOZcHA599.JPG" style="width:100%">
+        </div>
+        <div class="name ab style3">广州百事通</div>
+        <div class="line style4" style="position: absolute;
+    height: 1px;
+    width: 96%;
+    top: 3.6rem;
+    left: 2%;
+    background: #ebebeb;"></div>
+        <div id="text" class="style5">
+        </div>
+    </div>
+    <div id="cancel" style="" class="submit-btn">关 闭</div>
+</section>
+<!--{$content}
+<header>
+    <img src="http://7xt9sy.com1.z0.glb.clouddn.com/banner6.jpg" style="width:100%">
+</header>
+<div class="title">
+    
+</div>
+<div class="author">
+    {$NewsList.author}
+</div>
+<div class="content">
+    {$NewsList.content}
+</div>
+转发积分:
+<div>
+    {$NewsList.sharescore}
+</div>
+<a href="{$url}">预览原文</a>
+<footer class="menu" style="height:4.5rem">
+    <img src="http://o817bctef.bkt.clouddn.com/menu3.jpg" style="width:100%;height:100%">
+    <div style="position:absolute;top:0;width:100%;height:100%">
+        <!--<span class="menuItem"></span>
+        <span class="menuItem" id="mall"><a href="{:addons_url('Shop://Index/index')}" style="display:inline-block;width:100%;height:100%"></a></span>
+        <a href=""><span class="menuItem"></span></a>
+        </a>
+        <a class="menuItem" href="{:addons_url('UserInfo://Index/index')}"></a>
+        <a class="menuItem" href="{:addons_url('Shop://Index/index')}"></a>
+        <a class="menuItem" href="{:addons_url('UserInfo://Me/index')}"></a>
+    </div>
+</footer>-->
+
+</body>
+</html>

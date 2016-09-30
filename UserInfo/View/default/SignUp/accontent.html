@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+    <meta name="format-detection" content="telephone=no" />
+    <link rel="stylesheet" href="{:ADDON_PUBLIC_PATH}/sass/css/signup.css">
+    <title></title>
+</head>
+<body style="background:#fff">
+<section class="banner" style="background-image:url({$info.banner|get_cover_url})">
+</section>
+<section class="scrollContainer2">
+    <div class="list2">
+        <div class="list2-item">
+            <p class="fl">活动主题:</p>
+            <p class="fr">{$info.name}</p>
+        </div>
+        <div class="list2-item">
+            <p class="fl">活动时间:</p>
+            <p class="redBox time" id="time"><php>echo date('Y/m/d',$info['acbegintime'])</php>-<php>echo date('Y/m/d',$info['acendtime'])</php></p>
+        </div>
+        <div class="list2-item">
+            <p class="fl">活动人数:</p>
+            <p class="fr">{$info.number}</p>
+        </div>
+        <div class="list2-item">
+            <p class="fl">已报名人数:</p>
+            <p class="fr">{$surecount}</p>
+        </div>
+        <div class="list2-item">
+            <p class="fl">报名时间:</p>
+            <p class="fr"><php>echo date('Y/m/d',$info['begintime'])</php>-<php>echo date('Y/m/d',$info['endtime'])</php></p>
+        </div>
+    </div>
+
+    <div class="list2">
+        <div class="list2-item">
+            <p class="fl">活动费用:</p>
+            <p class="fr">{$info.money}元</p>
+        </div>
+        <div class="list2-item">
+            <p class="fl">活动地点:</p>
+            <p class="fr">{$info.address}</p>
+        </div>
+    </div>
+</section>
+<section class="desc">
+    活动简介:</br>{$info.desc}
+</section>
+<br/>
+<if condition="$info.endtime lt $localtime ">
+    <div class="buttonCenter" style="background-color:grey;
+	color:#fff;">报名已结束</div>
+    <elseif condition="$info.begintime gt $localtime" />
+    <div class="buttonCenter" style="background-color:grey;
+	color:#fff;">报名未开始</div>
+    <else/>
+<a href="{:U('signup',array('id'=>$info['id']))}"><div class="buttonCenter">我要报名</div></a>
+</if>
+<script>
+    var acbegintime = "<php>echo date('Y/m/d',$info['acbegintime'])</php>";
+    var acendtime =  "<php>echo date('Y/m/d',$info['acendtime'])</php>";
+    if(acbegintime == acendtime){
+        document.getElementById('time').innerHTML=acbegintime
+    }
+</script>
+</body>
+</html>

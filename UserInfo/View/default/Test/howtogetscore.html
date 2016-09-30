@@ -1,0 +1,398 @@
+﻿<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>赚取积分</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+    <meta name="format-detection" content="telephone=no" />
+    <!--<link href="http://o817bctef.bkt.clouddn.com/style.css" rel="stylesheet" type="text/css"/>-->
+    <link rel="stylesheet" href="{:ADDON_PUBLIC_PATH}/style/common.css">
+    <script src="//cdn.bootcss.com/zepto/1.0rc1/zepto.min.js"></script>
+    <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <script>
+        wx.config({
+            debug: false,
+            appId: '{$signPackage["appId"]}',
+            timestamp: '{$signPackage["timestamp"]}',
+            nonceStr: '{$signPackage["nonceStr"]}',
+            signature: '{$signPackage["signature"]}',
+            jsApiList: [
+                'onMenuShareTimeline','onMenuShareAppMessage'
+            ]
+        });
+        (function(){
+            wx.ready(function () {
+
+                //分享给朋友圈
+                //var sf= '{$NewsList.id}|{$openid}|sf';//分享到朋友圈参数
+                wx.onMenuShareTimeline({
+                    title: '你有一个奖品等待领取，赶紧行动吧！', // 分享标题
+                    link: "{:U('tosubscribe')}",// 分享链接
+                    imgUrl: 'http://ob26aihye.bkt.clouddn.com/erweima.jpg', // 分享图标
+                    success: function () {
+//                    $.ajax({
+//                        type: "post",
+//                        url: "{:U('sharenews')}",
+//                        data: {
+//                            newsid:'{$NewsList.id}',
+//                            openid:'{$openid}',
+//                            method:'sf'
+//                        },
+//                        success: function (data) {
+//
+//                        }
+//                    })
+                    },
+                    cancel: function () {
+
+                        // 用户取消分享后执行的回调函数
+                    }
+                });
+                //分享给朋友
+                var sd= '{$NewsList.id}|{$openid}|sd';//分享给朋友参数
+                wx.onMenuShareAppMessage({
+                    title: '你有一个奖品等待领取，赶紧行动吧！', // 分享标题
+                    desc: '更多优惠等你来拿！', // 分享描述
+                    link: "{:U('tosubscribe')}",// 分享链接
+                    imgUrl: 'http://ob26aihye.bkt.clouddn.com/erweima.jpg', // 分享图标
+                    type: '', // 分享类型,music、video或link，不填默认为link
+                    dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+                    success: function () {
+//                    $.ajax({
+//                        type: "post",
+//                        url: "{:U('sharenews')}",
+//                        data: {
+//                            newsid:'{$NewsList.id}',
+//                            openid:'{$openid}',
+//                            method:'sd'
+//                        },
+//                        success: function (data) {
+//
+//                        }
+//                    })
+                        // 用户确认分享后执行的回调函数
+                    },
+                    cancel: function () {
+                        // 用户取消分享后执行的回调函数
+                    }
+                });
+            })
+
+
+        })()
+    </script>
+    <script>
+        $(function(){
+            $("#tuijian").click(function(){
+                $("#mask").css("display","block");
+                $("#cancel").click(function(){
+                    $("#mask").css("display","none");
+                })
+            })
+            $(".label").click(function(){
+                $("#maskguize").css("display","block");
+                $("#cancel3").click(function(){
+                    $("#maskguize").css("display","none");
+                })
+            })
+            $("#qiandao").click(function(){
+                $.post("{:U('qiandao')}",{},function(data){
+                    var Data = JSON.parse(data)
+                    $("#mask2").css("display","block");
+                    $("#mask2-text").html(Data.info)
+                    $("#cancel2").click(function(){
+                        if(Data.status==1)
+                        {
+                            if(Data.url!='')
+                            {
+                                $.post(Data.url,{
+                                    openid:'{$info.openid}',
+                                    money:'101',
+                                    token:'{$info.token}'
+                                },function(){
+                                })
+                            }
+                            location.href="{:U('howtogetscore')}";
+                        }else{
+                            $("#mask2").css("display","none")
+                        }
+                    })
+                })
+            })
+        })
+    </script>
+    <style>
+        header{
+            background:#fedd30;
+            height:9rem;
+            width:100%;
+            position:absolute;
+            top:0;
+            left:0;
+            position:relative;
+        }
+        .portrait{
+            width: 2.6rem;
+            height: 2.6rem;
+            border-radius: 1.3rem;
+            overflow: hidden;
+            left:50%;
+            margin-left:-1.3rem;
+            top:.5rem
+        }
+        .name{
+            font-size: 0.8rem;
+            width: 100%;
+            top: 3.1rem;
+            margin-top: 1%;
+            width: 100%;
+            text-align: center;
+            color:#898989
+        }
+        header .card-num{
+            font-size: 0.8rem;
+            width: 100%;
+            top: 4rem;
+            margin-top: 1%;
+            width: 100%;
+            text-align: center;
+            color:#898989
+        }
+        header .left{
+            width:50%;
+            bottom:0;
+            left:0;
+            height:3rem
+        }
+        header .right{
+            width:50%;
+            bottom:0;
+            right:0;
+            height:3rem
+        }
+        header .jifen{
+            text-align:center;
+            width:100%;
+            margin-left:0.5rem;
+        }
+        header .fenshu{
+            font-size:1.2rem;
+            text-align:center;
+            width:100%;
+            top:1.2rem;
+            font-weight:bold
+        }
+        header .fenge{
+            width:2px;height:1.2rem;
+            background:#898989;
+            bottom:1.5rem;
+            left:50%;
+            margin-left:-1px
+        }
+        header .label{
+            background: #e73828;
+            width: 26%;
+            height: 1.4rem;
+            right: 0;
+            top: 38%;
+            color: #fedd30;
+            text-align: center;
+            font-size: 0.8rem;
+            line-height: 1.4rem;
+        }
+        .label:before{
+            content:"";
+            width:1.4rem;
+            height:1.4rem;
+            border-radius:0.7rem;
+            position:absolute;
+            left:-0.7rem;
+            background:#e73828;
+        }
+        .jifen:before{
+            content:"";
+            width:1rem;
+            height:1rem;
+            background:url(http://ob26aihye.bkt.clouddn.com/zhuanjifenicon1.jpg);
+            background-size:100% 100%;
+            display:inline-block;
+            position: absolute;
+            left:27%;
+            top:0.1rem
+        }
+        a{
+            text-decoration:none
+        }
+        .main{
+            height:6rem;
+            background:url(http://ob26aihye.bkt.clouddn.com/bgwhite2.jpg);
+            background-size:contain;
+            position:relative;
+            border-bottom:1px solid #ebebeb;
+        }
+        .main-list{
+            width:100%;
+            height:3rem;
+            position:relative
+        }
+        .main-list-title{
+            font-size:1rem;
+            left:6%;
+            line-height:3rem;
+            color:#898989
+        }
+        .main-list-arrow{
+            font-size:1.5rem;
+            right:5%;
+            line-height:3rem;
+            color:#ebebeb;
+            float:right;
+            font-weight:bold
+        }
+        .line{
+            position:absolute;
+            height:1px;
+            width:96%;
+            top:3rem;
+            left:2%;
+            background:#ebebeb
+        }
+    </style>
+</head>
+<body>
+<header>
+    <div class="portrait ab">
+        <img src="{$info.headimgurl}" style="width:100%">
+    </div>
+    <div class="name ab">{$info.nickname}</div>
+    <div class="card-num ab">No.{$info.userid}</div>
+    <div class="left ab">
+        <p class="jifen">会员积分</p>
+        <p class="fenshu ab">{$info.score}</p>
+    </div>
+    <div class="right ab">
+        <p class="jifen">会员等级</p>
+        <p class="fenshu ab">{$info.membergrade}</p>
+    </div>
+    <div class="fenge ab"></div>
+    <div class="label ab">我要赚积分</div>
+</header>
+<section class="main">
+    <div class="main-list" id="qiandao">
+        <div class="main-list-title ab">每日签到</div>
+        <div class="main-list-arrow ab">></div>
+    </div>
+    <a href="{:addons_url('UserInfo://Index/myinfo')}"><div class="main-list">
+        <div class="main-list-title ab">完善资料</div>
+        <div class="main-list-arrow ab">></div>
+    </div></a>
+    <div class="line"></div>
+</section>
+<section class="main" style="margin-top:1.2rem">
+    <div class="main-list" id="tuijian">
+        <div class="main-list-title ab">推荐好友</div>
+        <div class="main-list-arrow ab">></div>
+    </div>
+    <a href="{:U('forwardnews')}"><div class="main-list">
+        <div class="main-list-title ab">转发文章</div>
+        <div class="main-list-arrow ab">></div>
+    </div></a>
+    <div class="line"></div>
+</section>
+<section id="mask" style="width:100%;height:100%;background:rgba(0,0,0,0.5);position:fixed;top:0;display:none">
+    <div style="    width: 80%;
+    height: 55%;
+    background: #fedd30;
+    position: absolute;
+    top: 15%;
+    left: 10%;
+    border-radius: 1rem;">
+        <div class="portrait ab" style="top:4%;left:13%">
+            <img src="{$info.headimgurl}" style="width:100%">
+        </div>
+        <div class="name ab" style="font-size:1.2rem;left:5rem;text-align:left;top:8%">{$info.nickname}</div>
+        <div class="line" style="top:20%;width:90%;background:#898989;left:5%"></div>
+        <div style="width:80%;position:absolute;top:25%;left:10%;text-align:center">邀请朋友扫一扫二维码</br>或者将此二维码分享给朋友</div>
+        <div style="width:40%;position:absolute;top:28%;left:30%;margin-top:2.5rem"><img src="{$info.qrcode}" style="width:100%"></div>
+        <div style="width:40%;position:absolute;top:83%;left:30%;font-weight:bold;text-align:center">朋友关注后</div>
+        <div style="background:red;color:white;width:40%;position:absolute;top:83%;left:30%;font-weight:bold;text-align:center;margin-top:1.2rem">即可获得积分</div>
+    </div>
+    <div id="cancel" style="" class="submit-btn">关 闭</div>
+</section>
+<section id="mask2" style="width:100%;height:100%;background:rgba(0,0,0,0.5);position:fixed;top:0;display:none">
+    <div style="    width: 80%;
+    height: 55%;
+    background: #fedd30;
+    position: absolute;
+    top: 15%;
+    left: 10%;
+    border-radius: 1rem;">
+        <div class="portrait ab" style="top:4%;left:13%">
+            <img src="{$info.headimgurl}" style="width:100%">
+        </div>
+        <div class="name ab" style="font-size:1.2rem;left:5rem;text-align:left;top:8%">{$info.nickname}</div>
+        <div class="line" style="top:20%;width:90%;background:#898989;left:5%"></div>
+        <div id="mask2-text" style="width:80%;position:absolute;top:40%;left:10%;text-align:center">邀请朋友扫一扫二维码</br>或者将此二维码分享给朋友</div>
+    </div>
+    <div id="cancel2" style="" class="submit-btn">关 闭</div>
+</section>
+<section id="maskguize" style="width:100%;height:100%;background:rgba(0,0,0,0.5);position:fixed;top:0;display:none">
+    <div style="    width: 80%;
+    height: 55%;
+    background: #fedd30;
+    position: absolute;
+    top: 15%;
+    left: 10%;
+    border-radius: 1rem;">
+        <div class="portrait ab" style="top:4%;left:13%">
+            <img src="{$info.headimgurl}" style="width:100%">
+        </div>
+        <div class="name ab" style="font-size:1.2rem;left:5rem;text-align:left;top:8%">{$info.nickname}</div>
+        <div class="line" style="top:20%;width:90%;background:#898989;left:5%"></div>
+        <div id="mask2-text" style="width:90%;position:absolute;top:25%;left:5%;font-size:0.8rem;height:70%;overflow-y:scroll">
+            积分规则：</br>
+            </br>
+            1.每日签到</br>
+            每日可签到1次，获得1积分，连续签到5天后，第6天起每天2积分，如果期间中断，则重新计算。</br>
+            </br>
+            2.完善资料</br>
+            完善您的个人资料即可获得10积分</br>
+            </br>
+            <!--3.推荐好友</br>
+            将推荐好友页面截图分享给朋友或分享到朋友圈，每有1位朋友通过您的二维码关注暴走广州，则您可获得5积分，每天推荐好友上限为5位。超过5位仍可继续推荐，但不增加积分。</br>
+            </br>
+            4.转发文章</br>
+            进入文章详情页面将此页面分享到朋友圈则可获得1积分，每天上限10篇；转发文章被朋友阅读，每有1位阅读，则有1积分，每天阅读上限100积分。</br>
+            </br>
+            后续还会有更多赚积分的途径，敬请留意~</br>-->
+        </div>
+    </div>
+    <div id="cancel3" style="" class="submit-btn">关 闭</div>
+</section>
+<footer class="menuSecond">
+    <div style="position:absolute;top:0;width:100%;height:100%">
+        <!--<span class="menuItem"></span>
+        <span class="menuItem" id="mall"><a href="{:addons_url('Shop://Index/index')}" style="display:inline-block;width:100%;height:100%"></a></span>
+        <a href=""><span class="menuItem"></span></a>
+        </a>-->
+        <a class="menuItem" href="{:addons_url('UserInfo://Index/index')}">
+            <div id="menu1" style="z-index:100"></div>
+        </a>
+        <a class="menuItem" href="{:addons_url('UserInfo://Index/howtogetscore')}">
+            <span class="menu-after"></span>
+            <div id="menu2" style=""></div>
+        </a>
+        <a class="menuItem" href="{:addons_url('Shop://Index/index')}">
+            <div  id="menu3" style=""></div>
+        </a>
+    </div>
+</footer>
+<script src="http://ob26aihye.bkt.clouddn.com/scrollFix.js"></script>
+<script>
+    var scrollable = document.getElementById("mask2-text");
+    new ScrollFix(scrollable);
+
+    //以上代码为控制scroll
+</script>
+</body>
+</html>

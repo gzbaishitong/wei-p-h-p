@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <!--<div id='wx_pic' style='margin:0 auto;display:none;'>
+        <img src='{$NewsList.img|get_cover_url}' />
+    </div>-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+    <meta name="format-detection" content="telephone=no" />
+    <title>文章列表</title>
+    <link rel="stylesheet" href="{:ADDON_PUBLIC_PATH}/style/main.css">
+    <style>
+        .title{
+            width: 90%;
+            line-height: 1.5rem;
+            font-size: 1rem;
+            font-weight: bold;
+            margin-left: 5%;
+            margin-top: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .author{
+            width: 90%;
+            line-height: 1rem;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-left: 5%;
+            margin-top: 0.5rem;
+            margin-bottom: 0.5rem;
+            color:#666666
+        }
+        .content{
+            width: 90%;
+            line-height: 1rem;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-left: 5%;
+            margin-top: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <img src="http://7xt9sy.com1.z0.glb.clouddn.com/banner6.jpg" style="width:100%">
+</header>
+<div class="title">
+    {$NewsList.title}
+</div>
+<div class="author">
+    {$NewsList.author}
+</div>
+<div class="content">
+    {$NewsList.content}
+</div>
+<footer class="menu" style="height:4.5rem">
+    <img src="http://o817bctef.bkt.clouddn.com/menu3.jpg" style="width:100%;height:100%">
+    <div style="position:absolute;top:0;width:100%;height:100%">
+        <!--<span class="menuItem"></span>
+        <span class="menuItem" id="mall"><a href="{:addons_url('Shop://Index/index')}" style="display:inline-block;width:100%;height:100%"></a></span>
+        <a href=""><span class="menuItem"></span></a>
+        </a>-->
+        <a class="menuItem" href="{:addons_url('UserInfo://Index/index')}"></a>
+        <a class="menuItem" href="{:addons_url('Shop://Index/index')}"></a>
+        <a class="menuItem" href="{:addons_url('UserInfo://Me/index')}"></a>
+    </div>
+</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/zepto/1.1.6/zepto.min.js"></script>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script>
+    wx.config({
+        debug: false,
+        appId: '{$signPackage["appId"]}',
+        timestamp: '{$signPackage["timestamp"]}',
+        nonceStr: '{$signPackage["nonceStr"]}',
+        signature: '{$signPackage["signature"]}',
+        jsApiList: [
+            'onMenuShareTimeline','onMenuShareAppMessage'
+        ]
+    });
+    $(function(){
+        wx.ready(function () {
+            //分享给朋友圈
+            var sf= '{$NewsList.id}|{$openid}|sf';//分享到朋友圈参数
+            wx.onMenuShareTimeline({
+                title: '{$NewsList.title}', // 分享标题
+                link: "https://open.weixin.qq.com/connect/oauth2/authorize?appid={$appid}&redirect_uri={:U('newscontent')}&response_type=code&scope=snsapi_userinfo&state="+sf+"#wechat_redirect",// 分享链接
+                imgUrl: '{$NewsList.img|get_cover_url}', // 分享图标
+                success: function () {
+//                    $.ajax({
+//                        type: "post",
+//                        url: "{:U('sharenews')}",
+//                        data: {
+//                            newsid:'{$NewsList.id}',
+//                            openid:'{$openid}',
+//                            method:'sf'
+//                        },
+//                        success: function (data) {
+//
+//                        }
+//                    })
+                },
+                cancel: function () {
+
+                    // 用户取消分享后执行的回调函数
+                }
+            });
+            //分享给朋友
+            var sd= '{$NewsList.id}|{$openid}|sd';//分享给朋友参数
+            wx.onMenuShareAppMessage({
+                title: '{$NewsList.title}', // 分享标题
+                desc: '{$NewsList.abstract}', // 分享描述
+                link: "https://open.weixin.qq.com/connect/oauth2/authorize?appid={$appid}&redirect_uri={:U('newscontent')}&response_type=code&scope=snsapi_userinfo&state="+sd+"#wechat_redirect",// 分享链接
+                imgUrl: '{$NewsList.img|get_cover_url}', // 分享图标
+                type: '', // 分享类型,music、video或link，不填默认为link
+                dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+                success: function () {
+//                    $.ajax({
+//                        type: "post",
+//                        url: "{:U('sharenews')}",
+//                        data: {
+//                            newsid:'{$NewsList.id}',
+//                            openid:'{$openid}',
+//                            method:'sd'
+//                        },
+//                        success: function (data) {
+//
+//                        }
+//                    })
+                    // 用户确认分享后执行的回调函数
+                },
+                cancel: function () {
+                    // 用户取消分享后执行的回调函数
+                }
+            });
+        })
+
+
+    })
+</script>
+</body>
+</html>

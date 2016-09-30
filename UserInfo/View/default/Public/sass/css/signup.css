@@ -1,0 +1,270 @@
+@charset "UTF-8";
+* {
+  margin: 0;
+  padding: 0; }
+
+html, body {
+  width: 100%;
+  height: 100%;
+  position: absolute; }
+
+a {
+  text-decoration: none; }
+
+input {
+  appearance: none;
+  -moz-appearance: none;
+  /* Firefox */
+  -webkit-appearance: none;
+  /* Safari 和 Chrome */
+  border: 0 solid transparent;
+  background: transparent;
+  font-size: 1rem;
+  width: 10rem;
+  text-align: right;
+  border-radius: 0px; }
+
+select, input[type="date"] {
+  /*Chrome和Firefox里面的边框是不一样的，所以复写了一下*/
+  border: solid 0px #000;
+  /*很关键：将默认的select选择框样式清除*/
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  /*在选择框的最右侧中间显示小箭头图片*/
+  background: url("http://ourjs.github.io/static/2015/arrow.png") no-repeat scroll right center transparent;
+  /*为下拉小箭头留出一点位置，避免被文字覆盖*/
+  padding-right: 14px;
+  font-size: 1rem; }
+
+.background, .list .bg, .banner {
+  background-size: 100% 100%;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-color: #e2e2e2; }
+
+.redBox {
+  box-sizing: border-box;
+  width: 6rem;
+  height: 1rem;
+  background-color: #ea6b17;
+  color: #fff;
+  line-height: 1rem;
+  text-align: center;
+  border-radius: 5px;
+  font-size: 0.8rem; }
+
+.yellowBox {
+  box-sizing: border-box;
+  width: 6rem;
+  height: 1.6rem;
+  background-color: #fedd30;
+  color: #000;
+  line-height: 1.6rem;
+  text-align: center;
+  border-radius: 5px;
+  font-size: 0.8rem; }
+
+.greyBox {
+  box-sizing: border-box;
+  width: 6rem;
+  height: 1.6rem;
+  background-color: #939494;
+  color: #fff;
+  line-height: 1.6rem;
+  text-align: center;
+  border-radius: 5px;
+  font-size: 0.8rem; }
+
+.button, .buttonCenter {
+  width: 30%;
+  height: 2rem;
+  line-height: 2rem;
+  text-align: center;
+  background: #fedd30;
+  color: black; }
+
+.scrollContainer {
+  width: 100%;
+  height: 85%;
+  -webkit-overflow-scrolling: touch;
+  overflow: scroll;
+  margin-top: 15%; }
+
+.list {
+  width: 90%;
+  height: 8.5rem;
+  background-color: #e2e2e2;
+  position: relative;
+  margin-left: 5%;
+  margin-bottom: 5%;
+  background: url(http://ob26aihye.bkt.clouddn.com/signlistbg.jpg);
+  background-size: 100% 100%; }
+
+.list .bg {
+  width: 5.5rem;
+  height: 5.5rem;
+  position: absolute;
+  left: 5%;
+  top: 1rem; }
+
+.list .name {
+  position: absolute;
+  width: 50%;
+  left: 35%;
+  top: 1.2rem;
+  color: black;
+  line-height: 1rem;
+  font-weight: bold;
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; }
+
+.list .time {
+  color: #939494;
+  position: absolute;
+  top: 3rem;
+  left: 35%;
+  font-size: 0.8rem;
+  width: 55%; }
+
+.list .address {
+  position: absolute;
+  color: #939494;
+  font-size: 0.8rem;
+  left: 35%;
+  top: 4.2rem; }
+
+.list .num {
+  position: absolute;
+  color: #939494;
+  font-size: 0.8rem;
+  left: 35%;
+  top: 5.4rem; }
+
+.list #act {
+  position: absolute;
+  right: 5%;
+  bottom: 1.8rem; }
+
+.list #act2 {
+  position: absolute;
+  top: 27%;
+  right: 2%;
+  width: 25%;
+  height: 3rem;
+  background-size: 100% 100%; }
+
+.list .choose {
+  position: absolute;
+  width: 90%;
+  height: 1.2rem;
+  bottom: 0.3rem;
+  left: 5%; }
+
+.list .choose .chooselist {
+  width: 33%;
+  text-align: center;
+  line-height: 1.2rem;
+  list-style: none;
+  font-size: 0.8rem;
+  float: left;
+  color: #514e45; }
+
+.list .chooselist:first-child {
+  border-right: 1px solid #d2d2d2; }
+
+.list .chooselist:nth-child(2) {
+  border-right: 1px solid #d2d2d2; }
+
+.list .medal {
+  width: 20%;
+  height: 3rem;
+  background: url(http://ob26aihye.bkt.clouddn.com/medal.png);
+  background-size: 100% 100%;
+  position: absolute;
+  top: 3.2rem;
+  right: 5%; }
+
+#sureList .list {
+  height: 8rem; }
+
+.banner {
+  width: 100%;
+  height: 12rem; }
+
+.list2 {
+  background: #e2e2e2;
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 1rem; }
+  .list2 .list2-item {
+    box-sizing: border-box;
+    width: 100%;
+    height: 2rem;
+    border-bottom: 1px solid #bdbebe; }
+  .list2 .fl {
+    display: inline-block;
+    height: 2rem;
+    box-sizing: border-box;
+    line-height: 2rem;
+    float: left;
+    margin-left: 5%; }
+  .list2 .time {
+    width: 10rem;
+    display: inline-block;
+    height: 1rem;
+    box-sizing: border-box;
+    line-height: 1rem;
+    float: right;
+    margin-right: 5%;
+    margin-top: 0.5rem; }
+  .list2 .fr {
+    display: inline-block;
+    height: 2rem;
+    box-sizing: border-box;
+    line-height: 2rem;
+    float: right;
+    margin-right: 5%; }
+
+.desc {
+  background: #e2e2e2;
+  padding: 1rem 5%;
+  margin-bottom: 1rem;
+  overflow: hidden; }
+  .desc img {
+    width: 100%; }
+  .desc .smallGrey {
+    font-size: 0.8rem;
+    color: #939494; }
+
+.buttonCenter {
+  margin-left: 35%;
+  margin-bottom: 1rem; }
+
+#selector {
+  overflow: hidden;
+  position: fixed;
+  background-color: #fff;
+  top: 0;
+  width: 100%;
+  z-index: 200; }
+  #selector .order {
+    bottom: 0;
+    left: 0; }
+  #selector .w100p {
+    width: 100%; }
+  #selector .order ul {
+    height: 40px;
+    border-bottom: 1px solid #e0e0e0; }
+  #selector .order li {
+    text-align: center;
+    font-size: 16px;
+    width: 50%;
+    float: left;
+    list-style: none;
+    line-height: 40px; }
+  #selector .order li.current {
+    color: #dc214c;
+    border-bottom: 1px solid #dc214c; }

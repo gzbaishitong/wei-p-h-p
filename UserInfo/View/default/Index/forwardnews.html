@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+	<title>转发文章列表</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+    <meta name="format-detection" content="telephone=no" />
+    <!--<link href="http://o817bctef.bkt.clouddn.com/style.css" rel="stylesheet" type="text/css"/>-->
+	<link rel="stylesheet" href="{:ADDON_PUBLIC_PATH}/style/common.css">
+	<script src="//cdn.bootcss.com/zepto/1.0rc1/zepto.min.js"></script>
+	<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+	<script>
+		wx.config({
+        debug: false,
+        appId: '{$signPackage["appId"]}',
+        timestamp: '{$signPackage["timestamp"]}',
+        nonceStr: '{$signPackage["nonceStr"]}',
+        signature: '{$signPackage["signature"]}',
+        jsApiList: [
+            'onMenuShareTimeline','onMenuShareAppMessage'
+        ]
+    });
+    (function(){
+        wx.ready(function () {
+		
+            //分享给朋友圈
+            //var sf= '{$NewsList.id}|{$openid}|sf';//分享到朋友圈参数
+            wx.onMenuShareTimeline({
+                title: '你有一个奖品等待领取，赶紧行动吧！', // 分享标题
+                link: "{:U('tosubscribe')}",// 分享链接
+                imgUrl: 'http://ob26aihye.bkt.clouddn.com/erweima.jpg', // 分享图标
+                success: function () {
+//                    $.ajax({
+//                        type: "post",
+//                        url: "{:U('sharenews')}",
+//                        data: {
+//                            newsid:'{$NewsList.id}',
+//                            openid:'{$openid}',
+//                            method:'sf'
+//                        },
+//                        success: function (data) {
+//
+//                        }
+//                    })
+                },
+                cancel: function () {
+
+                    // 用户取消分享后执行的回调函数
+                }
+            });
+            //分享给朋友
+            var sd= '{$NewsList.id}|{$openid}|sd';//分享给朋友参数
+            wx.onMenuShareAppMessage({
+                title: '你有一个奖品等待领取，赶紧行动吧！', // 分享标题
+                desc: '更多优惠等你来拿！', // 分享描述
+                link: "{:U('tosubscribe')}",// 分享链接
+                imgUrl: 'http://ob26aihye.bkt.clouddn.com/erweima.jpg', // 分享图标
+                type: '', // 分享类型,music、video或link，不填默认为link
+                dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+                success: function () {
+//                    $.ajax({
+//                        type: "post",
+//                        url: "{:U('sharenews')}",
+//                        data: {
+//                            newsid:'{$NewsList.id}',
+//                            openid:'{$openid}',
+//                            method:'sd'
+//                        },
+//                        success: function (data) {
+//
+//                        }
+//                    })
+                    // 用户确认分享后执行的回调函数
+                },
+                cancel: function () {
+                    // 用户取消分享后执行的回调函数
+                }
+            });
+        })
+
+
+    })()
+	</script>
+	<style>
+		<style>
+		body{}
+		.goodlist{
+			width:100%;
+			border-bottom:1px solid #c9caca;height:9rem;list-style:none;
+			position:relative;
+		}
+		.goodpic{
+	    width: 30%;
+    height: 5rem;
+    position: absolute;
+    top: 2rem;
+    left: 5%;
+    border: 1px solid #c9caca;
+	background-position:center center;
+	background-size:100% 100%;
+	background-repeat:no-repeat;
+		}
+		.goodtitle{
+			    position: absolute;
+    font-size: 0.8rem;
+    left: 40%;
+    top: 1rem;
+    color: #777791;
+    width: 40%;
+		}
+		.goodClick{
+			width:5rem;
+			height:1.2rem;
+			background:#fedd30;
+			color:black;
+			position:absolute;
+			left:40%;
+			bottom:0.9rem;
+			text-align:center;
+			font-size:0.8rem;
+			line-height:1.2rem
+		}
+		.goodTip{
+			width:5rem;
+			height:1.2rem;
+			position:absolute;
+			right:5%;
+			bottom:0.9rem;
+		}
+		.goodfen{
+			position: absolute;
+    background: #e95514;
+    color: white;
+    height: 1.2rem;
+    line-height: 1.2rem;
+    text-align: center;
+    font-size: 0.8rem;
+    width: 13%;
+    bottom: 0.9rem;
+    right: 5%;
+    border-radius: 0.5rem;
+		}
+		
+	</style>
+	</style>
+	<!--<script src="{:ADDON_PUBLIC_PATH}/js/adapt.js"></script>-->
+<body style="background:url(http://ob26aihye.bkt.clouddn.com/bgwhite2.jpg);background-size:100% 100%">
+<section class="main-container" id="scroll">
+	<ul style="width:96%;position:absolute;left:2%">
+		<if condition="$NewsList eq ''">
+			<else/>
+			<volist name="NewsList" id="NewsData">
+			<a href="{:U('newscontent',array('id'=>$NewsData['id']))}">
+			<li class="goodlist">
+				<img src="{$NewsData.img|get_cover_url}" style="display:none">
+				<div class="goodtitle">{$NewsData.title}</div>
+				<div class="goodpic" style="background-image:url({$NewsData.img|get_cover_url})"></div>
+				<div class="goodClick">查看详情</div>
+				<div class="goodfen">{$NewsData.sharescore}分</div>
+				<div style="position: absolute;
+    background: #dbdcdc;
+    color: white;
+    height: 1.2rem;
+    line-height: 1.2rem;
+    text-align: center;
+    font-size: 0.8rem;
+    width: 13%;
+    top: 0.9rem;
+    right: 5%;
+    border-radius: 0.5rem;">文章</div>
+			</li>
+			</a>
+			</volist>
+		</if>
+		<div class="goodlist" style="border-bottom:0px solid transparent"></div>
+	</ul>
+</section>
+<!--<section class="zhuanfa">
+    <ul>
+<volist name="NewsList" id="NewsData">
+   <a href="{:U('newscontent',array('id'=>$NewsData['id']))}">
+		<li class="youhuiitem">
+			<div style=" padding:1rem 6% 0.5rem;">
+				<div class="youhuiitem-img">
+					<img src="{$NewsData.img|get_cover_url}" style="max-width:100%;max-height:100%">
+					<span id="sharescore">转发此贴+{$NewsData.sharescore}积分</span>
+				</div>
+				<p class="youhui-title">{$NewsData.title}</p>
+				<p class="youhui-abstract">{$NewsData.abstract}</p>
+			</div>
+		</li>
+   </a>
+</volist>
+	</ul>
+</section>-->
+<footer class="menuSecond">
+    <div style="position:absolute;top:0;width:100%;height:100%">
+        <!--<span class="menuItem"></span>
+        <span class="menuItem" id="mall"><a href="{:addons_url('Shop://Index/index')}" style="display:inline-block;width:100%;height:100%"></a></span>
+        <a href=""><span class="menuItem"></span></a>
+        </a>-->
+        <a class="menuItem" href="{:addons_url('UserInfo://Index/index')}">
+			<div id="menu1" style="z-index:100"></div>
+		</a>
+        <a class="menuItem" href="{:addons_url('UserInfo://Index/howtogetscore')}">
+			<span class="menu-after"></span>
+			<div id="menu2" style=""></div>
+		</a>
+        <a class="menuItem" href="{:addons_url('Shop://Index/index')}">
+			<div  id="menu3" style=""></div>
+		</a>
+    </div>
+</footer>
+<script src="http://ob26aihye.bkt.clouddn.com/scrollFix.js"></script>
+<script>
+	var scrollable = document.getElementById("scroll");
+	new ScrollFix(scrollable);
+	
+	//以上代码为控制scroll
+</script>
+</body>
+</html>

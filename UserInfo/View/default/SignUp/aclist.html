@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+    <meta name="format-detection" content="telephone=no" />
+    <link rel="stylesheet" href="{:ADDON_PUBLIC_PATH}/sass/css/signup.css">
+    <title></title>
+</head>
+<body style="background:#e9e9e9">
+<section id="selector">
+    <div class="order w100p">
+        <ul class="w50">
+            <li class="current" id="nopay">活动</li>
+            <li id="pay">已报名</li>
+            <!--<li><a href="{:addons_url('BuyTicket://Index/orderlist',array('type'=>'over'))}" <eq name="type" value="over">class="current" style="border-bottom-color:#{$shop_config.color}; color:#{$shop_config.color}"</eq>>已完成</a></li>-->
+        </ul>
+    </div>
+</section>
+<div class="scrollContainer">
+    <div id="nopayList">
+        <volist name="list" id="data">
+            <div class="list">
+                <div class="bg" style="background-image:url({$data.head_img|get_cover_url})">
+                </div>
+                <div class="name">
+                    {$data.name}
+                </div>
+                <div class="time">
+                    活动时间:<php>echo date('Y-m-d',$data['acbegintime'])</php>
+                </div>
+                <div class="address">
+                    地点:{$data.address}
+                </div>
+                <div class="num">
+                    人数:{$data.number}
+                </div>
+				<!--<div class="medal">
+				</div>-->
+                <div id="act">
+                    <if condition="$data.endtime lt $localtime">
+                        <div class="greyBox">活动已结束</div>
+                        <elseif condition="$data.begintime gt $localtime"/>
+                        <div class="yellowBox">活动未开始</div>
+                        <else/>
+                        <div class="yellowBox">活动进行中</div>
+                    </if>
+                </div>
+                <ul class="choose">
+                   <a href="{$data['acdesc']}"> <li class="chooselist">活动详情</li></a>
+                    <a href="{:U('accontent',array('id'=>$data['id']))}"><li class="chooselist">我要参加</li></a>
+                   <a href="{$data['actrivia']}"> <li class="chooselist">活动花絮</li></a>
+                </ul>
+            </div>
+        </volist>
+    </div>
+    <div id="sureList" style="display:none">
+        <volist name="surelist" id="suredata">
+            <a href="{:U('surecontent',array('id'=>$suredata['userid']))}">
+                <div class="list">
+                    <div class="bg" style="background-image:url({$suredata.head_img|get_cover_url})">
+                    </div>
+                    <div class="name">
+                        {$suredata.name}
+                    </div>
+                    <div class="time">
+                        活动时间:<php>echo date('Y-m-d',$suredata['acbegintime'])</php>
+                    </div>
+                    <div class="address">
+                        地点:{$suredata.address}
+                    </div>
+                    <div class="num">
+                        人数:{$suredata.number}
+                    </div>
+                        <if condition="$suredata.isjoin eq 1">
+                            <div id="act2" style="background-image:url(http://ob26aihye.bkt.clouddn.com/yicanjia.png)"></div>
+                             <elseif condition="$suredata.isjoin eq 0 && $suredata.isaudit eq 1 && $localtime lt $suredata.acendtime "/>
+                            <div id="act2" style="background-image:url(http://ob26aihye.bkt.clouddn.com/daicanji.png)"></div>
+                            <elseif condition="$suredata.isjoin eq 0 && $suredata.isaudit eq 0"/>
+                            <div id="act2" style="background-image:url(http://ob26aihye.bkt.clouddn.com/shenhezhong.png)"></div>
+                            <elseif condition="$suredata.isjoin eq 0 && $suredata.isaudit eq 2"/>
+                            <div id="act2" style="background-image:url(http://ob26aihye.bkt.clouddn.com/butongguo.png)"></div>
+                            <elseif condition="$suredata.isjoin eq 0 && $suredata.isaudit eq 1  && $localtime gt $suredata.acendtime "/>
+                            <div id="act2" style="background-image:url(http://ob26aihye.bkt.clouddn.com/yiguoqi.png)"></div>
+                        </if>
+                </div>
+            </a>
+        </volist>
+    </div>
+</div>
+<script>
+
+
+    var nopay = document.getElementById("nopay");
+    var pay = document.getElementById("pay");
+    var list = document.getElementById("nopayList");
+    var surelist = document.getElementById("sureList");
+    var turn = false
+    function turnO(){
+        if(turn){
+            pay.className="current";
+            nopay.className = "removed";
+            list.style.display = "none"
+            surelist.style.display = "block"
+        }else{
+            nopay.className="current";
+            pay.className = "removed";
+            list.style.display = "block"
+            surelist.style.display = "none"
+        }
+    }
+
+    pay.onclick=function(){
+        turn = true;
+        turnO();
+    }
+
+    nopay.onclick=function(){
+        turn = false;
+        turnO();
+    }
+
+</script>
+</body>
+</html>

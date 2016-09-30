@@ -1,0 +1,257 @@
+<!doctype html>
+<html class="no-js">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title></title>
+
+    <!-- Set render engine for 360 browser -->
+    <meta name="renderer" content="webkit">
+
+    <!-- No Baidu Siteapp-->
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+
+    <link rel="icon" type="image/png" href="i/favicon.png">
+
+    <!-- Add to homescreen for Chrome on Android -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="icon" sizes="192x192" href="i/app-icon72x72@2x.png">
+
+    <!-- Add to homescreen for Safari on iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Amaze UI"/>
+    <link rel="apple-touch-icon-precomposed" href="i/app-icon72x72@2x.png">
+
+    <!-- Tile icon for Win8 (144x144 + tile color) -->
+    <meta name="msapplication-TileImage" content="i/app-icon72x72@2x.png">
+    <meta name="msapplication-TileColor" content="#0e90d2">
+
+<style>
+	*{margin:0;padding:0;-webkit-appearance:none}
+	html,body{
+		width:100%;
+		height:100%;
+		background:#fedd30;
+	}
+	.am-form-label{
+		font-size:1.3rem;
+		font-weight:bold;
+		display:inline-block;
+		line-height:2.5rem
+	}
+	.am-form{
+		padding:1rem 5%;
+	}
+	#tel{
+	border-radius:0;
+	width: 54.5%;
+    float: right;
+    height: 2rem;
+    border: 1px solid black;
+    padding: 0 1rem;
+    font-size: 0.8rem;
+    line-height: 1.3rem;
+    margin-top: 0.25rem;
+	}
+	#yanzhengma{
+	border-radius:0;
+	width: 54.5%;
+    float: right;
+    height: 2rem;
+    border: 1px solid black;
+    padding: 0 1rem;
+    font-size: 0.8rem;
+    line-height: 1.3rem;
+    margin-top: 0.25rem;
+	}
+	#GteMobCode{
+		background:url(http://o817bctef.bkt.clouddn.com/icon2.jpg) top left;
+		width:40%;
+		height:2rem;
+		background-size:100% 100%;
+		float:right;
+	}
+	.am-form-group{
+		width:100%;
+		margin:1rem 0;
+		position:relative;
+		clear:both;
+		height:2rem;
+	}
+	#sex{
+		    width: 65%;
+			float: right;
+			height: 2rem;
+			border: 1px solid black;
+			padding: 0 1rem;
+			font-size: 0.8rem;
+			line-height: 1.3rem;
+			margin-top: 0.25rem;
+			background:url(http://o817bctef.bkt.clouddn.com/icon3.jpg) top left;
+			background-size:100% 100%;
+			border-radius:0;
+	}
+	#sexIcon{
+		display:inline-block;
+		width:2rem;
+		height:2rem;
+		background:url(http://o817bctef.bkt.clouddn.com/icon7.jpg);
+		background-size:100% 100%;
+		float: right;
+        margin-top: 0.1rem;
+	}
+	#telIcon{
+		display:inline-block;
+		width:2rem;
+		height:2rem;
+		background:url(http://o817bctef.bkt.clouddn.com/icon5.jpg);
+		background-size:100% 100%;
+		float: right;
+        margin-top: 0.1rem;
+	}
+	#yanzhengIcon{
+		display:inline-block;
+		width:2rem;
+		height:2rem;
+		background:url(http://o817bctef.bkt.clouddn.com/ioon6.jpg);
+		background-size:100% 100%;
+		float: right;
+        margin-top: 0.1rem;
+	}
+	#tijiao{
+		background:url(http://o817bctef.bkt.clouddn.com/icon4.jpg) top left;
+		width:40%;
+		height:2.6rem;
+		background-size:100% 100%;
+		float:right;
+	}
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/zepto/1.1.6/zepto.min.js"></script>
+</head>
+<body>
+<!--登录页开始-->
+<header>
+	<img src="http://o817bctef.bkt.clouddn.com/banner.jpg" style="width:100%">
+</header>
+
+        <form class="am-form am-form-horizontal">
+
+            <div class="am-form-group am-form-group am-form- am-form-icon am-form-feedback">
+                <label for="doc-ipt-3" class="am-u-sm-3 am-form-label">手机号</label>
+                <input type="text" id="tel" class="am-form-field" placeholder="手机号">
+				<span id="telIcon"></span>
+            </div>
+            <div class="am-form-group am-text-right">
+                <div class="am-u-sm-10 am-u-sm-offset-2">
+                    <div class="am-btn am-btn-default" id="GteMobCode"></div>
+                </div>
+            </div>
+            <div class="am-form-group am-form-group am-form-warning am-form-icon am-form-feedback">
+                <label for="doc-ipt-pwd-2" class="am-u-sm-3 am-form-label">验证码</label>
+                <input type="text" id="yanzhengma" class="am-form-field" placeholder="请输入验证码">
+				<span id="yanzhengIcon"></span>
+                <span class="am-icon-keyboard-o"></span>
+            </div>
+            <!--男女选择-->
+            <div class="am-form-group am-form-group am-form-error am-form-icon am-form-feedback">
+                <label for="doc-ipt-pwd-2" class="am-u-sm-3 am-form-label">性别</label>
+					
+                    <select type="text"  class="am-input-sm"  id="sex">
+                        <option value="男">男</option>
+                        <option value="女">女</option>
+                    </select>
+					<span id="sexIcon"></span>
+            </div>
+            <!--男女选择end-->
+    </div>
+
+
+
+    <div class="am-form-group am-text-right">
+        <div class="am-u-sm-10 am-u-sm-offset-2">
+            <div class="am-btn am-btn-default" id="tijiao"></div>
+        </div>
+    </div>
+    </form>
+<!--登录页end-->
+
+</body></html>
+
+
+<script>
+    var isajax=false;
+    $(function() {
+
+
+        $('#GteMobCode').on('click', function() {
+            var name=$('#tel').val();
+            var yanzhengma=$('#yanzhengma').val();
+            if(name=='')
+            {
+                alert('手机号码不能为空');
+                return;
+            }
+            if(!isajax) {
+                isajax=true;
+                $.ajax({
+                    type: "post",
+                    url: "{:U('SendCode')}",
+                    data: {
+                        name: name,
+                        yanzhengma: yanzhengma
+                    },
+                    success: function (data) {
+                        alert(data.info);
+                        isajax=false;
+                    }
+                })
+            }
+        });
+        $('#tijiao').on('click', function() {
+
+            var name=$('#tel').val();
+            var yanzhengma=$('#yanzhengma').val();
+            if(name=='')
+            {
+                alert('手机号码不能为空');
+                return;
+            }
+            if(yanzhengma=='')
+            {
+                alert('验证码不能为空');
+                return;
+            }
+
+                if (!isajax) {
+                    isajax = true;
+                    $.ajax({
+                        type: "post",
+                        url: "{:U('tijiao')}",
+                        data: {
+                            name: name,
+                            yanzhengma: yanzhengma,
+                            sex: $('#sex').val()
+                        },
+                        success: function (data) {
+                            if(data.status!=1)
+                            {
+                                alert(data.info);
+                                isajax = false;
+                            }
+                            else {
+                                alert(data.info);
+                                location.href=data.url;
+                            }
+                            isajax = false;
+                        }
+                    })
+                }
+
+        });
+    });
+</script>
+

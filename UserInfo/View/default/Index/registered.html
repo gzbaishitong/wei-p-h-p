@@ -1,0 +1,468 @@
+<!doctype html>
+<html class="no-js">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title></title>
+
+    <!-- Set render engine for 360 browser -->
+    <meta name="renderer" content="webkit">
+
+    <!-- No Baidu Siteapp-->
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+
+    <link rel="icon" type="image/png" href="i/favicon.png">
+
+    <!-- Add to homescreen for Chrome on Android -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="icon" sizes="192x192" href="i/app-icon72x72@2x.png">
+
+    <!-- Add to homescreen for Safari on iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Amaze UI"/>
+    <link rel="apple-touch-icon-precomposed" href="i/app-icon72x72@2x.png">
+
+    <!-- Tile icon for Win8 (144x144 + tile color) -->
+    <meta name="msapplication-TileImage" content="i/app-icon72x72@2x.png">
+    <meta name="msapplication-TileColor" content="#0e90d2">
+	<link rel="stylesheet" href="{:ADDON_PUBLIC_PATH}/style/common.css">
+	<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+		<script>
+		wx.config({
+        debug: false,
+        appId: '{$signPackage["appId"]}',
+        timestamp: '{$signPackage["timestamp"]}',
+        nonceStr: '{$signPackage["nonceStr"]}',
+        signature: '{$signPackage["signature"]}',
+        jsApiList: [
+            'onMenuShareTimeline','onMenuShareAppMessage'
+        ]
+    });
+    (function(){
+        wx.ready(function () {
+		
+            //分享给朋友圈
+            //var sf= '{$NewsList.id}|{$openid}|sf';//分享到朋友圈参数
+            wx.onMenuShareTimeline({
+                title: '你有一个奖品等待领取，赶紧行动吧！', // 分享标题
+                link: "{:U('tosubscribe')}",// 分享链接
+                imgUrl: 'http://ob26aihye.bkt.clouddn.com/erweima.jpg', // 分享图标
+                success: function () {
+//                    $.ajax({
+//                        type: "post",
+//                        url: "{:U('sharenews')}",
+//                        data: {
+//                            newsid:'{$NewsList.id}',
+//                            openid:'{$openid}',
+//                            method:'sf'
+//                        },
+//                        success: function (data) {
+//
+//                        }
+//                    })
+                },
+                cancel: function () {
+
+                    // 用户取消分享后执行的回调函数
+                }
+            });
+            //分享给朋友
+            var sd= '{$NewsList.id}|{$openid}|sd';//分享给朋友参数
+            wx.onMenuShareAppMessage({
+                title: '你有一个奖品等待领取，赶紧行动吧！', // 分享标题
+                desc: '更多优惠等你来拿！', // 分享描述
+                link: "{:U('tosubscribe')}",// 分享链接
+                imgUrl: 'http://ob26aihye.bkt.clouddn.com/erweima.jpg', // 分享图标
+                type: '', // 分享类型,music、video或link，不填默认为link
+                dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+                success: function () {
+//                    $.ajax({
+//                        type: "post",
+//                        url: "{:U('sharenews')}",
+//                        data: {
+//                            newsid:'{$NewsList.id}',
+//                            openid:'{$openid}',
+//                            method:'sd'
+//                        },
+//                        success: function (data) {
+//
+//                        }
+//                    })
+                    // 用户确认分享后执行的回调函数
+                },
+                cancel: function () {
+                    // 用户取消分享后执行的回调函数
+                }
+            });
+        })
+
+
+    })()
+	</script>
+<style>
+	.header{
+	background:#fedd30;
+}
+
+.header-title{
+	text-align:center;
+	font-weight:bold;
+	font-size:1.5rem;
+	text-align:center;
+	line-height:3rem;
+	height:3rem;
+}
+
+.header-content{
+	height:3.5rem;
+	position:relative;
+}
+
+.header .portrait{
+	width: 2.6rem;
+    height: 2.6rem;
+    border-radius: 1.3rem;
+    overflow: hidden;
+    left: 2rem;
+}
+
+.header .name{
+	font-size: 1.2rem;
+    left: 5rem;
+    top: 0.5rem;
+}
+
+.header .card-num{
+	font-size: 0.2rem;
+    font-weight: 100;
+}
+
+
+.header .level{
+	 background: black;
+    width: 22%;
+    height: 1.4rem;
+    right: 0;
+    top: 22%;
+    color: white;
+    text-align: center;
+    font-size: 0.8rem;
+    line-height: 1.4rem;
+}
+
+.level:before{
+	content:"";
+	width:1.4rem;
+	height:1.4rem;
+	border-radius:0.7rem;
+	position:absolute;
+	left:-0.7rem;
+	background:black
+}
+
+.info-container{
+	width:100%;
+	height:8rem;
+	background:#ffffff;
+	padding:5px 2%;
+}
+
+.info-container .container{
+	width:96%;
+	height:100%;
+	background:url(http://ob26aihye.bkt.clouddn.com/bg02.jpg) repeat;
+	position:relative;
+}
+
+.info-container .card-container-li{
+	    width: 11rem;
+    height: 7rem;
+    border-radius: 5%;
+    background: white;
+    position: absolute;
+    top: 0.5rem;
+    left: 4%;
+}
+
+.info-container .userid{
+    font-weight: bold;
+    position: absolute;
+    bottom: 4%;
+    left: 21%;
+    /* color: white; */
+    font-size: 0.6rem;
+}
+
+.info-container .card-container-li2{
+	     width: 34%;
+    height: 5rem;
+    border-radius: 5%;
+    background: white;
+    position: absolute;
+    top: 1.5rem;
+    right: 5%;
+    background: #efefef;
+    padding: 3px;
+}
+
+.card-container-li2 .icon{
+	     width: 35%;
+    height: 3.6rem;
+}
+
+.card-container-li2 .jifen{
+	    font-size: 0.6rem;
+    position: absolute;
+    top: 3%;
+    left: 42%;
+}
+
+.card-container-li2 .score{
+	    font-size: 2.2rem;
+    position: absolute;
+    top: 20%;
+    left: 40%;
+    color: #e60012;
+	font-weight:bold
+}
+.card-container-li2 .button{
+	    background: #ea5514;
+    width: 100%;
+    bottom: 0px;
+    height: 1.2rem;
+    color: #ffffff;
+    text-align: center;
+    position: absolute;
+    font-size: 0.6rem;
+    line-height: 1.2rem;
+}
+
+.inputtype{
+	height: 3rem;
+    width: 100%;
+    background: url(http://ob26aihye.bkt.clouddn.com/bgWhite.jpg);
+	background-size:100% 100%;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+	position:relative
+}
+
+.labelTel{
+	font-size:1rem;
+	line-height:3rem;
+	margin-left:5%;
+	color:#777791
+}
+
+.field{
+	outline:none;
+	border:0px solid transparent;
+	font-size:1rem
+}
+
+#tijiao{
+	background: #fedd30;
+    height: 2rem;
+    width: 40%;
+    text-align: center;
+    line-height: 2rem;
+    position: absolute;
+    left: 30%;
+    bottom: 15%;
+}
+#GteMobCode{
+	    float: right;
+    line-height: 3rem;
+    color: #777791;
+    margin-right: 5%;
+    position: absolute;
+    top: 0;
+    right: 0%;
+}
+#error{
+float: right;
+    line-height: 3rem;
+    color: #777791;
+    margin-right: 5%;
+    position: absolute;
+    top: 0;
+    right: 0%;
+}
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/zepto/1.1.6/zepto.min.js"></script>
+</head>
+<body>
+<!--登录页开始-->
+<div class="header">
+    <p class="header-title yahei">会员资料</p>
+    <div class="header-content">
+        <div class="portrait ab in">
+            <img src="http://ob26aihye.bkt.clouddn.com/regIcon.png" style="width:100%">
+        </div>
+        <div class="name ab in yahei">未登陆<span class="card-num">{$info.userid}</span></div>
+        <div class="level ab in yahei">等级</div>
+    </div>
+    <!--<img src = "http://o817bctef.bkt.clouddn.com/huiyuanka.jpg" style="width:100%">
+    <span class="userid">{$info.nickname}</span>-->
+</div>
+<section class="info-container">
+    <div class="container">
+        <div class="card-container-li" style="background:url(http://o817bctef.bkt.clouddn.com/huiyuanka.jpg);background-size:100% 100%">
+            <span class="userid">{$info.userid}</span>
+        </div>
+        <!--<div class="card-container-li2">
+            <div class="icon" style="background:url(http://ob26aihye.bkt.clouddn.com/icon02.png);background-size:100% 100%"></div>
+            <div class="jifen">会员积分</div>
+            <div class="score">{$info.score}</div>
+            <div class="button">如何赚取积分</div>
+        </div>-->
+    </div>
+</section>
+
+        <form class="am-form am-form-horizontal">
+
+            <div class="am-form-group am-form-group am-form- am-form-icon am-form-feedback inputtype">
+                <label for="doc-ipt-3" class="am-u-sm-3 am-form-label labelTel">手机号:</label>
+                <input type="text" id="tel" class="field">
+				<span id="telIcon"></span>
+            </div>
+            <div class="am-form-group am-text-right">
+                <div class="am-u-sm-10 am-u-sm-offset-2">
+                </div>
+            </div>
+            <div class="am-form-group am-form-group am-form-warning am-form-icon am-form-feedback inputtype yanzheng">
+                <label for="doc-ipt-pwd-2" class="am-u-sm-3 am-form-label labelTel">验证码:</label>
+                <input type="text" id="yanzhengma" class="field">
+				<div class="am-btn am-btn-default" id="GteMobCode">|发送验证码</div>
+				<span id="yanzhengIcon"></span>
+                <span class="am-icon-keyboard-o"></span>
+            </div>
+            <!--男女选择-->
+            <!--<div class="am-form-group am-form-group am-form-error am-form-icon am-form-feedback">
+                <label for="doc-ipt-pwd-2" class="am-u-sm-3 am-form-label">性别</label>
+					
+                    <select type="text"  class="am-input-sm"  id="sex">
+                        <option value="男">男</option>
+                        <option value="女">女</option>
+                    </select>
+					<span id="sexIcon"></span>
+            </div>-->
+            <!--男女选择end-->
+    </div>
+
+
+
+    <div class="am-form-group am-text-right">
+        <div class="am-u-sm-10 am-u-sm-offset-2">
+            <div class="am-btn am-btn-default" id="tijiao">提 交</div>
+        </div>
+    </div>
+    </form>
+<!--登录页end-->
+
+</body></html>
+
+
+<script>
+//var area = '{$area}'
+//if('{$area}' != "广东省"){
+//	alert("本次红包活动仅限广东省内地区微信用户参加。")
+//}
+    var isajax=false;
+	var second = 30;
+    $(function() {
+
+	var getMob=function(){
+			var name=$('#tel').val();
+            var yanzhengma=$('#yanzhengma').val();
+            if(name=='')
+            {
+                alert('手机号码不能为空');
+                return;
+            }
+            if(!isajax) {
+			
+			$("#GteMobCode").remove()
+			$(".yanzheng").append('<div class="am-btn am-btn-default" id="error">|发送验证码</div>')
+			var count = setInterval(function(){
+				second --;
+				if(second == 0){
+					clearInterval(count)
+					$("#error").remove()
+					$(".yanzheng").append('<div class="am-btn am-btn-default" id="GteMobCode">|发送验证码</div>')
+					$("#GteMobCode").click(function(){
+						getMob()
+					})
+					second = 30
+				}else{
+					$("#error").html("|"+second+"秒后可重新发送")
+				}
+			},1000)
+			
+                isajax=true;
+                $.ajax({
+                    type: "post",
+                    url: "{:U('SendCode')}",
+                    data: {
+                        name: name,
+                        yanzhengma: yanzhengma
+                    },
+                    success: function (data) {
+                        alert(data.info);
+                        isajax=false;
+                    }
+                })
+            }
+	}
+	
+        $('#GteMobCode').on('click', function() {
+            getMob()
+        });
+        $('#tijiao').on('click', function() {
+			
+            var name=$('#tel').val();
+            var yanzhengma=$('#yanzhengma').val();
+            if(name=='')
+            {
+                alert('手机号码不能为空');
+                return;
+            }
+            if(yanzhengma=='')
+            {
+                alert('验证码不能为空');
+                return;
+            }
+
+                if (!isajax) {
+                    isajax = true;
+                    $.ajax({
+                        type: "post",
+                        url: "{:U('tijiao')}",
+                        data: {
+                            name: name,
+                            yanzhengma: yanzhengma,
+                            sex: $('#sex').val()
+                        },
+                        success: function (data) {
+                            if(data.status!=1)
+                            {
+                                alert(data.info);
+                                isajax = false;
+                            }
+                            else {
+                                alert(data.info);
+                                location.href=data.url;
+                            }
+                            isajax = false;
+                        }
+                    })
+                }
+
+        });
+    });
+</script>
+

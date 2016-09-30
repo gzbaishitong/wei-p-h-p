@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+	<style>
+		*{margin:0;padding:0}
+		html,body{width:100%;height:100%}
+		body{
+			background:url(http://ob26aihye.bkt.clouddn.com/zhuanfabg1.jpg);
+			background-size:100% 100%;
+		}
+		.container{
+			width:100%;
+			height:100%;
+			background:rgba(0,0,0,.6)
+		}
+		#task{
+	width:100%;
+	height:100%;
+	position:fixed;
+	z-index:200;
+	background:rgba(0,0,0,.4);
+	top:0;
+	left:0;
+}
+.arrow{
+	position: absolute;
+    width: 30%;
+    height: 15%;
+    right: 5%;
+    top: 1%;
+    background: url(http://ob26aihye.bkt.clouddn.com/zhuanfaarrow.png);
+    background-size: 100% 100%;
+}
+#task .taskContainer{
+	width:90%;
+	height:20rem;
+	position:absolute;
+	top:20%;
+	left:5%;
+	background:#fff
+}
+
+
+#task .desc{
+	width:90%;
+	line-height:1.8rem;
+	font-size:1rem;
+	font-weight:bold;
+	margin-top:1rem;
+	margin-left:5%;
+	text-align:center;
+	display: -webkit-box !important;
+    overflow: hidden;
+	text-overflow: ellipsis;
+    word-break: break-all;
+    
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
+}
+
+#task .button{
+	width:20%;
+	height:1.5rem;
+	background:#fedd30;
+	border-radius:0.5rem;
+	border:2px solid black;
+	position:absolute;
+	bottom:0.5rem;
+	right:5%;
+	text-align:center;
+	line-height:1.5rem;
+	font-weight:bold;
+	font-size:0.8rem
+}
+
+#task a{
+	color:black
+}
+
+#task .close{
+	width:1.6rem;
+	height:1.6rem;
+	background:#c9caca;
+	color:white;
+	font-size:2rem;
+	text-align:center;
+	border-radius:0.8rem;
+	overflow:hidden;
+	position:absolute;
+	right:-0.8rem;
+	top:-0.8rem
+}
+
+#task .close:before{
+	content:"";
+	height:1.6rem;
+	width:1px;
+	position:absolute;
+	left:0.8rem;
+	top:0;
+	-webkit-transform:rotate(45deg);
+	background:white
+}
+
+#task .close:after{
+	content:"";
+	height:1.6rem;
+	width:1px;
+	position:absolute;
+	left:0.8rem;
+	top:0;
+	-webkit-transform:rotate(-45deg);
+	background:white
+}
+
+#task .title-container{
+	width:90%;
+	margin-top:0.5rem;
+	margin-left:5%;
+	height:8rem;
+	background:#e9e9e9;
+	padding-top:2%;
+	padding-left:2%;
+	box-sizing:border-box;
+	position:relative
+}
+.title-container .img{
+	width:50%;
+	height:94%;
+	background-size:100% 100%;
+}
+.title-container .name{
+	width:40%;
+	height:96%;
+	background-size:100% 100%;
+	position:absolute;
+	top:5%;
+	left:55%;
+	font-size:0.8rem;
+	font-weight:bold
+}
+.title-container .symbol{
+	width:3rem;
+	height:1.5rem;
+	background:url(http://ob26aihye.bkt.clouddn.com/symbol.png);
+	background-size:100% 100%;
+	top:0;
+	left:0;
+	position:absolute
+}
+	</style>
+	 <script src="https://cdnjs.cloudflare.com/ajax/libs/zepto/1.1.6/zepto.min.js"></script>
+	 <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <script>
+        wx.config({
+            debug: false,
+            appId: '{$signPackage["appId"]}',
+            timestamp: '{$signPackage["timestamp"]}',
+            nonceStr: '{$signPackage["nonceStr"]}',
+            signature: '{$signPackage["signature"]}',
+            jsApiList: [
+                'onMenuShareTimeline','onMenuShareAppMessage'
+            ]
+        });
+        $(function(){
+            wx.ready(function () {
+
+                //分享给朋友圈
+                var sf= '{$NewsList.id}|{$openid}|sf';//分享到朋友圈参数
+                wx.onMenuShareTimeline({
+                    title: '{$NewsList.title}', // 分享标题
+                    link: "https://open.weixin.qq.com/connect/oauth2/authorize?appid={$appid}&redirect_uri={:U('newscontent')}&response_type=code&scope=snsapi_userinfo&state="+sf+"#wechat_redirect",// 分享链接
+                    imgUrl: '{$NewsList.img|get_cover_url}', // 分享图标
+                    success: function () {
+						$(".desc").html("你已经成功转发，</br>任务完成后将会在【暴走广州】上</br>收到信息通知，</br>敬请留意")
+
+                    },
+                    cancel: function () {
+
+                        // 用户取消分享后执行的回调函数
+                    }
+                });
+                //分享给朋友
+                var sd= '{$NewsList.id}|{$openid}|sd';//分享给朋友参数
+                wx.onMenuShareAppMessage({
+                    title: '{$NewsList.title}', // 分享标题
+                    desc: '{$NewsList.abstract}', // 分享描述
+                    link: "https://open.weixin.qq.com/connect/oauth2/authorize?appid={$appid}&redirect_uri={:U('newscontent')}&response_type=code&scope=snsapi_userinfo&state="+sd+"#wechat_redirect",// 分享链接
+                    imgUrl: '{$NewsList.img|get_cover_url}', // 分享图标
+                    type: '', // 分享类型,music、video或link，不填默认为link
+                    dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+                    success: function () {
+						$(".desc").html("你已经成功转发，</br>任务完成后将会在【暴走广州】上</br>收到信息通知，</br>敬请留意")
+                        // 用户确认分享后执行的回调函数
+                    },
+                    cancel: function () {
+                        // 用户取消分享后执行的回调函数
+                    }
+                });
+            })
+
+
+        })
+    </script>
+</head>
+<body>
+		<div id="task">
+			<div class="arrow"></div>
+			<div class="taskContainer">
+				<a href="{:addons_url('Shop://Index/index')}"><div class="close"></div></a>
+				<div class="desc">转发此页面到朋友圈</br>
+有{$DutyInfo.number}个朋友阅读文章</br>
+即可获得秒杀{$DutyInfo.GoodInfo}的资格。</br>
+<php>echo date('m/d/H:i',$DutyInfo['begintime'])</php>准时开秒喔~</div>
+				<div class="title-container">
+					<div class="symbol"></div>
+					<div class="img" style="background-image:url({$NewsList.img|get_cover_url})"></div>
+					<div class="name">{$NewsList.title}</div>
+				</div>
+				<a href="{$NewsInfo.url}"><div class="button">阅读原文</div></a>
+			</div>
+		</div>
+</body>
+</html>

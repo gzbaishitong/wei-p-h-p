@@ -1,0 +1,169 @@
+<!doctype html>
+<html class="no-js">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>珠江合创</title>
+
+    <!-- Set render engine for 360 browser -->
+    <meta name="renderer" content="webkit">
+
+    <!-- No Baidu Siteapp-->
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+
+    <link rel="icon" type="image/png" href="i/favicon.png">
+
+    <!-- Add to homescreen for Chrome on Android -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="icon" sizes="192x192" href="i/app-icon72x72@2x.png">
+
+    <!-- Add to homescreen for Safari on iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Amaze UI"/>
+    <link rel="apple-touch-icon-precomposed" href="i/app-icon72x72@2x.png">
+
+    <!-- Tile icon for Win8 (144x144 + tile color) -->
+    <meta name="msapplication-TileImage" content="i/app-icon72x72@2x.png">
+    <meta name="msapplication-TileColor" content="#0e90d2">
+
+    <!-- Amaze UI CSS -->
+    <link rel="stylesheet" href="http://cdn.amazeui.org/amazeui/2.4.2/css/amazeui.css"></head>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/zepto/1.1.6/zepto.min.js"></script>
+</head>
+<body>
+<!--登录页开始-->
+<div class="am-g" style="background-color: #f3f4f4">
+    <div class="am-u-lg-6 am-u-md-8 am-u-sm-centered">
+        <h3 class="am-text-center">经纪人注册</h3>
+        <hr>
+
+        <form class="am-form am-form-horizontal">
+
+            <div class="am-form-group am-form-group am-form- am-form-icon am-form-feedback">
+                <label for="doc-ipt-3" class="am-u-sm-3 am-form-label">+86</label>
+                <div class="am-u-sm-9">
+                    <input type="text" id="tel" class="am-form-field" placeholder="手机号">
+
+
+                </div>
+            </div>
+            <div class="am-form-group am-text-right">
+                <div class="am-u-sm-10 am-u-sm-offset-2">
+                    <button type="button" class="am-btn am-btn-default" id="GteMobCode">发送验证码</button>
+                </div>
+            </div>
+            <div class="am-form-group am-form-group am-form-warning am-form-icon am-form-feedback">
+                <label for="doc-ipt-pwd-2" class="am-u-sm-3 am-form-label">验证码</label>
+                <div class="am-u-sm-9">
+                    <input type="text" id="yanzhengma" class="am-form-field" placeholder="请输入验证码">
+                    <span class="am-icon-keyboard-o"></span>
+                </div>
+            </div>
+            <!--男女选择-->
+            <div class="am-form-group am-form-group am-form-error am-form-icon am-form-feedback am-form">
+                <label for="doc-ipt-pwd-2" class="am-u-sm-3 am-form-label">选择</label>
+                <div class="am-u-sm-9">
+                    <select type="text"  class="am-input-sm"  id="sex">
+                        <option value="男">男</option>
+                        <option value="女">女</option>
+                    </select>
+                </div>
+            </div>
+            <!--男女选择end-->
+    </div>
+
+
+
+    <div class="am-form-group am-text-right">
+        <div class="am-u-sm-10 am-u-sm-offset-2">
+            <button type="button" class="am-btn am-btn-default" id="tijiao">提交注册</button>
+        </div>
+    </div>
+    </form>
+
+    <hr>
+    <p></p>
+</div>
+</div>
+<!--登录页end-->
+
+</body></html>
+
+
+<script>
+    var isajax=false;
+    $(function() {
+
+
+        $('#GteMobCode').on('click', function() {
+            var name=$('#tel').val();
+            var yanzhengma=$('#yanzhengma').val();
+            if(name=='')
+            {
+                alert('手机号码不能为空');
+                return;
+            }
+            if(!isajax) {
+                isajax=true;
+                $.ajax({
+                    type: "post",
+                    url: "{:U('SendCode')}",
+                    data: {
+                        name: name,
+                        yanzhengma: yanzhengma
+                    },
+                    success: function (data) {
+                        alert(data.info);
+                        isajax=false;
+                    }
+                })
+            }
+        });
+        $('#tijiao').on('click', function() {
+
+            var name=$('#tel').val();
+            var yanzhengma=$('#yanzhengma').val();
+            if(name=='')
+            {
+                alert('手机号码不能为空');
+                return;
+            }
+            if(yanzhengma=='')
+            {
+                alert('验证码不能为空');
+                return;
+            }
+
+                if (!isajax) {
+                    isajax = true;
+                    $.ajax({
+                        type: "post",
+                        url: "{:U('tijiao')}",
+                        data: {
+                            name: name,
+                            yanzhengma: yanzhengma,
+                            sex: $('#sex').val()
+                        },
+                        success: function (data) {
+                            if(data.status!=1)
+                            {
+                                alert(data.info);
+                                isajax = false;
+                            }
+                            else {
+                                alert(data.info);
+                                location.href=data.url;
+                            }
+                            isajax = false;
+                        }
+                    })
+                }
+
+        });
+    });
+</script>
+

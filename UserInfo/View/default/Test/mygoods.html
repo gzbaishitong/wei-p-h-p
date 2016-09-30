@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>我的奖品</title>
+	<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+    <meta name="format-detection" content="telephone=no" />
+    <!--<link href="http://o817bctef.bkt.clouddn.com/style.css" rel="stylesheet" type="text/css"/>-->
+    <link rel="stylesheet" href="{:ADDON_PUBLIC_PATH}/style/common.css">
+	<style>
+	body{background:url(http://ob26aihye.bkt.clouddn.com/bgwhite2.jpg);background-size:100% 100%}
+		.goodlist{
+			width:100%;
+			border-bottom:1px solid #c9caca;height:7rem;list-style:none;
+			position:relative;
+		}
+		.goodpic{
+	    width: 30%;
+    height: 5rem;
+    position: absolute;
+    top: 1rem;
+    left: 5%;
+    border: 1px solid #c9caca;
+	background-position:center center;
+	background-size:contain;
+	background-repeat:no-repeat;
+		}
+		.goodtitle{
+			position:absolute;
+			font-size:1rem;
+			left:40%;
+			top:1rem;
+			color:#777791;
+			width:30%
+		}
+		.goodClick{
+			width:5rem;
+			height:1.2rem;
+			background:#fedd30;
+			color:black;
+			position:absolute;
+			left:40%;
+			bottom:0.9rem;
+			text-align:center;
+			font-size:0.8rem;
+			line-height:1.2rem
+		}
+		.goodTip{
+			width:5rem;
+			height:1.2rem;
+			position:absolute;
+			right:5%;
+			bottom:0.9rem;
+		}
+		.main-container{
+			width:100%;height:100%;
+			overflow:scroll;
+			position:absolute;
+			margin-bottom:3.5rem
+		}
+	</style>
+</head>
+<body>
+<section class="main-container">
+	<ul style="width:96%;position:absolute;left:2%">
+		<if condition="$GoodList eq ''">
+			<!--<li class="goodlist">
+			</li>-->
+			<else/>
+			<volist name="GoodList" id="goodData">
+			<a href="{:addons_url('Shop://Index/productinfos',array('orderid'=>$goodData['id']))}">
+			<li class="goodlist">
+				<div class="goodtitle">{$goodData.title}</div>
+				<div class="goodpic" style="background-image:url({$goodData.head_img|get_cover_url})"></div>
+				<div class="goodClick">查看更多</div>
+				<if condition="$goodData.isuse eq 1">
+					<div class="goodTip" style="background:url(http://ob26aihye.bkt.clouddn.com/icon999.png);background-size:100% 100%"></div>
+					<else/>
+					<div class="goodTip" style="background:url(http://ob26aihye.bkt.clouddn.com/icon000.png);background-size:100% 100%"></div>
+					</if>
+			</li>
+			</a>
+			</volist>
+		</if>
+		<li class="goodlist">
+				
+		</li>
+	</ul>
+</section>
+<footer class="menu">
+    <div style="position:absolute;top:0;width:100%;height:100%">
+        <!--<span class="menuItem"></span>
+        <span class="menuItem" id="mall"><a href="{:addons_url('Shop://Index/index')}" style="display:inline-block;width:100%;height:100%"></a></span>
+        <a href=""><span class="menuItem"></span></a>
+        </a>-->
+        <a class="menuItem" href="{:addons_url('UserInfo://Index/index')}">
+			<span class="menu-after"></span>
+			<div id="menu1" style="z-index:100"></div>
+		</a>
+        <a class="menuItem" href="{:addons_url('UserInfo://Index/howtogetscore')}">
+			<div id="menu2" style=""></div>
+		</a>
+        <a class="menuItem" href="{:addons_url('Shop://Index/index')}">
+			<div  id="menu3" style=""></div>
+		</a>
+    </div>
+</footer>
+</body>
+</html>

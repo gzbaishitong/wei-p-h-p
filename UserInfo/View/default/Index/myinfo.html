@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>个人资料</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+    <meta name="format-detection" content="telephone=no" />
+    <!--<link href="http://o817bctef.bkt.clouddn.com/style.css" rel="stylesheet" type="text/css"/>-->
+    <link rel="stylesheet" href="{:ADDON_PUBLIC_PATH}/style/common.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/zepto/1.1.6/zepto.min.js"></script>
+	<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+		<script>
+		wx.config({
+        debug: false,
+        appId: '{$signPackage["appId"]}',
+        timestamp: '{$signPackage["timestamp"]}',
+        nonceStr: '{$signPackage["nonceStr"]}',
+        signature: '{$signPackage["signature"]}',
+        jsApiList: [
+            'onMenuShareTimeline','onMenuShareAppMessage'
+        ]
+    });
+    (function(){
+        wx.ready(function () {
+		
+            //分享给朋友圈
+            //var sf= '{$NewsList.id}|{$openid}|sf';//分享到朋友圈参数
+            wx.onMenuShareTimeline({
+                title: '你有一个奖品等待领取，赶紧行动吧！', // 分享标题
+                link: "{:U('tosubscribe')}",// 分享链接
+                imgUrl: 'http://ob26aihye.bkt.clouddn.com/erweima.jpg', // 分享图标
+                success: function () {
+//                    $.ajax({
+//                        type: "post",
+//                        url: "{:U('sharenews')}",
+//                        data: {
+//                            newsid:'{$NewsList.id}',
+//                            openid:'{$openid}',
+//                            method:'sf'
+//                        },
+//                        success: function (data) {
+//
+//                        }
+//                    })
+                },
+                cancel: function () {
+
+                    // 用户取消分享后执行的回调函数
+                }
+            });
+            //分享给朋友
+            var sd= '{$NewsList.id}|{$openid}|sd';//分享给朋友参数
+            wx.onMenuShareAppMessage({
+                title: '你有一个奖品等待领取，赶紧行动吧！', // 分享标题
+                desc: '更多优惠等你来拿！', // 分享描述
+                link: "{:U('tosubscribe')}",// 分享链接
+                imgUrl: 'http://ob26aihye.bkt.clouddn.com/erweima.jpg', // 分享图标
+                type: '', // 分享类型,music、video或link，不填默认为link
+                dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+                success: function () {
+//                    $.ajax({
+//                        type: "post",
+//                        url: "{:U('sharenews')}",
+//                        data: {
+//                            newsid:'{$NewsList.id}',
+//                            openid:'{$openid}',
+//                            method:'sd'
+//                        },
+//                        success: function (data) {
+//
+//                        }
+//                    })
+                    // 用户确认分享后执行的回调函数
+                },
+                cancel: function () {
+                    // 用户取消分享后执行的回调函数
+                }
+            });
+        })
+
+
+    })()
+	</script>
+    <script type="text/javascript"> 
+	
+        $(function(){
+		var sexValue = false;
+		var birthValue = false;
+            //搜索功能
+            $('#sub').click(function () {
+                var sex=$('#sex').val();
+                var birth=$('#birth').val();
+				var name=$('#truename').val();
+				console.log(name)
+                if(birth=='')
+                {
+                    alert('填写生日可以加积分哦');
+                    return;
+                }
+				if(name=='')
+                {
+					$("#mask").css("display","block")
+					$("#sus-text").html("温馨提示:</br>您还没填写真实姓名噢！请确保资料真实有效，后续兑奖等福利活动都需要核实相关真实资料。请再检查一遍确认无误再提交哦~提交后不能再更改。")
+                    $("#go").click(function(){
+								$("#mask").css("display","none")
+							})
+                    return;
+                }else{
+					$("#mask2").css("display","block")
+					$("#mask2 #sus-text").html("温馨提示:</br>您的性别:"+sex+";</br>您的生日:"+birth+";</br>您的真实姓名:"+name+";</br>请确保资料真实有效，后续兑奖等福利活动都需要核实相关真实资料。请再检查一遍确认无误再提交哦~提交后不能再更改。")
+                    $("#mask2 #go2").click(function(){
+								$("#mask2").css("display","none")
+					})
+					$("#mask2 #go").click(function(){
+						$.ajax({
+							type:"post",
+							url:"{:U('myinfo')}",
+							data:{
+								birth:birth,
+								sex:sex,
+								truename:name
+							},
+							success:function(data)
+							{	
+								$("#mask2").css("display","none")
+								$("#mask").css("display","block")
+								$("#sus-text").html(data.info)
+								if(data.status==1) {
+									$("#go").click(function(){
+										location.href = document.referrer;
+									})
+								}else{
+									$("#go").click(function(){
+										$("#mask").css("display","none")
+									})
+								}
+							}
+						})
+					})
+                    return;
+				}
+                
+            });
+        })
+    </script>
+	<style>
+	input{
+	/*Chrome和Firefox里面的边框是不一样的，所以复写了一下*/
+  border: solid 0px #000;
+
+  /*很关键：将默认的select选择框样式清除*/
+  appearance:none;
+  -moz-appearance:none;
+  -webkit-appearance:none;
+}
+		select,input[type="date"]{
+  /*Chrome和Firefox里面的边框是不一样的，所以复写了一下*/
+  border: solid 0px #000;
+
+  /*很关键：将默认的select选择框样式清除*/
+  appearance:none;
+  -moz-appearance:none;
+  -webkit-appearance:none;
+
+  /*在选择框的最右侧中间显示小箭头图片*/
+  background: url("http://ourjs.github.io/static/2015/arrow.png") no-repeat scroll right center transparent;
+
+
+  /*为下拉小箭头留出一点位置，避免被文字覆盖*/
+  padding-right: 14px;
+}
+
+.pos-right{
+	color:#898989;font-size:1rem;line-height:3rem;position:absolute;right:6%
+}
+.not-finish{
+color:rgba(137,137,137,0.4)
+}
+input::-webkit-input-placeholder {
+　　color:rgba(137,137,137,0.4)
+}
+	</style>
+</head>
+<body>
+<section class="main">
+	<div class="main-list">
+		<div class="main-list-title ab">昵称：</div>
+		<div class="pos-right">{$info.nickname}</div>
+	</div>
+	<a href="{:addons_url('UserInfo://Index/myinfo')}"><div class="main-list">
+		<div class="main-list-title ab">手机号码：</div>
+		<div class="pos-right">{$info.telphone}</div>
+	</div></a>
+	<div class="line"></div>
+</section>
+<section class="main" style="margin-top:1.2rem;height:9rem">
+	<div class="main-list">
+		<div class="main-list-title ab">性别：</div>
+		<if condition="$info.sex eq ''">
+		<select id="sex" class="pos-right not-finish" value="男" onchange="changeValue();">
+			<option>男</option>
+			<option>女</option>
+		</select>
+		<else/>
+			<div class="pos-right">{$info.sex}</div>
+		</if>
+	</div>
+	<div class="main-list">
+		<div class="main-list-title ab">生日：</div>
+		<if condition="$info.birth eq ''">
+		<input type="date" id="birth" class="pos-right not-finish" value="1987-06-10" onchange="changeValue2()">
+		<else/>
+			<div class="pos-right">{$info.birth}</div>
+		</if>
+	</div>
+	<div class="main-list">
+		<div class="main-list-title ab">真实姓名：</div>
+		<if condition="$info.truename eq ''">
+		<input type="text" id="truename" class="pos-right"  style="width:67%;text-align:right" placeholder="请输入真实姓名">
+		<else/>
+			<div class="pos-right">{$info.truename}</div>
+		</if>
+	</div>
+	<div class="line"></div>
+	<div class="line" style="top:6rem"></div>
+</section>
+<if condition="$info.sex eq ''">
+<input type="button" id="sub" class="submit-btn" style="bottom:30%" value="提 交">
+<section style="color:red;">
+温馨提示:</br>请确保资料真实有效，后续兑奖等福利活动都需要核实相关真实资料。请再检查一遍确认无误再提交哦~提交后不能再更改。
+</section>
+<else/>
+</if>
+<footer class="menuSecond">
+    <div style="position:absolute;top:0;width:100%;height:100%">
+        <!--<span class="menuItem"></span>
+        <span class="menuItem" id="mall"><a href="{:addons_url('Shop://Index/index')}" style="display:inline-block;width:100%;height:100%"></a></span>
+        <a href=""><span class="menuItem"></span></a>
+        </a>-->
+        <a class="menuItem" href="{:addons_url('UserInfo://Index/index')}">
+			<div id="menu1" style="z-index:100"></div>
+		</a>
+        <a class="menuItem" href="{:addons_url('UserInfo://Index/howtogetscore')}">
+			<span class="menu-after"></span>
+			<div id="menu2" style=""></div>
+		</a>
+        <a class="menuItem" href="{:addons_url('Shop://Index/index')}">
+			<div  id="menu3" style=""></div>
+		</a>
+    </div>
+</footer>
+<section id="mask" style="width:100%;height:100%;background:rgba(0,0,0,0.5);position:fixed;top:0;display:none">
+	<div style="    width: 80%;
+    height: 47%;
+    background: #fedd30;
+    position: absolute;
+    top: 15%;
+    left: 10%;
+    border-radius: 1rem;">
+		<p id="sus-text"style="
+		text-align:center;
+		font-size: 1rem;
+		position: absolute;
+		top: 18%;
+		width: 90%;
+		left: 5%;
+		"></p>
+	</div>
+	<div id="go" style="" class="submit-btn">确 定</div>
+</section>
+<section id="mask2" style="width:100%;height:100%;background:rgba(0,0,0,0.5);position:fixed;top:0;display:none">
+	<div style="    width: 80%;
+    height: 47%;
+    background: #fedd30;
+    position: absolute;
+    top: 15%;
+    left: 10%;
+    border-radius: 1rem;">
+		<p id="sus-text"style="
+		    font-size: 0.8rem;
+    position: absolute;
+    top: 18%;
+    width: 90%;
+    left: 5%;
+		"></p>
+	</div>
+	<div id="go" style="
+	background: #fedd30;
+    text-align: center;
+    line-height: 2rem;
+    position: absolute;
+    font-size: 1rem;
+	height: 2rem;
+    width: 30%;
+    left: 10%;
+    bottom: 26%;
+	">确 定</div>
+	<div id="go2"  style="    
+	background: #fedd30;
+    text-align: center;
+    line-height: 2rem;
+    position: absolute;
+    font-size: 1rem;
+	height: 2rem;
+    width: 30%;
+    right: 10%;
+    bottom: 26%;">关 闭</div>
+</section>
+</div>
+<script>
+var changeValue = function(){
+			$("#sex").removeClass("not-finish")
+			var sexValue = true;
+		}
+var changeValue2 = function(){
+			$("#birth").removeClass("not-finish")
+			var birthValue = true;
+		}
+</script>
+</body>
+</html>

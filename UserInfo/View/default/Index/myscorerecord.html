@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>积分明细</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+    <meta name="format-detection" content="telephone=no" />
+    <!--<link href="http://o817bctef.bkt.clouddn.com/style.css" rel="stylesheet" type="text/css"/>-->
+    <link rel="stylesheet" href="{:ADDON_PUBLIC_PATH}/style/common.css">
+    <style>
+        .header-menu{
+            text-align:center;line-height:2.4rem;font-size:1rem;color:#777791;text-align:center;font-weight:bold;
+            position:relative；
+        z-index:50
+        }
+
+        .header-menu:after{
+            content: "";
+            width: 2px;
+            height: 1rem;
+            background: #777791;
+            position: absolute;
+            right: -2px;
+            top: 0.7rem;
+        }
+        .main-container{
+            padding-top:2.4rem;top:0;position:fixed;
+        }
+        .jifen-list{
+            width:100%;border-bottom:1px solid #c9caca;height:3.5rem;list-style:none
+        }
+        .jifen-time{
+            color:#777791;text-align:center;line-height:3.5rem
+        }
+        .jifen-score{
+            color:#ea8681;text-align:center;line-height:3.5rem;font-size:2rem
+        }
+        .jifen-image{
+            width: 2.2rem;
+            height: 3rem;
+            position: absolute;
+            left: 33%;
+            top: 0.2rem;
+        }
+    </style>
+    <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <script>
+        wx.config({
+            debug: false,
+            appId: '{$signPackage["appId"]}',
+            timestamp: '{$signPackage["timestamp"]}',
+            nonceStr: '{$signPackage["nonceStr"]}',
+            signature: '{$signPackage["signature"]}',
+            jsApiList: [
+                'onMenuShareTimeline','onMenuShareAppMessage'
+            ]
+        });
+        (function(){
+            wx.ready(function () {
+
+                //分享给朋友圈
+                //var sf= '{$NewsList.id}|{$openid}|sf';//分享到朋友圈参数
+                wx.onMenuShareTimeline({
+                    title: '你有一个奖品等待领取，赶紧行动吧！', // 分享标题
+                    link: "{:U('tosubscribe')}",// 分享链接
+                    imgUrl: 'http://ob26aihye.bkt.clouddn.com/erweima.jpg', // 分享图标
+                    success: function () {
+//                    $.ajax({
+//                        type: "post",
+//                        url: "{:U('sharenews')}",
+//                        data: {
+//                            newsid:'{$NewsList.id}',
+//                            openid:'{$openid}',
+//                            method:'sf'
+//                        },
+//                        success: function (data) {
+//
+//                        }
+//                    })
+                    },
+                    cancel: function () {
+
+                        // 用户取消分享后执行的回调函数
+                    }
+                });
+                //分享给朋友
+                var sd= '{$NewsList.id}|{$openid}|sd';//分享给朋友参数
+                wx.onMenuShareAppMessage({
+                    title: '你有一个奖品等待领取，赶紧行动吧！', // 分享标题
+                    desc: '更多优惠等你来拿！', // 分享描述
+                    link: "{:U('tosubscribe')}",// 分享链接
+                    imgUrl: 'http://ob26aihye.bkt.clouddn.com/erweima.jpg', // 分享图标
+                    type: '', // 分享类型,music、video或link，不填默认为link
+                    dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+                    success: function () {
+//                    $.ajax({
+//                        type: "post",
+//                        url: "{:U('sharenews')}",
+//                        data: {
+//                            newsid:'{$NewsList.id}',
+//                            openid:'{$openid}',
+//                            method:'sd'
+//                        },
+//                        success: function (data) {
+//
+//                        }
+//                    })
+                        // 用户确认分享后执行的回调函数
+                    },
+                    cancel: function () {
+                        // 用户取消分享后执行的回调函数
+                    }
+                });
+            })
+
+
+        })()
+    </script>
+</head>
+<body>
+<header style="width:100%;height:2.4rem;background:#f5f5f7;position:fixed;top:0;z-index:100">
+    <div class="menuItem header-menu">日期</div>
+    <div class="menuItem header-menu">项目</div>
+    <div class="menuItem header-menu">分值</div>
+</header>
+<section class="main-container" id="scroll">
+    <ul style="width:96%;position:absolute;left:2%">
+
+            <!--<li style="width:100%;border-bottom:1px solid #c9caca;height:2.4rem;line-height:2.4rem;color:#777791">
+            </li>-->
+
+            <volist name="list" id="data">
+                <li class="jifen-list" >
+                    <div class="menuItem jifen-time"><php>echo date('Y-m-d',$data['addtime'])</php></div>
+                    <div class="menuItem">
+                        <if condition="$data.actype eq '分享给好友阅读文章'">
+                            <div class="jifen-image" style="background:url(http://ob26aihye.bkt.clouddn.com/zhuanfaIcon.png);background-size:100% 100%;"></div>
+                            <elseif condition="$data.actype eq '阅读文章'"/>
+                            <div class="jifen-image" style="background:url(http://ob26aihye.bkt.clouddn.com/%E9%98%85%E8%AF%BB%E6%96%87%E7%AB%A0.png);background-size:100% 100%;"></div>
+                            <elseif condition="$data.actype eq '日常签到'"/>
+                            <div class="jifen-image" style="background:url(http://ob26aihye.bkt.clouddn.com/qiandaoIcon.png);background-size:100% 100%;"></div>
+                            <elseif condition="$data.actype eq '完善资料送积分'"/>
+                            <div class="jifen-image" style="background:url(http://ob26aihye.bkt.clouddn.com/wanshanziliao.png);background-size:100% 100%;"></div>
+                            <elseif condition="$data.actype eq '推荐好友关注'"/>
+                            <div class="jifen-image" style="background:url(http://ob26aihye.bkt.clouddn.com/tuijian.png);background-size:100% 100%;"></div>
+                            <else/>
+                            <div class="jifen-image" style="background:url(http://ob26aihye.bkt.clouddn.com/reduce.png);background-size:100% 100%;"></div>
+                        </if>
+                    </div>
+                    <if condition="$data.actype eq '分享给好友阅读文章'">
+                        <div class="menuItem jifen-score">+ {$data.score}</div>
+                        <elseif condition="$data.actype eq '阅读文章'"/>
+                        <div class="menuItem jifen-score">+ {$data.score}</div>
+                        <elseif condition="$data.actype eq '日常签到'"/>
+                        <div class="menuItem jifen-score">+ {$data.score}</div>
+                        <elseif condition="$data.actype eq '完善资料送积分'"/>
+                        <div class="menuItem jifen-score">+ {$data.score}</div>
+                        <elseif condition="$data.actype eq '推荐好友关注'"/>
+                        <div class="menuItem jifen-score">+ {$data.score}</div>
+                        <else/>
+                        <div class="menuItem jifen-score" style="color:green">- {$data.score}</div>
+                    </if>
+
+                </li>
+            </volist>
+
+
+
+        <li class="jifen-list" style="border-bottom:0px solid transparent;height:7rem">
+
+        </li>
+    </ul>
+</section>
+<footer class="menu" style="z-index:100">
+    <div style="position:absolute;top:0;width:100%;height:100%">
+        <!--<span class="menuItem"></span>
+        <span class="menuItem" id="mall"><a href="{:addons_url('Shop://Index/index')}" style="display:inline-block;width:100%;height:100%"></a></span>
+        <a href=""><span class="menuItem"></span></a>
+        </a>-->
+        <a class="menuItem" href="{:addons_url('UserInfo://Index/index')}">
+            <span class="menu-after"></span>
+            <div id="menu1" style="z-index:100"></div>
+        </a>
+        <a class="menuItem" href="{:addons_url('UserInfo://Index/howtogetscore')}">
+            <div id="menu2" style=""></div>
+        </a>
+        <a class="menuItem" href="{:addons_url('Shop://Index/index')}">
+            <div  id="menu3" style=""></div>
+        </a>
+    </div>
+</footer>
+<script src="http://ob26aihye.bkt.clouddn.com/scrollFix.js"></script>
+<script>
+    var scrollable = document.getElementById("scroll");
+    new ScrollFix(scrollable);
+
+    //以上代码为控制scroll
+</script>
+</body>
+</html>

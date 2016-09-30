@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+    <meta name="format-detection" content="telephone=no" />
+    <link rel="stylesheet" href="{:ADDON_PUBLIC_PATH}/sass/css/signup.css">
+    <title></title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/zepto/1.1.6/zepto.min.js"></script>
+    <script>
+
+        var acbegintime = "<php>echo date('Y/m/d',$signupinfo['acbegintime'])</php>";
+        var acendtime =  "<php>echo date('Y/m/d',$signupinfo['acendtime'])</php>";
+        if(acbegintime == acendtime){
+            $(".time").html(acbegintime)
+        }
+        $(function(){
+            $('#hexiao').on('click', function() {
+                $("#duihuanMask").show();
+                $('#sub').on('click', function() {
+                    var code = $("#code").val();
+                    if(code==''){
+                        alert("请先输入兑换码");
+                        return;
+                    }
+                    $.ajax({
+                        type:"post",
+                        url:"{:U('verifications')}",
+                        data:{
+                            id:'{$recordinfo.id}',
+                            code:code
+                        },
+                        success:function(re){
+                            alert(re.info);
+                            if(re.status==1)
+                            {
+                                location.href="{:U('aclist')}";
+                            }
+                        },
+                        error:function(){
+                            alert('操作失败');
+                        }
+                    })
+                })
+            })
+
+        })
+    </script>
+</head>
+<body>
+<section class="banner" style="background-image:url({$signupinfo.banner|get_cover_url})">
+</section>
+<section class="scrollContainer2">
+    <div class="list2">
+        <div class="list2-item">
+            <p class="fl">活动主题:</p>
+            <p class="fr">{$signupinfo.name}</p>
+        </div>
+        <div class="list2-item">
+            <p class="fl">活动时间:</p>
+            <p class="redBox time"><php>echo date('Y-m-d',$signupinfo['acbegintime'])</php></p>
+        </div>
+        <div class="list2-item">
+            <p class="fl">活动人数:</p>
+            <p class="fr">{$signupinfo.number}</p>
+        </div>
+    </div>
+
+    <div class="list2">
+        <div class="list2-item">
+            <p class="fl">活动费用:</p>
+            <p class="fr">{$signupinfo.money}元</p>
+        </div>
+        <div class="list2-item">
+            <p class="fl">活动地点:</p>
+            <p class="fr">{$signupinfo.address}</p>
+        </div>
+    </div>
+    <section class="desc">
+        活动简介:</br>{$signupinfo.desc}
+    </section>
+    <section>
+        <section class="list2">
+            <div class="list2-item">
+                <p class="fl">姓  名:</p>
+                <p class="fr">
+                    {$recordinfo.name}
+            </div>
+            <div class="list2-item">
+                <p class="fl">性  别:</p>
+                <p class="fr">
+                    {$recordinfo.sex}
+                </p>
+            </div>
+            <div class="list2-item">
+                <p class="fl">电话号码:</p>
+                <p class="fr">
+                    {$recordinfo.telphone}
+            </div>
+        </section>
+    </section>
+</section>
+<if condition="$recordinfo.isjoin eq 1">
+    <div class="buttonCenter" style="background-color:grey;
+	color:#fff;">已参加</div>
+    <elseif condition="$recordinfo.isjoin eq 0 && $recordinfo.isaudit eq 1 && $localtime lt $signupinfo.acendtime "/>
+    <div class="buttonCenter" id='hexiao' style="background-color:grey;
+	color:#fff;">去核销</div>
+    <elseif condition="$suredata.isjoin eq 0 && $recordinfo.isaudit eq 0"/>
+    <div class="buttonCenter" style="background-color:grey;
+	color:#fff;">审核中</div>
+    <elseif condition="$recordinfo.isjoin eq 0 && $recordinfo.isaudit eq 2"/>
+    <div class="buttonCenter" style="background-color:grey;
+	color:#fff;">不通过</div>
+    <elseif condition="$recordinfo.isjoin eq 0 && $recordinfo.isaudit eq 1   "/>
+    <div class="buttonCenter" style="background-color:grey;
+	color:#fff;">已结束</div>
+</if>
+<section style="width:100%;height:1rem">
+</section>
+<section id="duihuanMask" style="width:100%;height:100%;background:rgba(0,0,0,.6);position:fixed;top:0;display:none">
+    <section style="width:96%;position:absolute;left:2%;background:#f5f5f7;height:50%;top:1rem">
+        <div style="width:100%;height:50%;position:absolute:top:0;background:url(http://ob26aihye.bkt.clouddn.com/hexiao.jpg);background-size:100% 100%">
+            <div style="width:70%;position:absolute;height:2.5rem;top:60%;left:15%;background:#fedd30;border-radius:0.5rem">
+                <div style="width:35%;height:2.5rem;line-height:2.5rem;text-align:center;font-size:1.2rem;">兑换码</div>
+                <div style="width:2px;background:black;height:1.2rem;position:absolute;left:35%;top:0.6rem"></div>
+                <input type="text" id="code" placeholder="输入兑换码" style="width:60%;position:absolute;right:1rem;line-height:2.5rem;font-size:1.2rem;top:0;background:transparent;border:0px solid #ffffff">
+            </div>
+            <div style="color:#c9caca;text-align:center;width:90%;position:absolute;left:5%;bottom:5%;font-size:0.8rem">注意：此操作当天前往活动地点后，由工作人员操作。耐心等候工作人员的通知即可。</div>
+    </section>
+    <input type="button" id="sub" value="提 交" style="background: #fedd30;
+    height: 2rem;
+    width: 40%;
+    text-align: center;
+    line-height: 2rem;
+    position: absolute;
+    left: 30%;
+    bottom: 20%;
+	font-size:1rem;">
+</section>
+</body>
+
+</html>

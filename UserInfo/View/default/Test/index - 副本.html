@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+    <meta name="format-detection" content="telephone=no" />
+    <link href="http://o817bctef.bkt.clouddn.com/style.css" rel="stylesheet" type="text/css"/>
+    <style>
+        *{
+            margin:0;padding:0;
+        }
+        body,html{
+            width:100%;
+            background:#fedd30;
+            overflow-y:scroll;
+        }
+        .header{
+            width:80%;
+            margin:1rem 10%;
+            position:relative;
+        }
+        .userid{
+            font-weight:bold;
+            position:absolute;
+            bottom:6%;
+            left:15%;
+        }
+        .userid:before{
+            content:"No.";
+            position:absolute;
+            left:-1.5rem;
+        }
+        #slider-box{
+            width:94%;
+            border:2px solid black;
+            margin:1rem 2.5%;
+        }
+        #slider li img{
+            max-width:100%;
+            max-height:100%;
+        }
+        #arrow li{
+            background-color:#fedd30
+        }
+        #arrow li.active{
+            background-color:white;
+        }
+        .menu{
+            position:fixed;
+            bottom:0;
+        }
+        .info{
+            background:#ffffff;
+            width:100%;
+            margin-top:1rem;
+            padding:0.5rem 0;
+        }
+        .userInfo{
+            box-sizing:border-box;
+            width:94%;
+            border:1px solid black;
+            margin:0 2.5% 0.5rem;
+            padding:0.5rem 5%;
+            height:7rem;
+        }
+        .userTou{
+            display:inline-block;
+            float:left;
+            width:6rem;
+            height:6rem;
+            border-radius:3rem;
+            background:#fedd30;
+            position:relative;
+        }
+        .touxiang{
+            position:absolute;
+            top:0.5rem;
+            left:0.5rem;
+            width:5rem;
+            height:5rem;
+            border-radius:2.5rem;
+            overflow:hidden;
+            z-index:200
+        }
+        .level{
+            position:absolute;
+            width:1.6rem;
+            height:1.6rem;
+            font-size:0.4rem;
+            border-radius:1rem;
+            background:#ffffff;
+            bottom:0;
+            right:0;
+            z-index:300;
+            border:2px solid black;
+            text-align:center;
+            line-height:1.6rem
+        }
+        .text{
+            display:inline-block;
+            float:left;
+            margin-left:5%;
+            height:4rem;
+            margin-top:1.5rem
+        }
+        .small{
+            color:#666666;
+        }
+        .big{
+            font-size:1.5rem;
+            font-weight:bold;
+            color:black
+        }
+        .qiandao{
+            display:inline-block;
+            float:right;
+            width:6rem;
+            height:6rem;
+            border-radius:3rem;
+            overflow:hidden;
+        }
+        .userfuli{
+            box-sizing:border-box;
+            width:94%;
+            border:0.5px solid black;
+            margin:0 2.5%;
+            height:4rem;
+        }
+        .userfuliitem{
+            list-style:none;
+            width:50%;
+            height:4rem;
+            border:0.5px solid black;
+            box-sizing:border-box;
+            float:left;
+            position:relative
+        }
+        .item-img{
+            box-sizing:border-box;
+            width:40%;
+            height:3rem;
+            margin:0.5rem;
+            border:2px solid black;
+            overflow:hidden;
+        }
+        .item-title{
+            font-size: 1rem;
+            font-weight: bold;
+            position: absolute;
+            color: black;
+            top: 1rem;
+            right: 10%;
+        }
+        .item-abstract{
+            font-size: 0.5rem;
+            position: absolute;
+            color: #666666;
+            top: 1.7rem;
+            right: 0%;
+        }
+        .zhuanfa{
+            width:100%;
+            margin-top:1rem;
+            margin-bottom:6rem;
+        }
+        .youhuiitem{
+            width:100%;
+            background:white;
+            position:relative;
+			height:8.5rem;
+			margin-bottom:1rem;
+        }
+        .youhuiitem-img{
+            border:2px solid black;
+            width:40%;
+            height:5rem;
+			position:relative;
+        }
+        .youhui-title{
+            font-size: 1rem;
+            width: 40%;
+            color: black;
+            position: absolute;
+            top: 1rem;
+            left: 40%;
+            font-weight: bold;
+            word-break:break-all;
+			line-height:1.2rem;
+			overflow : hidden;
+			text-overflow: ellipsis;
+			display: -webkit-box;
+			-webkit-line-clamp: 2;
+			-webkit-box-orient: vertical;
+        }
+		.youhui-abstract{
+            font-size: 0.5rem;
+            width: 40%;
+            color: #666666;
+            position: absolute;
+            top: 3.5rem;
+            left: 40%;
+            font-weight: bold;
+            word-break:break-all;
+			overflow : hidden;
+text-overflow: ellipsis;
+display: -webkit-box;
+-webkit-line-clamp: 2;
+-webkit-box-orient: vertical;
+        }
+		.banner{
+			width:100%;
+			height:1.2rem;
+			background:#fedd30;
+		}
+		.banner-img{
+			height:100%;
+			margin-left:6%;
+			display:inline-block
+		}
+		.banner-youhui{
+			display:inline-block;color:black;font-size:0.8rem;line-height:1.3rem;font-weight:bold;
+			margin-left:5%;
+		}
+		#sharescore{
+			font-size:0.6rem;
+			width:90%;
+			background:black;
+			height:1rem;
+			line-height:1rem;
+			border-radius:0.3rem;
+			color:#fedd30;
+			position:absolute;
+			left:5%;
+			top:-0.5rem;
+			text-align:center;
+		}
+		#vip1{
+            width:3rem;
+            height:3rem;
+            position:absolute;
+            background:#ffffff;
+			top:0;
+			right:0;
+		}
+		#vip2{
+            width:3rem;
+            height:3rem;
+            position:absolute;
+            background:#ffffff;
+			bottom:0;
+			right:0;
+		}
+		#vip3{
+            width:3rem;
+            height:3rem;
+            position:absolute;
+            background:#ffffff;
+			bottom:0;
+			left:0;
+		}
+		#vip4{
+            width:3rem;
+            height:3rem;
+            position:absolute;
+            background:#ffffff;
+			top:0;
+			left:0;
+		}
+    </style>
+    <title></title>
+    <script>
+    </script>
+
+
+</head>
+<body>
+<div class="header">
+    <img src = "http://o817bctef.bkt.clouddn.com/huiyuanka.jpg" style="width:100%">
+    <span class="userid">{$info.userid}</span>
+</div>
+<div id="slider-box">
+    <ul id="slider">
+        <volist name="BannerList" id="BannerData">
+            <li>
+                <img src="{$BannerData.image|get_cover_url}">
+            </li>
+        </volist>
+    </ul>
+</div>
+<section class="info">
+    <div class="userInfo">
+        <div class="userTou">
+            <div class="touxiang">
+                <img src="{$info.headimgurl}" style="width:100%">
+            </div>
+            <span class="level">{$info.membergrade}</span>
+			<span id="vip1"></span>
+			<span id="vip2"></span>
+			<span id="vip3"></span>
+			<span id="vip4"></span>
+        </div>
+        <div class="text">
+            <div class="small">姓名:<span>{$info.nickname}<span></div>
+            <div class="small">等级:<span>{$info.membergrade}<span></div>
+            <div class="big">积分:<span>{$info.score}<span></div>
+        </div>
+        <div class="qiandao" id="qiandao">
+            <img src="http://o817bctef.bkt.clouddn.com/menu2.jpg" style="width:100%">
+        </div>
+    </div>
+    <div class="userfuli">
+        <ul>
+            <volist name="NewsType" id="NewsData">
+                <a href="{:U('newslist',array('id'=>$NewsData['id']))}">
+                    <li class="userfuliitem">
+                        <div class="item-img">
+                            <img src="{$NewsData.img|get_cover_url}" style="max-width:100%;max-height:100%">
+                            <p class="item-title">{$NewsData.name}</p>
+                        </div>
+                    </li>
+                </a>
+            </volist>
+        </ul>
+    </div>
+</section>
+<section class="zhuanfa">
+    <ul>
+        <volist name="NewsList" id="NewsData">
+            <a href="{:U('newslist',array('id'=>$NewsData['id']))}">
+                <li class="youhuiitem">
+					<div style=" padding:1rem 6% 0.5rem;">
+						<div class="youhuiitem-img">
+							<img src="{$NewsData.img|get_cover_url}" style="max-width:100%;max-height:100%">
+							<span id="sharescore">转发此贴+{$NewsData.sharescore}积分</span>
+						</div>
+						<p class="youhui-title">{$NewsData.title}</p>
+						<p class="youhui-abstract">{$NewsData.abstract}</p>
+					</div>
+					<div class="banner">
+						<div class="banner-img">
+							<img src="http://o817bctef.bkt.clouddn.com/icon1.jpg" style="height:100%;margin-top:-0.2rem">
+						</div>
+						<div class="banner-youhui">优惠:{$NewsData.title}<div>
+					</div>
+                </li>
+            </a>
+        </volist>
+        <ul>
+</section>
+<footer class="menu">
+    <img src="http://o817bctef.bkt.clouddn.com/menu3.jpg" style="width:100%">
+</footer>
+<script src="//cdn.bootcss.com/zepto/1.0rc1/zepto.min.js"></script>
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/zepto/1.1.6/zepto.min.js"></script>-->
+<script src="http://o817bctef.bkt.clouddn.com/zepto.touchSlider.min.js"></script>
+<script>
+	var grade = $(".level").html();
+	if(grade == "vip1"){
+		$("#vip1").css("display","none")
+		$(".level").css({
+			top:"2.3rem",
+			right:"-0.5rem"
+		})
+	}else if(grade == "vip2"){
+		$("#vip1,#vip2").css("display","none")
+		$(".level").css({
+			right:"2.1rem",
+			bottom:"-0.3rem"
+		})
+	}else if(grade == "vip3"){
+		$("#vip1,#vip2,#vip3").css("display","none");
+		$(".level").css({
+			top:"2.3rem",
+			left:"-0.5rem"
+		})
+	}
+    var right = ($("body").width()-$("#arrow").width())/2;
+    $('#slider-box').touchSlider({
+		box: '#slider-box',
+		arrow: true,
+		auto: true,
+		autoTime: 2000
+    });
+    $("#arrow").css("right",right);
+	
+	$('#qiandao').tap(function(){
+		$.post("{:U('qiandao')}",{},function(data){
+			var Data = JSON.parse(data)
+			alert(Data.info);
+                    if(Data.status==1)
+                    {
+                        location.href=document.referrer;
+                    }
+		})    
+    })
+	
+	$.fn.adjust = function(){
+		this.each(function(){
+			var a = $(this).css("border");
+			var n = parseInt(a.slice(0,1));
+			
+			var imgH = $(this).children("img").height();
+			var imgW = $(this).children("img").width();
+			
+			var H = $(this).height()-n*2;
+			var W = $(this).width()-n*2;
+			if(imgH>=imgW){
+				$(this).children("img").css("margin-left",(W-imgW)/2)
+			}else{
+				$(this).children("img").css("margin-top",(H-imgH)/2)
+			}
+			
+		})
+	}
+	
+	$(".youhuiitem-img").adjust();
+	$(".item-img").adjust();
+
+</script>
+</body>
+</html>

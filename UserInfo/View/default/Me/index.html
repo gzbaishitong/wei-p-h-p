@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+    <meta name="format-detection" content="telephone=no" />
+    <link href="http://o817bctef.bkt.clouddn.com/style.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" href="{:ADDON_PUBLIC_PATH}/style/main.css">
+    <title></title>
+    <style>
+        .share{
+            background:black;
+            width:46%;
+            height:2rem;
+            line-height:2rem;
+            margin-top:0.5rem;
+            margin-left:20%;
+            color:yellow;
+            text-align:center;
+			font-weight:bold;
+        }
+        a{text-decoration:none}
+    </style>
+</head>
+<body>
+<header>
+    <img src="http://7xt9sy.com1.z0.glb.clouddn.com/bannerVip.jpg" style="width:100%">
+</header>
+<section class="info">
+    <div class="userInfo" style="padding-left:15%;">
+        <div class="userTou">
+            <div class="touxiang">
+                <img src="{$info.headimgurl}" style="width:100%">
+            </div>
+            <span class="level">{$info.membergrade}</span>
+            <span id="vip1"></span>
+            <span id="vip2"></span>
+            <span id="vip3"></span>
+            <span id="vip4"></span>
+        </div>
+        <div class="text">
+            <div class="small">姓名:<span>{$info.nickname}<span></div>
+            <div class="small">等级:<span>{$info.membergrade}<span></div>
+            <div class="big">积分:<span>{$info.score}<span></div>
+        </div>
+        <!--<div class="qiandao" id="qiandao">
+            <img src="http://o817bctef.bkt.clouddn.com/menu2.jpg" style="width:100%">
+        </div>-->
+    </div>
+    <!--<div class="userfuli">
+        <ul>
+            <volist name="NewsType" id="NewsData">
+                <a href="{:U('newslist',array('id'=>$NewsData['id']))}">
+                    <li class="userfuliitem">
+                        <div class="item-img">
+                            <img src="{$NewsData.img|get_cover_url}" style="max-width:100%;max-height:100%">
+                            <p class="item-title">{$NewsData.name}</p>
+                        </div>
+                    </li>
+                </a>
+            </volist>
+        </ul>
+    </div>-->
+</section>
+<section>
+    <a href="{:U('myqrcode')}"><p class="share">邀请好友送{$config.sharescore}积分(每天{$config.sharecount次})</p></a>
+<section>
+<section>
+    <a href="{:U('mycoupons')}"><p class="share">我的优惠券</p></a>
+<section>
+        <!--<a href="{:U('newslist')}">转发文章送积分</a><br/>-->
+        <a></a>
+        <footer class="menu">
+            <img src="http://o817bctef.bkt.clouddn.com/menu3.jpg" style="width:100%">
+            <div style="position:absolute;top:0;width:100%;height:100%">
+                <!--<span class="menuItem"></span>
+                <span class="menuItem" id="mall"><a href="{:addons_url('Shop://Index/index')}" style="display:inline-block;width:100%;height:100%"></a></span>
+                <a href=""><span class="menuItem"></span></a>
+                </a>-->
+                <a class="menuItem" href="{:addons_url('UserInfo://Index/index')}"></a>
+                <a class="menuItem" href="{:addons_url('Shop://Index/index')}"></a>
+                <a class="menuItem" href="{:addons_url('UserInfo://Me/index')}"></a>
+            </div>
+        </footer>
+        <script src="//cdn.bootcss.com/zepto/1.0rc1/zepto.min.js"></script>
+        <script>
+            var grade = $(".level").html();
+            if(grade == "vip1"){
+                $("#vip1").css("display","none")
+                $(".level").css({
+                    top:"2.3rem",
+                    right:"-0.5rem"
+                })
+            }else if(grade == "vip2"){
+                $("#vip1,#vip2").css("display","none")
+                $(".level").css({
+                    right:"2.1rem",
+                    bottom:"-0.3rem"
+                })
+            }else if(grade == "vip3"){
+                $("#vip1,#vip2,#vip3").css("display","none");
+                $(".level").css({
+                    top:"2.3rem",
+                    left:"-0.5rem"
+                })
+            }
+            /*var right = ($("body").width()-$("#arrow").width())/2;
+             $('#slider-box').touchSlider({
+             box: '#slider-box',
+             arrow: true,
+             auto: true,
+             autoTime: 2000
+             });
+             $("#arrow").css("right",right);
+
+             $('#qiandao').tap(function(){
+             $.post("{:U('qiandao')}",{},function(data){
+             var Data = JSON.parse(data)
+             alert(Data.info);
+             if(Data.status==1)
+             {
+             location.href=document.referrer;
+             }
+             })
+             })*/
+
+            $.fn.adjust = function(){
+                this.each(function(){
+                    var a = $(this).css("border");
+                    var n = parseInt(a.slice(0,1));
+
+                    var imgH = $(this).children("img").height();
+                    var imgW = $(this).children("img").width();
+
+                    var H = $(this).height()-n*2;
+                    var W = $(this).width()-n*2;
+                    if(imgH>=imgW){
+                        $(this).children("img").css("margin-left",(W-imgW)/2)
+                    }else{
+                        $(this).children("img").css("margin-top",(H-imgH)/2)
+                    }
+
+                })
+            }
+
+            $(".youhuiitem-img").adjust();
+            $(".item-img").adjust();
+
+            //$("#mall").click(function(){
+            //window.location = $(this).children("a").attr("href")
+            //})
+        </script>
+</body>
+</html>

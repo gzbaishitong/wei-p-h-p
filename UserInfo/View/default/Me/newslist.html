@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>文章列表</title>
+</head>
+<body>
+<volist name="NewsList" id="NewsData">
+    <a href="{:U('newscontent',array('id'=>$NewsData['id']))}"> {$NewsData.title}</a>
+</volist>
+</body>
+</html>

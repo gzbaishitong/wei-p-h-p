@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>个人资料</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+    <meta name="format-detection" content="telephone=no" />
+    <!--<link href="http://o817bctef.bkt.clouddn.com/style.css" rel="stylesheet" type="text/css"/>-->
+    <link rel="stylesheet" href="{:ADDON_PUBLIC_PATH}/style/common.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/zepto/1.1.6/zepto.min.js"></script>
+    <script type="text/javascript"> 
+        $(function(){
+            //搜索功能
+            $('#sub').click(function () {
+                var sex=$('#sex').val();
+                var birth=$('#birth').val();
+                if(birth=='')
+                {
+                    alert('填写生日可以加积分哦');
+                    return;
+                }
+                $.ajax({
+                    type:"post",
+                    url:"{:U('myinfo')}",
+                    data:{
+                        birth:birth,
+                        sex:sex
+                    },
+                    success:function(data)
+                    {	
+						$("#mask").css("display","block")
+						$("#sus-text").html(data.info)
+                        if(data.status==1) {
+							$("#go").click(function(){
+								location.href = document.referrer;
+							})
+                        }else{
+							$("#go").click(function(){
+								$("#mask").css("display","none")
+							})
+						}
+                    }
+                })
+            });
+        })
+    </script>
+	<style>
+	input{
+	/*Chrome和Firefox里面的边框是不一样的，所以复写了一下*/
+  border: solid 0px #000;
+
+  /*很关键：将默认的select选择框样式清除*/
+  appearance:none;
+  -moz-appearance:none;
+  -webkit-appearance:none;
+}
+		select,input[type="date"]{
+  /*Chrome和Firefox里面的边框是不一样的，所以复写了一下*/
+  border: solid 0px #000;
+
+  /*很关键：将默认的select选择框样式清除*/
+  appearance:none;
+  -moz-appearance:none;
+  -webkit-appearance:none;
+
+  /*在选择框的最右侧中间显示小箭头图片*/
+  background: url("http://ourjs.github.io/static/2015/arrow.png") no-repeat scroll right center transparent;
+
+
+  /*为下拉小箭头留出一点位置，避免被文字覆盖*/
+  padding-right: 14px;
+}
+
+.pos-right{
+	color:#898989;font-size:1rem;line-height:3rem;position:absolute;right:6%
+}
+
+	</style>
+</head>
+<body>
+<section class="main">
+	<div class="main-list">
+		<div class="main-list-title ab">昵称：</div>
+		<div class="pos-right">{$info.nickname}</div>
+	</div>
+	<a href="{:addons_url('UserInfo://Index/myinfo')}"><div class="main-list">
+		<div class="main-list-title ab">手机号码：</div>
+		<div class="pos-right">{$info.telphone}</div>
+	</div></a>
+	<div class="line"></div>
+</section>
+<section class="main" style="margin-top:1.2rem">
+	<div class="main-list">
+		<div class="main-list-title ab">性别：</div>
+		<if condition="$info.sex eq ''">
+		<select id="sex" class="pos-right" value="">
+			<option>男</option>
+			<option>女</option>
+		</select>
+		<else/>
+			<div class="pos-right">{$info.sex}</div>
+		</if>
+	</div>
+	<div class="main-list">
+		<div class="main-list-title ab">生日：</div>
+		<if condition="$info.birth eq ''">
+		<input type="date" id="birth" class="pos-right" value="1987-06-10">
+		<else/>
+			<div class="pos-right">{$info.birth}</div>
+		</if>
+	</div>
+	<div class="line"></div>
+</section>
+<if condition="$info.sex eq ''">
+<input type="button" id="sub" class="submit-btn" style="bottom:40%" value="提 交">
+<else/>
+</if>
+<footer class="menuSecond">
+    <div style="position:absolute;top:0;width:100%;height:100%">
+        <!--<span class="menuItem"></span>
+        <span class="menuItem" id="mall"><a href="{:addons_url('Shop://Index/index')}" style="display:inline-block;width:100%;height:100%"></a></span>
+        <a href=""><span class="menuItem"></span></a>
+        </a>-->
+        <a class="menuItem" href="{:addons_url('UserInfo://Index/index')}">
+			<div id="menu1" style="z-index:100"></div>
+		</a>
+        <a class="menuItem" href="{:addons_url('UserInfo://Index/howtogetscore')}">
+			<span class="menu-after"></span>
+			<div id="menu2" style=""></div>
+		</a>
+        <a class="menuItem" href="{:addons_url('Shop://Index/index')}">
+			<div  id="menu3" style=""></div>
+		</a>
+    </div>
+</footer>
+<section id="mask" style="width:100%;height:100%;background:rgba(0,0,0,0.5);position:fixed;top:0;display:none">
+	<div style="    width: 80%;
+    height: 47%;
+    background: #fedd30;
+    position: absolute;
+    top: 15%;
+    left: 10%;
+    border-radius: 1rem;">
+		<p id="sus-text"style="text-align: center;
+    font-size: 1.8rem;
+    position: absolute;
+    top: 45%;
+    width: 100%;"></p>
+	</div>
+	<div id="go" style="" class="submit-btn">确 定</div>
+</section>
+</div>
+</body>
+</html>

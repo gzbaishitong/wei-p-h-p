@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="http://cdn.bootcss.com/jquery/2.1.3/jquery.js"></script>
+<script>
+    $(function(){
+        var info='{$info}';
+        info=decodeURIComponent(info);
+//        var re_openid=stringreplace($(info).find('re_openid').html());//用户openid
+        var result_code=stringreplace($(info).find('result_code').html());//返回状态码
+//        var mch_billno=stringreplace($(info).find('mch_billno').html());//商户订单号
+//        var mch_id=stringreplace($(info).find('mch_id').html());//商户号
+//        var total_amount=stringreplace($(info).find('total_amount').html());//红包金额
+//        var return_msg=stringreplace($(info).find('return_msg').html());//返回信息
+        location.href="{:U('index')}";
+//        if(result_code=='SUCCESS') {
+//            var send_time = stringreplace($(info).find('send_time').html());//发送时间
+//            var send_listid = stringreplace($(info).find('send_listid').html());//红包订单微信单号
+//            $.ajax({     //ajax请求插入红包发放记录
+//                type: "post",
+//                url: "{:U('addredpack')}",
+//                data: {
+//                    re_openid: re_openid,
+//                    result_code: result_code,
+//                    mch_billno: mch_billno,
+//                    mch_id: mch_id,
+//                    total_amount: total_amount,
+//                    send_time: send_time,
+//                    send_listid: send_listid
+//                },
+//                success: function (data) {
+////
+//                    data = eval(data);
+//                    alert(data.info);
+//                    location.href=document.referrer;
+//                },
+//                error: function () {
+//                    alert('连接失败');
+//                }
+//            })
+//        }
+//        else
+//        {
+//            alert('红包发放失败'+return_msg);
+//        }
+    });
+    function stringreplace($string)//字符串替换
+    {
+        obj=$string.replace('<!--[CDATA[','');
+        obj=obj.replace(']]-->','');
+        return obj;
+    }
+</script>
+</head>
+<body>
+
+</body>
+</html>

@@ -1,0 +1,140 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+<title></title>
+<link rel="stylesheet" href="{:ADDON_PUBLIC_PATH}/style/default.css">
+<link rel="stylesheet" href="{:ADDON_PUBLIC_PATH}/style/global.css">
+<!--<link rel="stylesheet" href="{:ADDON_PUBLIC_PATH}/css/index-83bcf0cbf8.min.css">-->
+<link href="__STATIC__/font-awesome/css/font-awesome.min.css?v={:SITE_VERSION}" rel="stylesheet">
+</head>
+<body class="cate">
+<header style="background-color:#{$shop_config.color}">
+    <section id="title"><a href="{:addons_url('BuyTicket://Index/index')}"><span class="topback"></span></a>支付订单</section>
+</header>
+<section id="payorder" class="mb10 mt10">
+    <if condition="$ispay neq 1">
+    <div id="waitpay" class="paybtn p10">
+		<p style="width:80%; margin:auto; color:#666; font-weight:bold; padding:10px;text-align:center" id="payCount">已生成订单，请尽快完成支付</p></div>
+        <div class="btn_bottom" style="background-color:#dc214c;margin:auto"><a href="#" onclick="payNow()">立即重新支付</a></div>
+    </div>
+    </if>
+</section>
+<section id="mask" style="width:100%;height:100%;background:rgba(0,0,0,.4);position:fixed;top:0;z-index:100;display:none">
+	<div style="background:#fedd30;width:60%;height:10rem;line-height:10rem;text-align:center;font-size:2rem;font-weight:bold;position:absolute;top:30%;left:20%;border-radius:10px">报名成功</div>
+	<div id="re" style="background:#fedd30;width:20%;height:2rem;line-height:2em;text-align:center;font-size:1rem;position:absolute;top:60%;left:40%;">返回</div>
+</section>
+<!--底部 版权信息-->
+<include file="./Addons/BuyTicket/View/default/Index/footerbq.html" />
+<!--END 底部导航-->
+</body>
+<script src="https://cdn.bootcss.com/jquery/3.0.0/jquery.min.js"></script>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script>
+<if condition="$signupinfo['money'] neq 0">
+    var paylock = false;
+    wx.config({
+        // debug:true,
+        appId: '{$signPackage.appId}',
+        timestamp: '{$signPackage.timestamp}',
+        nonceStr: '{$signPackage.nonceStr}',
+        signature: '{$signPackage.signature}',
+        jsApiList: ['chooseWXPay']
+    });
+    wx.ready(function (){
+        payNow();
+    });
+    function payNow(){
+        if(paylock == 'true'){
+            return false;
+        }
+        paylock = true;
+
+        wx.chooseWXPay({
+                    timestamp: {$apipay.timeStamp}, // 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符
+                nonceStr: '{$apipay.nonceStr}', // 支付签名随机串，不长于 32 位
+                package: '{$apipay.package}', // 统一支付接口返回的prepay_id参数值，提交格式如：prepay_id=***）
+                signType: '{$apipay.signType}', // 签名方式，默认为'SHA1'，使用新版支付需传入'MD5'
+                paySign: '{$apipay.paySign}', // 支付签名
+                success: function (res) {
+            // 支付成功后的回调函数
+            $('.paymsg').hide();
+            $('#paysuccess').show();
+
+            $('.paybtn').hide();
+            $('#haspay').show();
+            $('#mask').show();
+			$("#re").click(function(){
+				location.href="{:U('aclist')}";
+			})
+        }
+    });
+    paylock = false;
+    }
+	
+	var count = {$timeout};
+	var orderid="{$info['id']}"
+	var timeCount=setInterval(function(){
+					count --;
+					if(count>=0){
+						$("#payCount").html("已生成订单，请在"+count+"秒内完成支付")
+					}else{
+						clearInterval(timeCount)
+						$.ajax({
+							url:"{:U('closeorder')}",
+							type:"get",
+							data:{
+							id:orderid
+							},
+							success:function(){
+							}
+						})
+						$.ajax({
+							url:"{:U('delorder')}",
+							type:"get",
+							data:{
+							id:orderid
+							},
+							success:function(){
+								location.href=document.referrer;
+							}
+						})
+					}
+				},1000)
+	<else/>
+            $('#mask').show();
+			$("#re").click(function(){
+				location.href="{:U('aclist')}";
+			}) 
+			$("#title").hide();
+	</if>
+	
+    //触发查询是否支付成功
+//    function searchPay(){
+//
+//        url = "{:addons_url('BuyTicket://Index/searchPay',array('id'=>$orderinfo['id']))}";
+//        $.ajax({
+//            url:url,
+//            type:"get",
+//            dataType:"json",
+//            success:function(re){
+//                if(re){
+//                    $('.paymsg').hide();
+//                    $('#paysuccess').show();
+//
+//                    $('.paybtn').hide();
+//                    $('#haspay').show();
+//                }else{
+//                    $('.paymsg').hide();
+//                    $('#payfail').show();
+//                    $('#payfail p').html('支付完成，但未得到微信确认，请联系我们的工作人员！');
+//
+//                    $('.paybtn').hide();
+//                    $('#waitpay').show();
+//                }
+//            }
+//        })
+//    }
+</script>
+</html>
